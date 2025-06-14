@@ -53,8 +53,6 @@ void Game::Init(){
     windowWidth = 800;
     windowHeight = 600;
 
-    mapWidth = 2000;
-    mapHeight = 2000;
 
     window = SDL_CreateWindow(
         "Motor de juegos 2D",

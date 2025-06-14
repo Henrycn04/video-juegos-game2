@@ -24,6 +24,12 @@ scene = {
        {name = "mouse_left_button", button = 1}
    
    },
+
+   --Tabla de mapa
+   maps = {
+    width = 800;
+    height = 600;
+   },
    
     --Tabla de entidades
     entities = {
