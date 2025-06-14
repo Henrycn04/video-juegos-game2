@@ -15,7 +15,7 @@
 #include "../Systems/ScriptSystem.hpp"
 #include "../Systems/UISystem.hpp"
 #include "../Systems/CameraMovmentSystem.hpp"
-
+#include "../Systems/PhysicsSystem.hpp"
 
 Game::Game(){
     std::cout<< "[Game] Se ejecuta constructor" << std::endl;
@@ -96,6 +96,7 @@ void Game:: Setup(){
     registry->AddSystem<RenderTextSystem>();
     registry->AddSystem<UISystem>();
     registry->AddSystem<CameraMovmentSystem>();
+    registry->AddSystem<PhysicsSystem>();
 
     sceneManager->LoadSceneFromScript("./assets/scripts/scenes.lua", lua);
 
@@ -172,11 +173,14 @@ void Game::Update(){
 
     registry->GetSystem<ScriptSystem>().Update(lua);
 
-    registry->GetSystem<AnimationSystem>().Update();
+    registry->GetSystem<PhysicsSystem>().Update();
     registry->GetSystem<MovementSystem>().Update(deltaTime);
-    registry->GetSystem<CameraMovmentSystem>().Update(camera);
     registry->GetSystem<BoxCollisionSystem>().Update(lua);
     registry->GetSystem<CircleCollisionSystem>().Update(eventManager);
+
+    registry->GetSystem<AnimationSystem>().Update();
+    registry->GetSystem<CameraMovmentSystem>().Update(camera);
+
 }
 
 void Game::Render(){

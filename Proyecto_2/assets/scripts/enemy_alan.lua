@@ -1,3 +1,8 @@
+function on_awake()
+    set_velocity(this, -50, 0)
+end
+
+
 function on_collision(other)
     this_tag = get_tag(this)
     other_tag = get_tag(other)

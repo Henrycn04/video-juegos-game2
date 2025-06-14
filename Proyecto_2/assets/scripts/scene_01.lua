@@ -70,7 +70,8 @@ buttons = {
 
             },
             rigidbody ={
-                velocity = { x = 0, y = 0 },
+                is_dynamic = false,
+                mass = 1;
 
             },
             script = {
@@ -149,8 +150,8 @@ buttons = {
   
               },
             rigidbody ={
-                velocity = { x = -50, y = 0 },
-
+                is_dynamic = false,
+                mass = 1;
             },
             script = {
                 path = "./assets/scripts/enemy_alan.lua",
