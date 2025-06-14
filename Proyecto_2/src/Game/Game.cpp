@@ -9,6 +9,7 @@
 #include "../Systems/AnimationSystem.hpp"
 //#include "../Systems/DamageSystem.hpp"
 #include "../Systems/RenderSystem.hpp"
+#include "../Systems/RenderBoxColliderSystem.hpp"
 #include "../Systems/MovementSystem.hpp"
 #include "../Systems/RenderTextSystem.hpp"
 #include "../Systems/ScriptSystem.hpp"
@@ -90,6 +91,7 @@ void Game:: Setup(){
     registry->AddSystem<BoxCollisionSystem>();
     registry->AddSystem<MovementSystem>();
     registry->AddSystem<RenderSystem>();
+    registry->AddSystem<RenderBoxColliderSystem>();
     registry->AddSystem<ScriptSystem>();
     registry->AddSystem<RenderTextSystem>();
     registry->AddSystem<UISystem>();
@@ -114,6 +116,10 @@ void Game::ProcessInput(){
               if(sdlEvent.key.keysym.sym == SDLK_ESCAPE) {
                 sceneManager->StopScene();
                 isRunning = false;
+                break;
+              }
+              if(sdlEvent.key.keysym.sym == SDLK_i){
+                isDebugMode = !isDebugMode;
                 break;
               }
               controllerManager-> KeyDown(sdlEvent.key.keysym.sym);
@@ -179,6 +185,9 @@ void Game::Render(){
 
     registry->GetSystem<RenderSystem>().Update(renderer, camera, assetManager);
     registry->GetSystem<RenderTextSystem>().Update(renderer, assetManager);
+    if(isDebugMode){
+
+     registry->GetSystem<RenderBoxColliderSystem>().Update(renderer, camera);}
 
     SDL_RenderPresent(renderer);
 }

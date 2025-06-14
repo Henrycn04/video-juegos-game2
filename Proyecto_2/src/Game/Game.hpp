@@ -26,6 +26,7 @@ private:
     int milisecsPreviousFrame = 0;
 
     bool isRunning = false;
+    bool isDebugMode = false;
 
 public:
     SDL_Renderer* renderer = nullptr;

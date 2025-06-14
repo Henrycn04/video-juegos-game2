@@ -206,6 +206,20 @@ void SceneLoader::LoadButtons(const sol::table& buttons, std::unique_ptr<Control
 
         }
 
+        //Se obtiene el primer elemento de tipo objectgroup
+        tinyxml2::XMLElement* xmlObjectGroup = xmlRoot->FirstChildElement("objectgroup");
+        while(xmlObjectGroup != nullptr){
+          const char* objectGroupName;
+          std::string name;
+          xmlObjectGroup->QueryStringAttribute("name", &objectGroupName);
+          name = objectGroupName;
+          if(name.compare("colliders")==0){
+            LoadColliders(registry, xmlObjectGroup);  }
+
+            xmlObjectGroup = xmlObjectGroup->NextSiblingElement("objectgroup");
+        }
+        
+
     }
  }
 
@@ -248,7 +262,7 @@ void  SceneLoader::LoadLayer(std::unique_ptr<Registry>& registry, tinyxml2::XMLE
 
   }
 
-void SceneLoader::LoadCollider(std::unique_ptr<Registry>& registry,
+void SceneLoader::LoadColliders(std::unique_ptr<Registry>& registry,
  tinyxml2::XMLElement* objectGroup){
     //cargar el primer collider
     tinyxml2::XMLElement* object = objectGroup->FirstChildElement("object");

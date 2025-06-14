@@ -31,7 +31,7 @@ class SceneLoader {
   void LoadMap(const sol::table map, std::unique_ptr<Registry>& registry);
   void LoadLayer(std::unique_ptr<Registry>& registry, tinyxml2::XMLElement* layer, int tWidth, 
   int tHeight, int mWidth, const std::string& tileSet, int columns);
-  void LoadCollider(std::unique_ptr<Registry>& registry, tinyxml2::XMLElement* objectGroup);
+  void LoadColliders(std::unique_ptr<Registry>& registry, tinyxml2::XMLElement* objectGroup);
 
   public:
   SceneLoader();
