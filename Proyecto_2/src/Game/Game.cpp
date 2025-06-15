@@ -16,6 +16,7 @@
 #include "../Systems/UISystem.hpp"
 #include "../Systems/CameraMovmentSystem.hpp"
 #include "../Systems/PhysicsSystem.hpp"
+#include "../Systems/OverlapSystem.hpp"
 
 Game::Game(){
     std::cout<< "[Game] Se ejecuta constructor" << std::endl;
@@ -24,9 +25,11 @@ Game::Game(){
     eventManager = std::make_unique<EventManager>();
     registry = std::make_unique<Registry>();
     sceneManager = std::make_unique<SceneManager>();
+    animationManager = std::make_unique<AnimationManager>();
 }
 
 Game::~Game(){
+    animationManager.reset();
     assetManager.reset();
     controllerManager.reset();
     eventManager.reset();
@@ -97,6 +100,7 @@ void Game:: Setup(){
     registry->AddSystem<UISystem>();
     registry->AddSystem<CameraMovmentSystem>();
     registry->AddSystem<PhysicsSystem>();
+    registry->AddSystem<OverlapSystem>();
 
     sceneManager->LoadSceneFromScript("./assets/scripts/scenes.lua", lua);
 
@@ -167,6 +171,7 @@ void Game::Update(){
     // Reiniciar las subscripciones
     eventManager->Reset();
     //registry->GetSystem<DamageSystem>().SubscribeToCollisionEvent(eventManager);
+    registry->GetSystem<OverlapSystem>().SubscribeToCollisionEvents(eventManager);
     registry->GetSystem<UISystem>().SubscribeToClickEvent(eventManager);
     
     registry->Update();
@@ -175,7 +180,7 @@ void Game::Update(){
 
     registry->GetSystem<PhysicsSystem>().Update();
     registry->GetSystem<MovementSystem>().Update(deltaTime);
-    registry->GetSystem<BoxCollisionSystem>().Update(lua);
+    registry->GetSystem<BoxCollisionSystem>().Update(eventManager, lua);
     registry->GetSystem<CircleCollisionSystem>().Update(eventManager);
 
     registry->GetSystem<AnimationSystem>().Update();

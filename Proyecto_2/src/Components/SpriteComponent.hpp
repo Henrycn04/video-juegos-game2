@@ -10,6 +10,7 @@ struct SpriteComponent {
     int width;
     int height;
     SDL_Rect srcRect;
+    bool flip = false;
 
     SpriteComponent(const std::string& textureId = "none", int width = 0
     , int height = 0, int srcRectX = 0, int srcRectY = 0){

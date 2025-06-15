@@ -39,7 +39,7 @@ void SceneManager::LoadSceneFromScript(const std::string& path, sol::state& lua)
 void SceneManager::LoadScene(){
     Game& game = Game::GetInstance();
     std::string scenePath = scenes[nextScene];
-    sceneLoader->LoadScene(scenePath, game.lua, game.assetManager, game.controllerManager,
+    sceneLoader->LoadScene(scenePath, game.lua, game.animationManager, game.assetManager, game.controllerManager,
     game.registry,game.renderer);
 }
 

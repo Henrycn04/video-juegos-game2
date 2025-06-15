@@ -26,6 +26,7 @@ SceneLoader:: ~SceneLoader(){
 }
 
 void SceneLoader::LoadScene(const std::string& scenePath, sol::state& lua
+    , std::unique_ptr<AnimationManager>& animationsManager
   , std::unique_ptr<AssetManager>& assetManager
   , std::unique_ptr<ControllerManager>& controllerManager
   , std::unique_ptr<Registry>& registry, SDL_Renderer* renderer){
@@ -44,6 +45,9 @@ void SceneLoader::LoadScene(const std::string& scenePath, sol::state& lua
 
   sol::table sprites = scene["sprites"];
   LoadSprites(renderer, sprites, assetManager);
+
+  sol::table animations = scene["animations"];
+  LoadAnimations(animations, animationsManager);
 
   sol::table fonts = scene["fonts"];
   LoadFonts(fonts, assetManager);
@@ -81,6 +85,30 @@ void  SceneLoader::LoadSprites(SDL_Renderer* renderer, const sol::table& sprites
         index++;
     }
 
+}
+void SceneLoader::LoadAnimations(const sol::table& animations
+  , std::unique_ptr<AnimationManager>& animationManager) {
+    int index = 0;
+    while (true){
+        sol::optional<sol::table> hasAnimation = animations[index];
+        if(hasAnimation == sol::nullopt){
+            break;
+        }
+
+        sol::table animation = animations[index];
+
+        std::string animationId = animation["animation_id"];
+        std::string textureId = animation["texture_id"];
+        int width = animation["w"];
+        int height = animation["h"];
+        int numFrames = animation["num_frames"];
+        int frameSpeedRate = animation["speed_rate"];
+        bool isLoop = animation["is_loop"];
+
+        animationManager->AddAnimation(animationId, textureId, width, height, numFrames, frameSpeedRate, isLoop);
+
+        index++;
+    }
 }
 
 void SceneLoader::LoadFonts(const sol::table& fonts
@@ -290,7 +318,7 @@ void SceneLoader::LoadColliders(std::unique_ptr<Registry>& registry,
         collider.AddComponent<TagComponent>(tag);
         collider.AddComponent<TransformComponent>(glm::vec2(x,y));
         collider.AddComponent<BoxColliderComponent>(w,h);
-
+        collider.AddComponent<RigidBodyComponent>(false, true, 9999999999.0f);
         object = object->NextSiblingElement("object");
 
     }
@@ -317,9 +345,9 @@ void  SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities,
             components["animation"];
             if(hasAnimation != sol::nullopt) {
                 newEntity.AddComponent<AnimationComponent>(
-                 components["animation"]["numFrames"],
-                 components["animation"]["frameSpeedRate"],
-                 components["animation"]["isLoop"]
+                 components["animation"]["num_frames"],
+                 components["animation"]["speed_rate"],
+                 components["animation"]["is_loop"]
                 );
             }
 
@@ -366,8 +394,9 @@ void  SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities,
             if(hasRigidbody != sol::nullopt) {
                 newEntity.AddComponent<RigidBodyComponent>(
                  
-                 components["rigidbody"]["is_dynamic"],
-                 components["rigidbody"]["mass"]
+                    components["rigidbody"]["is_dynamic"],
+                    components["rigidbody"]["is_solid"],
+                    components["rigidbody"]["mass"]
                  
                 );
             }

@@ -6,6 +6,8 @@
 #include "../Components/ScriptComponent.hpp"
 #include "../Components/TransformComponent.hpp"
 #include "../ECS/ECS.hpp"
+#include "../Events/CollisionEvent.hpp"
+#include "../EventManager/EventManager.hpp"
 
 class BoxCollisionSystem : public System {
  private:
@@ -24,7 +26,7 @@ class BoxCollisionSystem : public System {
     RequireComponent<TransformComponent>();
   }
 
-void Update(sol::state& lua) {
+void Update(const std::unique_ptr<EventManager>& eventManager, sol::state& lua) {
     auto entities = GetSystemEntities();
 
     for(auto i = entities.begin(); i != entities.end(); i++){
@@ -52,6 +54,7 @@ void Update(sol::state& lua) {
                 static_cast<float>(bCollider.height)
             );
             if(collision){
+                eventManager->EmitEvent<CollisionEvent>(a, b);
                 if(a.HasComponent<ScriptComponent>()){
                     const auto& script = a.GetComponent<ScriptComponent>();
                     if(script.onCollision != sol::nil){

@@ -18,10 +18,14 @@ class ScriptSystem : public System {
     lua.new_usertype<Entity>("entity");
 
     // Functions
+    lua.set_function("change_animation", ChangeAnimation);
+
     lua.set_function("is_action_activated", IsActionActivated);
-      lua.set_function("get_velocity", GetVelocity);
+    lua.set_function("get_velocity", GetVelocity);
     lua.set_function("set_velocity", SetVelocity);
+    lua.set_function("add_force", AddForce);
     lua.set_function("go_to_scene", GoToScene);
+    lua.set_function("flip_sprite", FlipSprite);
     lua.set_function("get_tag", GetTag);
     lua.set_function("get_position", GetPosition);
     lua.set_function("set_position", SetPosition);

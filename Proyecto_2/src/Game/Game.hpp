@@ -7,7 +7,7 @@
 
 #include <memory>
 #include <sol/sol.hpp>
-
+#include "../AnimationManager/AnimationManager.hpp"
 #include "../AssetManager/AssetManager.hpp"
 #include "../ControllerManager/ControllerManager.hpp"
 #include "../EventManager/EventManager.hpp"
@@ -30,6 +30,8 @@ private:
 
 public:
     SDL_Renderer* renderer = nullptr;
+
+    std::unique_ptr<AnimationManager> animationManager;
     std::unique_ptr<AssetManager> assetManager;
     std::unique_ptr<EventManager> eventManager;
     std::unique_ptr<ControllerManager> controllerManager;
