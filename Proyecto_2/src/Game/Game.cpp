@@ -58,13 +58,13 @@ void Game::Init(){
     windowHeight = 600;
 
 
-    window = SDL_CreateWindow(
+  window = SDL_CreateWindow(
         "Motor de juegos 2D",
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
-        windowWidth,
-        windowHeight,
-        SDL_WINDOW_SHOWN
+        0, 
+        0, 
+        SDL_WINDOW_FULLSCREEN
     );
 
     if(!window){
@@ -73,6 +73,7 @@ void Game::Init(){
     }
 
     renderer = SDL_CreateRenderer(window, -1, 0);
+    SDL_RenderSetLogicalSize(renderer, 800, 600);
 
     if(!renderer){
         std::cout << "[GAME] Error al crear renderer" << std::endl;
@@ -81,6 +82,7 @@ void Game::Init(){
 
     camera.x = 0;
     camera.y = 0;
+    SDL_GetWindowSize(window, &windowWidth, &windowHeight);
     camera.w = windowWidth;
     camera.h = windowHeight;
 

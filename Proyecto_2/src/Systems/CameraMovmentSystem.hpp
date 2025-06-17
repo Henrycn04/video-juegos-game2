@@ -14,23 +14,25 @@ class CameraMovmentSystem : public System {
         RequireComponent<TransformComponent>();
     }
 
-    void Update(SDL_Rect& camera){
-        for(auto entity: GetSystemEntities()){
-            const auto& transform= entity.GetComponent<TransformComponent>();
+    void Update(SDL_Rect& camera) {
+    const int offsetY = 300; 
 
-            if(transform.position.x + (camera.w/2) 
-            <static_cast<float>(Game::GetInstance().mapWidth)){
-                camera.x = static_cast<int>(transform.position.x) - (camera.w/2);
-            }
+    for (auto entity : GetSystemEntities()) {
+        const auto& transform = entity.GetComponent<TransformComponent>();
 
-            if(transform.position.y + (camera.h/2) 
-            <static_cast<float>(Game::GetInstance().mapHeight)){
-                camera.y = static_cast<int>(transform.position.y) - (camera.h/2);
-            }
 
-            camera.x = camera.x < 0 ? 0: camera.x;
-            camera.y = camera.y < 0 ? 0: camera.y;
+        if (transform.position.x + (camera.w / 2) < static_cast<float>(Game::GetInstance().mapWidth)) {
+            camera.x = static_cast<int>(transform.position.x) - (camera.w / 2);
         }
+
+
+        if (transform.position.y + (camera.h / 2) < static_cast<float>(Game::GetInstance().mapHeight)) {
+            camera.y = static_cast<int>(transform.position.y) - (camera.h / 2) - offsetY;
+        }
+
+        camera.x = camera.x < 0 ? 0 : camera.x;
+        camera.y = camera.y < 0 ? 0 : camera.y;
     }
+}
 };
 #endif
