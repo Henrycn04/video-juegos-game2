@@ -62,9 +62,9 @@ void Game::Init(){
         "Motor de juegos 2D",
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
-        0, 
-        0, 
-        SDL_WINDOW_FULLSCREEN
+        windowWidth, 
+        windowHeight, 
+        SDL_WINDOW_RESIZABLE
     );
 
     if(!window){

@@ -1,7 +1,7 @@
 #include "ECS.hpp"
 
 #include <algorithm>
-
+#include <chrono>
 int IComponent::nextId = 0;
 
 int Entity::GetId() const {
@@ -103,13 +103,30 @@ void Registry::Update(){
     entitiesToBeKilled.clear();
 }
 
-void Registry::ClearAllEntities(){
-    for(int i = 0; i < numEntity; i++){
-        RemoveEntityFromSystems(Entity(i));
-        entityComponentSignatures[i].reset();
+void Registry::ClearAllEntities() {
+    std::cout << "Iniciando limpieza optimizada de " << numEntity << " entidades..." << std::endl;
+    auto start = std::chrono::high_resolution_clock::now();
+    
+    // 1. CRÍTICO: Limpiar todos los sistemas de una vez (NO entidad por entidad)
+    for (auto& [type, system] : systems) {
+        system->ClearAllEntities();  // Esto ahora limpia todo el vector entities de una vez
     }
+    
+    // 3. Limpiar signatures de una vez
+    entityComponentSignatures.clear();
+    entityComponentSignatures.resize(100000); // Ajusta según tu MAX_ENTITIES
+    
+    // 4. Limpiar colas
+    entitiesToBeAdded.clear();
+    entitiesToBeKilled.clear();
+    
+    // 5. Reset contadores
     numEntity = 0;
     freeIds.clear();
+    
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    std::cout << "Limpieza completada en " << duration.count() << "ms (antes: varios segundos)" << std::endl;
 }
 
 

@@ -76,6 +76,14 @@ public:
 
  template <typename TComponent>
  void RequireComponent();
+ void ClearAllEntities() {
+        entities.clear();
+        OnClearAll();
+    }
+    
+    // NUEVO MÉTODO VIRTUAL: Para sistemas que necesiten limpieza especial
+    virtual void OnClearAll() {
+    }
  
 };
 

@@ -18,6 +18,8 @@
       TTF_CloseFont(font.second);
     }
     fonts.clear();
+    std::cout << "LIMPIA ASSETS: " << std::endl;
+
   }
 
   void AssetManager::AddTexture(SDL_Renderer* renderer, const std::string& textureId
