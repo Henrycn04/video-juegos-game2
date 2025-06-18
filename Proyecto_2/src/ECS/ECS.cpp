@@ -54,7 +54,7 @@ Entity Registry::CreateEntity(){
     entity.registry = this;
     entitiesToBeAdded.insert(entity);
 
-    std::cout<< "[Registry] Se crea entidad " << entityId << std::endl;
+    //std::cout<< "[Registry] Se crea entidad " << entityId << std::endl;
 
     return entity;
 }

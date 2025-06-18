@@ -262,26 +262,43 @@ void SceneLoader::LoadButtons(const sol::table& buttons, std::unique_ptr<Control
     }
  }
 
+#include <sstream>
+#include <stdexcept>
+
 void SceneLoader::LoadLayer(std::unique_ptr<Registry>& registry,
     tinyxml2::XMLElement* layer, int mWidth) {
 
+    // Validar la existencia del elemento 'data'
     tinyxml2::XMLElement* xmldata = layer->FirstChildElement("data");
+    if (!xmldata) {
+        throw std::runtime_error("No se encontró el elemento 'data' en la capa");
+    }
     const char* data = xmldata->GetText();
+    if (!data) {
+        throw std::runtime_error("No se encontraron datos en el elemento 'data'");
+    }
 
-    std::stringstream tmpNumber;
-    int pos = 0;
+    // Validar que haya tilesets definidos
+    if (tilesets.empty()) {
+        throw std::runtime_error("No hay tilesets definidos");
+    }
+
+    // Procesar la cadena de datos de manera eficiente
+    std::stringstream dataStream(data);
+    std::string token;
     int tileNumber = 0;
 
-    while (true) {
-        if (data[pos] == '\0') break;
+    while (std::getline(dataStream, token, ',')) {
+        // Eliminar espacios en blanco
+        std::stringstream tokenStream(token);
+        tokenStream >> std::ws;
+        if (tokenStream.eof()) continue; // Saltar tokens vacíos
 
-        if (isdigit(data[pos])) {
-            tmpNumber << data[pos];
-        } else if (!isdigit(data[pos]) && tmpNumber.str().length() != 0) {
-            int gid = std::stoi(tmpNumber.str());
+        try {
+            int gid = std::stoi(token);
 
             if (gid > 0) {
-                // Buscar el tileset correcto para este gid
+                // Buscar el tileset correspondiente al GID
                 const TileSetInfo* selectedTileset = nullptr;
                 for (int i = tilesets.size() - 1; i >= 0; --i) {
                     if (gid >= tilesets[i].firstgid) {
@@ -290,29 +307,35 @@ void SceneLoader::LoadLayer(std::unique_ptr<Registry>& registry,
                     }
                 }
 
-                if (selectedTileset) {
-                    int localId = gid - selectedTileset->firstgid;
-                    int srcX = (localId % selectedTileset->columns) * selectedTileset->tileWidth;
-                    int srcY = (localId / selectedTileset->columns) * selectedTileset->tileHeight;
-
-                    Entity tile = registry->CreateEntity();
-                    tile.AddComponent<TransformComponent>(
-                        glm::vec2((tileNumber % mWidth) * selectedTileset->tileWidth,
-                                  (tileNumber / mWidth) * selectedTileset->tileHeight));
-                    tile.AddComponent<SpriteComponent>(
-                        selectedTileset->textureId,
-                        selectedTileset->tileWidth,
-                        selectedTileset->tileHeight,
-                        srcX,
-                        srcY
-                    );
+                if (!selectedTileset) {
+                    throw std::runtime_error("No se encontró tileset para GID: " + std::to_string(gid));
                 }
+
+                // Calcular las coordenadas del tile en el tileset
+                int localId = gid - selectedTileset->firstgid;
+                int srcX = (localId % selectedTileset->columns) * selectedTileset->tileWidth;
+                int srcY = (localId / selectedTileset->columns) * selectedTileset->tileHeight;
+
+                // Crear la entidad para el tile
+                Entity tile = registry->CreateEntity();
+                tile.AddComponent<TransformComponent>(
+                    glm::vec2((tileNumber % mWidth) * selectedTileset->tileWidth,
+                              (tileNumber / mWidth) * selectedTileset->tileHeight));
+                tile.AddComponent<SpriteComponent>(
+                    selectedTileset->textureId,
+                    selectedTileset->tileWidth,
+                    selectedTileset->tileHeight,
+                    srcX,
+                    srcY
+                );
             }
+            // Incrementar tileNumber incluso para gid == 0 (tile vacío)
             tileNumber++;
-            tmpNumber.str("");
-            tmpNumber.clear();
+        } catch (const std::invalid_argument& e) {
+            throw std::runtime_error("Error al convertir GID: " + token + " - " + e.what());
+        } catch (const std::out_of_range& e) {
+            throw std::runtime_error("GID fuera de rango: " + token + " - " + e.what());
         }
-        pos++;
     }
 }
 
