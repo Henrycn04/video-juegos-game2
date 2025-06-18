@@ -9,6 +9,8 @@ player_states = {
 player_state = player_states["idle"]
 player_can_jump = false
 player_jump_force = -1500.0 * 64.0
+default_jump_force = -1500.0 * 64.0
+bouncing_jump_force = -1800.0 * 64.0 
 player_speed = 3.0 * 64.0
 
 
@@ -40,13 +42,35 @@ end
 
 
 function on_collision(other)
-    
-    if get_tag(other) == "floor" then
+    --Aplicar efectos
+    if get_tag(other) == "floor" or get_tag(other) == "trembling"  then
         local x_vel, y_vel = get_velocity(this)
         if y_vel == 0 then
-            player_can_jump = true
+            player_can_jump = player_jump_force 
         end
-        
+    end
+
+    if get_tag(other) == "bounce" then
+        local x_vel, y_vel = get_velocity(this)
+
+        -- Rebote automático si cae fuerte
+        if y_vel > 200 then
+            set_velocity(this, x_vel, bouncing_jump_force) -- rebote inmediato
+        end
+
+        player_can_jump = true
+        player_jump_force = bouncing_jump_force  -- salto más fuerte si salta manualmente
+
+    end
+
+    -- Muerto
+    if get_tag(other) == "damage"  then
+            go_to_scene("level_02")      
+    end
+
+    -- Gane
+    if get_tag(other) == "win"  then
+        go_to_scene("level_02")      
     end
 end
 

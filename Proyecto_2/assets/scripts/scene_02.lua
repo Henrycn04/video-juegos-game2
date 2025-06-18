@@ -3,6 +3,11 @@ scene = {
     sprites = {
        [0]=
        {assetId = "terrain", filePath = "./assets/images/Terrain.png"},
+       {assetId = "background", filePath = "./assets/images/background_.png"},
+       {assetId = "ground", filePath = "./assets/images/midground_.png"},
+       {assetId = "objects", filePath = "./assets/images/objects_.png"},
+       {assetId = "objects1", filePath = "./assets/images/objects1_.png"},
+       {assetId = "sky", filePath = "./assets/images/sky_.png"},
         {assetId = "frog_idle", filePath = "./assets/images/frog_idle.png"},
         {assetId = "frog_jump", filePath = "./assets/images/frog_jump.png"},
         {assetId = "frog_fall", filePath = "./assets/images/frog_fall.png"},
@@ -35,11 +40,41 @@ scene = {
    
     --Tabla de mapa
     maps = {
-        map_path = "./assets/maps/level_01.tmx",
-        tile_path = "./assets/maps/terrain.tsx",
-        tile_name = "terrain"
+        map_path = "./assets/maps/level_1.tmx",
+        tilesets = {
+            [1] = {
+              tile_path = "assets/maps/ground.tsx",
+              tile_name = "ground",
+              firstgid = 1
+            },
+            [2] = {
+              tile_path = "assets/maps/terrain.tsx",
+              tile_name = "terrain",
+              firstgid = 71 -- según lo que diga el TMX
+            },
+            [3] = {
+                tile_path = "assets/maps/background.tsx",
+                tile_name = "background",
+                firstgid = 313  -- según lo que diga el TMX
+              },
+            [4] = {
+                tile_path = "assets/maps/objects.tsx",
+                tile_name = "objects",
+                firstgid = 393  -- según lo que diga el TMX
+              },
+            [5] = {
+                tile_path = "assets/maps/objects1.tsx",
+                tile_name = "objects1",
+                firstgid = 453  -- según lo que diga el TMX
+              },
+            [6] = {
+                tile_path = "assets/maps/sky.tsx",
+                tile_name = "sky",
+                firstgid = 541  -- según lo que diga el TMX
+              }
+        }
     },
-   
+
     --Tabla de entidades
     entities = {
        [0] = 
@@ -79,7 +114,7 @@ scene = {
                 tag = "player",
             },
             transform = {
-                position = { x = 400.0, y = 300.0},
+                position = { x = 50.0, y = 300.0},
                 scale = { x = 1.0, y = 1.0},
                 rotation = 0.0
 

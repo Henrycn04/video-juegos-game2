@@ -11,9 +11,16 @@
 #include "../AssetManager/AssetManager.hpp"
 #include "../ControllerManager/ControllerManager.hpp"
 #include "../ECS/ECS.hpp"
-
+struct TileSetInfo {
+    int firstgid;
+    int columns;
+    int tileWidth;
+    int tileHeight;
+    std::string textureId;
+};
 class SceneLoader {
   private:
+  std::vector<TileSetInfo> tilesets;
   void LoadAnimations(const sol::table& animations
   , std::unique_ptr<AnimationManager>& animationManager);
 
@@ -32,8 +39,8 @@ class SceneLoader {
   void LoadEntities(sol::state& lua, const sol::table& entites, 
   std::unique_ptr<Registry>& registry);
   void LoadMap(const sol::table map, std::unique_ptr<Registry>& registry);
-  void LoadLayer(std::unique_ptr<Registry>& registry, tinyxml2::XMLElement* layer, int tWidth, 
-  int tHeight, int mWidth, const std::string& tileSet, int columns);
+  void LoadLayer(std::unique_ptr<Registry>& registry,
+    tinyxml2::XMLElement* layer, int mWidth);
   void LoadColliders(std::unique_ptr<Registry>& registry, tinyxml2::XMLElement* objectGroup);
 
   public:
