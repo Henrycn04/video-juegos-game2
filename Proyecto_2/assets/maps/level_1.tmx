@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.1-99-gec89c545" orientation="orthogonal" renderorder="right-down" width="900" height="70" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="231">
+<map version="1.10" tiledversion="1.11.1-99-gec89c545" orientation="orthogonal" renderorder="right-down" width="900" height="70" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="232">
  <tileset firstgid="1" source="ground.tsx"/>
  <tileset firstgid="71" source="terrain.tsx"/>
  <tileset firstgid="313" source="background.tsx"/>
@@ -213,7 +213,7 @@
   <object id="67" name="bounce" gid="514" x="13440" y="496" width="16" height="16"/>
   <object id="68" name="bounce" gid="514" x="13552" y="496" width="16" height="16"/>
   <object id="69" name="bounce" gid="514" x="13664" y="496" width="16" height="16"/>
-  <object id="70" name="win" gid="426" x="14240" y="400" width="16" height="16"/>
+  <object id="70" name="win" gid="426" x="14240" y="384" width="16" height="16"/>
   <object id="71" name="floor" x="0" y="560" width="176" height="16"/>
   <object id="74" name="floor" x="64" y="528" width="48" height="16"/>
   <object id="75" name="floor" x="112" y="480" width="80" height="16"/>
@@ -347,5 +347,6 @@
   <object id="228" name="floor" x="10096" y="464" width="16" height="32"/>
   <object id="229" name="floor" x="10112" y="448" width="16" height="16"/>
   <object id="230" name="wall" x="10128" y="432" width="16" height="16"/>
+  <object id="231" name="enemy01" x="256" y="416" width="28" height="32"/>
  </objectgroup>
 </map>
