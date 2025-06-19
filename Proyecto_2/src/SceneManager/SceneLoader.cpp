@@ -14,6 +14,7 @@
 #include "../Components/TransformComponent.hpp"
 #include "../Components/TextComponent.hpp"
 #include "../Components/TagComponent.hpp"
+#include "../Components/HealthComponent.hpp"
 #include "../Game/Game.hpp"
 
 SceneLoader::SceneLoader(){
@@ -58,7 +59,7 @@ void SceneLoader::LoadScene(const std::string& scenePath, sol::state& lua
   LoadButtons(buttons, controllerManager);
 
   sol::table maps = scene["maps"];
-  LoadMap(maps, registry);
+  LoadMap(lua, maps, registry);
 
   sol::table entities = scene["entities"];
   LoadEntities(lua, entities, registry);
@@ -172,7 +173,7 @@ void SceneLoader::LoadButtons(const sol::table& buttons, std::unique_ptr<Control
     }
 
   }
- void SceneLoader::LoadMap(const sol::table map, std::unique_ptr<Registry>& registry){
+ void SceneLoader::LoadMap(sol::state& lua, const sol::table map, std::unique_ptr<Registry>& registry){
     sol::optional<int> hasWidth = map["width"];
     if(hasWidth != sol::nullopt){
         Game::GetInstance().mapWidth = map["width"];
@@ -253,8 +254,7 @@ void SceneLoader::LoadButtons(const sol::table& buttons, std::unique_ptr<Control
           xmlObjectGroup->QueryStringAttribute("name", &objectGroupName);
           name = objectGroupName;
           if(name.compare("colliders")==0){
-            LoadColliders(registry, xmlObjectGroup);  }
-
+            LoadColliders(lua, registry, xmlObjectGroup);  }
             xmlObjectGroup = xmlObjectGroup->NextSiblingElement("objectgroup");
         }
         
@@ -340,7 +340,7 @@ void SceneLoader::LoadLayer(std::unique_ptr<Registry>& registry,
 }
 
 
-void SceneLoader::LoadColliders(std::unique_ptr<Registry>& registry,
+void SceneLoader::LoadColliders(sol::state& lua, std::unique_ptr<Registry>& registry,
  tinyxml2::XMLElement* objectGroup){
     tinyxml2::XMLElement* object = objectGroup->FirstChildElement("object");
 
@@ -404,7 +404,42 @@ void SceneLoader::LoadColliders(std::unique_ptr<Registry>& registry,
                 w, h,
                 0, 0 // src rect (x, y) as 0, 0
             );
-        
+            collider.AddComponent<HealthComponent>(true, false, 1, 1, 0); 
+            
+                lua["on_awake"] = sol::nil;
+                lua["update"] = sol::nil;
+                lua["on_click"] = sol::nil;
+                lua["on_collision"] = sol::nil;
+
+                
+                lua.script_file("./assets/scripts/enemy01.lua");
+
+                sol::optional<sol::function> hasOnAwake = lua["on_awake"];
+                sol::function onAwake = sol::nil;
+                if(hasOnAwake != sol::nullopt){
+                    onAwake = lua["on_collision"];
+                    onAwake(); // agregar funciones al binding de necesitarlas
+                }
+
+                sol::optional<sol::function> hasOnCollision = lua["on_collision"];
+                sol::function onCollision = sol::nil;
+                if(hasOnCollision != sol::nullopt){
+                    onCollision = lua["on_collision"];
+                }
+
+                sol::optional<sol::function> hasOnClick = lua["on_click"];
+                sol::function onClick = sol::nil;
+                if(hasOnClick != sol::nullopt){
+                    onClick = lua["on_click"];
+                }
+
+                sol::optional<sol::function> hasUpdate = lua["update"];
+                sol::function update = sol::nil;
+                if(hasUpdate != sol::nullopt){
+                    update = lua["update"];
+                }
+
+                collider.AddComponent<ScriptComponent>(onCollision, update, onClick);
         
         } else {
             
@@ -483,6 +518,20 @@ void  SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities,
                 newEntity.AddComponent<ClickableComponent>();
             }
 
+            //* HealthComponent
+            sol::optional<sol::table>hasHealth = 
+            components["health"];
+            if(hasHealth != sol::nullopt) {
+                newEntity.AddComponent<HealthComponent>(
+                    components["health"]["is_enemy"],
+                    components["health"]["is_player"],
+                    components["health"]["max_health"],
+                    components["health"]["current_health"],
+                    components["health"]["invincibility_time"]
+                 
+                );
+            }       
+
             //* RigidbodyComponent
             sol::optional<sol::table>hasRigidbody = 
             components["rigidbody"];
@@ -497,6 +546,7 @@ void  SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities,
                  
                 );
             }
+            
 
             
 

@@ -62,7 +62,11 @@ function on_collision(other)
         player_jump_force = bouncing_jump_force  -- salto más fuerte si salta manualmente
 
     end
-
+    -- Enemigos
+    if get_tag(other) == "enemy01"  then
+            
+            do_damage(this, other) -- aplicar daño al jugador
+    end
     -- Muerto
     if get_tag(other) == "damage"  then
             go_to_scene("level_02")      

@@ -95,7 +95,14 @@ maps = {
                 scale = { x = 1.0, y = 1.0},
                 rotation = 0.0
 
-            }
+            },
+            health = {
+                is_enemy = false,
+                is_player = true,
+                max_health = 3,
+                current_health = 3,
+                invincibility_time = 2.0,
+            },
         }
     },
 

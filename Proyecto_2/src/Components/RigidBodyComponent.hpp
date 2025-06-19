@@ -6,7 +6,7 @@
 struct RigidBodyComponent{
     bool isDinamic;
     bool isSolid;
-    bool isInvunerable;
+    bool isInvulnerable;
     bool isEnemy;
     bool isPlayer;;
     glm::vec2 velocity = glm::vec2(0);
@@ -20,7 +20,7 @@ struct RigidBodyComponent{
         this->isSolid = isSolid;
         this->mass = mass;
         this->invMass = 1 / mass;
-        this->isInvunerable = false;
+        this->isInvulnerable = false;
         this->isEnemy = isEnemy;
         this->isPlayer = isPlayer;
     }

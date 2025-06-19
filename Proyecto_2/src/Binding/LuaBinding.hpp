@@ -11,6 +11,7 @@
 #include "../Components/TransformComponent.hpp"
 #include "../Components/SpriteComponent.hpp"
 #include "../Components/BoxColliderComponent.hpp"
+#include "../Components/HealthComponent.hpp"
 #include "../ECS/ECS.hpp"
 #include "../Game/Game.hpp"
 
@@ -84,6 +85,82 @@ bool RightCollision(Entity e, Entity other){
     );
 
 }
+bool TopCollision(Entity e, Entity other) {
+    // Obtener componentes
+    const auto& eCollider = e.GetComponent<BoxColliderComponent>();
+    const auto& eTransform = e.GetComponent<TransformComponent>();
+    const auto& oCollider = other.GetComponent<BoxColliderComponent>();
+    const auto& oTransform = other.GetComponent<TransformComponent>();
+    
+    // Extraer posiciones y dimensiones
+    float eX = eTransform.position.x;
+    float eY = eTransform.position.y;
+    float eW = static_cast<float>(eCollider.width);
+    float eH = static_cast<float>(eCollider.height);
+    
+    float oX = oTransform.position.x;
+    float oY = oTransform.position.y;
+    float oW = static_cast<float>(oCollider.width);
+    float oH = static_cast<float>(oCollider.height);
+    
+    // Calcular bordes importantes
+    float eTop = eY;
+    float eLeft = eX;
+    float eRight = eX + eW;
+    
+    float oBottom = oY + oH;
+    float oLeft = oX;
+    float oRight = oX + oW;
+    
+    // Verificar solapamiento horizontal primero
+    bool horizontalOverlap = (eLeft < oRight) && (eRight > oLeft);
+    if (!horizontalOverlap) return false;
+    
+    // Verificar si están en rango vertical (5 píxeles)
+    // El borde inferior de 'other' debe estar cerca del borde superior de 'e'
+    const float range = 10.0f;
+    bool inVerticalRange = (oBottom >= eTop - range) && (oBottom <= eTop + range);
+    
+    return inVerticalRange;
+}
+
+bool BottomCollision(Entity e, Entity other){
+    const auto& eCollider = e.GetComponent<BoxColliderComponent>();
+    const auto& eTransform = e.GetComponent<TransformComponent>();
+    const auto& oCollider = other.GetComponent<BoxColliderComponent>();
+    const auto& oTransform = other.GetComponent<TransformComponent>();
+    
+    float eX = eTransform.previousPosition.x;
+    float eY = eTransform.previousPosition.y;
+    float eW = static_cast<float>(eCollider.width);
+    float eH = static_cast<float>(eCollider.height);
+    float oX = oTransform.previousPosition.x;
+    float oY = oTransform.previousPosition.y;
+    float oW = static_cast<float>(oCollider.width);
+    float oH = static_cast<float>(oCollider.height);
+    
+    // La parte inferior de e choca contra other
+    return (
+        oX < eX + eW &&
+        oX + oW > eX &&
+        oY + oH > eY + eH
+    );
+}
+void DeactivateCollisions(Entity entity){
+    auto& rigidbody = entity.GetComponent<RigidBodyComponent>();
+    rigidbody.isDinamic = true;
+    rigidbody.isSolid = false;
+    rigidbody.isInvulnerable = true;
+}
+// HealthComponent
+void DoDamage(Entity self, Entity other){
+    auto& sRigidbody = self.GetComponent<RigidBodyComponent>();
+    auto& oRigidbody = other.GetComponent<RigidBodyComponent>();
+    if (!sRigidbody.isInvulnerable && !oRigidbody.isInvulnerable){
+        auto& health = self.GetComponent<HealthComponent>();
+        health.Damage(1);
+    }
+}
 // RigidBodyComponent
 std::tuple<int, int> GetVelocity(Entity entity){
     const auto& rigidbody = entity.GetComponent<RigidBodyComponent>();
@@ -101,6 +178,15 @@ void SetVelocity(Entity entity, float x, float y){
 void AddForce(Entity entity, float x, float y){
     auto& rigidbody = entity.GetComponent<RigidBodyComponent>();
     rigidbody.sumForces += glm::vec2(x, y);
+}
+
+std::tuple<int, int> GetSumForces(Entity entity) {
+    const auto& rigidbody = entity.GetComponent<RigidBodyComponent>();
+    std::cout << "Sum Forces: " << rigidbody.sumForces.x << ", " << rigidbody.sumForces.y << std::endl;
+    return {
+        static_cast<int>(rigidbody.sumForces.x),
+        static_cast<int>(rigidbody.sumForces.y)
+    };
 }
 
 // TagComponent

@@ -38,10 +38,10 @@ class SceneLoader {
 
   void LoadEntities(sol::state& lua, const sol::table& entites, 
   std::unique_ptr<Registry>& registry);
-  void LoadMap(const sol::table map, std::unique_ptr<Registry>& registry);
+  void LoadMap(sol::state& lua, const sol::table map, std::unique_ptr<Registry>& registry);
   void LoadLayer(std::unique_ptr<Registry>& registry,
     tinyxml2::XMLElement* layer, int mWidth);
-  void LoadColliders(std::unique_ptr<Registry>& registry, tinyxml2::XMLElement* objectGroup);
+  void LoadColliders(sol::state& lua, std::unique_ptr<Registry>& registry, tinyxml2::XMLElement* objectGroup);
 
   public:
   SceneLoader();
