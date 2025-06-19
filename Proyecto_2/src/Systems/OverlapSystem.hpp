@@ -84,7 +84,11 @@ class OverlapSystem : public System {
         void OnCollisionEvent(CollisionEvent& e) {
             auto& aRigidBody = e.a.GetComponent<RigidBodyComponent>();
             auto& bRigidBody = e.b.GetComponent<RigidBodyComponent>();
-            if (aRigidBody.isSolid && bRigidBody.isSolid) {
+            bool isPlayerEnemyCollision = 
+                (aRigidBody.isPlayer && bRigidBody.isEnemy) || 
+                (aRigidBody.isEnemy && bRigidBody.isPlayer);
+
+            if (aRigidBody.isSolid && bRigidBody.isSolid && !isPlayerEnemyCollision) {
                 if (aRigidBody.mass >= bRigidBody.mass) {
                     AvoidOverlap(e.a, e.b);
                 } else {

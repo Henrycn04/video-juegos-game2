@@ -366,13 +366,13 @@ void SceneLoader::LoadColliders(std::unique_ptr<Registry>& registry,
         object->QueryIntAttribute("gid", &gid);
 
         Entity collider = registry->CreateEntity();
-        collider.AddComponent<TagComponent>(tag);
-        collider.AddComponent<TransformComponent>(glm::vec2(x,y));
-        collider.AddComponent<BoxColliderComponent>(w,h);
-        collider.AddComponent<RigidBodyComponent>(false, true, 9999999999.0f);
 
         // Solo si tiene gid válido, agregar SpriteComponent
         if(gid > 0 && (tag == "trembling" || tag == "bounce" || tag == "win") ){
+            collider.AddComponent<TagComponent>(tag);
+            collider.AddComponent<TransformComponent>(glm::vec2(x,y));
+            collider.AddComponent<BoxColliderComponent>(w,h);
+            collider.AddComponent<RigidBodyComponent>(false, true, false, false, 9999999999.0f);
             // Buscar tileset correcto
             const TileSetInfo* selectedTileset = nullptr;
             for (int i = tilesets.size() - 1; i >= 0; --i) {
@@ -381,7 +381,7 @@ void SceneLoader::LoadColliders(std::unique_ptr<Registry>& registry,
                     break;
                 }
             }
-            if(selectedTileset){
+            if(selectedTileset) {
                 int localId = gid - selectedTileset->firstgid;
                 int srcX = (localId % selectedTileset->columns) * selectedTileset->tileWidth;
                 int srcY = (localId / selectedTileset->columns) * selectedTileset->tileHeight;
@@ -392,6 +392,26 @@ void SceneLoader::LoadColliders(std::unique_ptr<Registry>& registry,
                     srcX, srcY
                 );
             }
+
+        } else if (tag == "enemy01") {
+            collider.AddComponent<TagComponent>(tag);
+            collider.AddComponent<TransformComponent>(glm::vec2(x,y));
+            collider.AddComponent<BoxColliderComponent>(w,h);
+            collider.AddComponent<RigidBodyComponent>(true, true, true, false, 10.0f);
+            collider.AddComponent<AnimationComponent>(15, 15, true); // 2 frames, 0.1s per frame, loop
+            collider.AddComponent<SpriteComponent>(
+                "enemy01_idle", // Asumiendo que tienes un sprite llamado "enemy01"
+                w, h,
+                0, 0 // src rect (x, y) as 0, 0
+            );
+        
+        
+        } else {
+            
+            collider.AddComponent<TagComponent>(tag);
+            collider.AddComponent<TransformComponent>(glm::vec2(x,y));
+            collider.AddComponent<BoxColliderComponent>(w,h);
+            collider.AddComponent<RigidBodyComponent>(false, true, false, false, 9999999999.0f);
         }
 
         object = object->NextSiblingElement("object");
@@ -471,6 +491,8 @@ void  SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities,
                  
                     components["rigidbody"]["is_dynamic"],
                     components["rigidbody"]["is_solid"],
+                    components["rigidbody"]["is_enemy"],
+                    components["rigidbody"]["is_player"],
                     components["rigidbody"]["mass"]
                  
                 );

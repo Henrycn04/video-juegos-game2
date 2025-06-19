@@ -8,18 +8,15 @@ scene = {
        {assetId = "objects", filePath = "./assets/images/objects_.png"},
        {assetId = "objects1", filePath = "./assets/images/objects1_.png"},
        {assetId = "sky", filePath = "./assets/images/sky_.png"},
-        {assetId = "frog_idle", filePath = "./assets/images/frog_idle.png"},
-        {assetId = "frog_jump", filePath = "./assets/images/frog_jump.png"},
-        {assetId = "frog_fall", filePath = "./assets/images/frog_fall.png"},
-        {assetId = "frog_run", filePath = "./assets/images/frog_run.png"},
+        {assetId = "player01_dino_idle", filePath = "./assets/images/player01_dino_idle.png"},
+        {assetId = "player01_dino_run", filePath = "./assets/images/player01_dino_run.png"},
+        {assetId = "enemy01_idle", filePath = "./assets/images/enemy01_idle.png"},
     },
    -- Tabla con info de animaciones
     animations = {
         [0] = 
-        { animation_id = "player_frog_idle", texture_id = "frog_idle", w = 32, h = 32, num_frames = 11,speed_rate = 15, is_loop = true,},
-        { animation_id = "player_frog_jump", texture_id = "frog_jump", w = 32, h = 32, num_frames = 01,speed_rate = 01, is_loop = true,},
-        { animation_id = "player_frog_fall", texture_id = "frog_fall", w = 32, h = 32, num_frames = 01,speed_rate = 01, is_loop = true,},
-        { animation_id = "player_frog_run", texture_id = "frog_run", w = 32, h = 32, num_frames = 12,speed_rate = 15, is_loop = true,},
+        { animation_id = "player01_dino_idle", texture_id = "player01_dino_idle", w = 30, h = 36, num_frames = 4,speed_rate = 10, is_loop = true,},
+        { animation_id = "player01_dino_run", texture_id = "player01_dino_run", w = 30, h = 36, num_frames = 6,speed_rate = 10, is_loop = true,},
     },
     -- Tabla de fuentes
     fonts = {
@@ -80,33 +77,35 @@ scene = {
        [0] = 
 
 
-       {
+       { -- PLAYER
         components = {
             animation = {
-                num_frames = 11,
+                num_frames = 4,
                 speed_rate = 15,
                 is_loop = true,
             },
             camera_follow = {},
             box_collider = {
-              width = 32,
-              height = 32,
+              width = 30,
+              height = 36,
               offset= { x= 0, y = 0},
 
             },
             rigidbody ={
                 is_dynamic = true,
-                is_solid = true;
-                mass = 10;
+                is_solid = true,
+                is_enemy = false,
+                is_player = true,
+                mass = 10,
 
             },
             script = {
-                path = "./assets/scripts/player_frog.lua",
+                path = "./assets/scripts/player01_dino.lua",
             },
             sprite = {
-                assetId = "frog_idle",
-                width = 32,
-                height = 32,
+                assetId = "player01_dino_idle",
+                width = 30,
+                height = 36,
                 src_rect = { x = 0, y = 0},
 
             },

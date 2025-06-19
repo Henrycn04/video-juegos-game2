@@ -15,7 +15,7 @@ class CameraMovmentSystem : public System {
     }
 
     void Update(SDL_Rect& camera) {
-    const int offsetY = 300; 
+    const int offsetY = 100; 
 
     for (auto entity : GetSystemEntities()) {
         const auto& transform = entity.GetComponent<TransformComponent>();
