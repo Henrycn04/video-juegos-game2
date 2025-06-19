@@ -1,256 +1,127 @@
 scene = {
- --Tabla de imagenes y sprites
- sprites = {
-    [0]=
-    {assetId = "enemy_alan", filePath = "./assets/images/enemy_alan.png"},
-    {assetId = "player_ship", filePath = "./assets/images/player_ship.png"},
-    {assetId = "background", filePath = "./assets/images/background.png"},
-    {assetId = "barrier_gem", filePath = "./assets/images/barrier_gem.png"},
- },
-
- -- Tabla de fuentes
- fonts = {
+    --Tabla de imagenes y sprites
+    sprites = {
+       [0]=
+       {assetId = "terrain", filePath = "./assets/images/Terrain.png"},
+       {assetId = "background", filePath = "./assets/images/background_.png"},
+       {assetId = "ground", filePath = "./assets/images/midground_.png"},
+       {assetId = "objects", filePath = "./assets/images/objects_.png"},
+       {assetId = "objects1", filePath = "./assets/images/objects1_.png"},
+       {assetId = "sky", filePath = "./assets/images/sky_.png"},
+       {assetId = "player01_dino_idle", filePath = "./assets/images/player01_dino_idle.png"},
+       {assetId = "player01_dino_run", filePath = "./assets/images/player01_dino_run.png"},
+       {assetId = "enemy01_idle", filePath = "./assets/images/enemy01_idle.png"},
+    },
+   -- Tabla con info de animaciones
+   -- Tabla con info de animaciones
+   animations = {
     [0] = 
-    {fontId = "press_start_24", filePath="./assets/fonts/press_start_2p.ttf", fontSize = 24},
- },
-
- --Tabla de acciones y teclas
- keys ={
-    [0]=
-    {name = "up", key = 119},
-    {name = "left", key = 97},
-    {name = "down", key = 115},
-    {name = "right", key = 100},
- },
-
- --Tabla de acciones y botones del raton
-buttons = {
-    [0] =
-    {name = "mouse_left_button", button = 1}
-
+    { animation_id = "player01_dino_idle", texture_id = "player01_dino_idle", w = 30, h = 36, num_frames = 4,speed_rate = 10, is_loop = true,},
+    { animation_id = "player01_dino_run", texture_id = "player01_dino_run", w = 30, h = 36, num_frames = 6,speed_rate = 10, is_loop = true,},
 },
-
- --Tabla de mapa
- maps = {
-    width = 2000;
-    height = 2000;
- },
-
- --Tabla de entidades
- entities = {
-    [0] = 
-    --Background
-    {
-        components ={
-            sprite = {
-                assetId = "background",
-                width = 2000,
-                height = 2000,
-                src_rect = { x = 0, y = 0},
-
-            },
-            transform = {
-                position = { x = 0.0, y = 0.0},
-                scale = { x = 1.0, y = 1.0},
-                rotation = 0.0
-
-            }
-
-        }
+    -- Tabla de fuentes
+    fonts = {
     },
-    -- Player
-    {
-        components = {
-            camera_follow = {},
-            circle_collider = {
-              radius = 8,
-              width = 16,
-              height = 16,
-
-
-            },
-            rigidbody ={
-                is_dynamic = false,
-                mass = 1;
-
-            },
-            script = {
-                path = "./assets/scripts/player.lua",
-            },
-            sprite = {
-                assetId = "player_ship",
-                width = 16,
-                height = 16,
-                src_rect = { x = 16, y = 0},
-
-            },
-            transform = {
-                position = { x = 400.0, y = 300.0},
-                scale = { x = 2.0, y = 2.0},
-                rotation = 0.0
-
-            }
-        }
+   
+    --Tabla de acciones y teclas
+    keys ={
+       [0]=
+       {name = "up", key = 119},
+       {name = "left", key = 97},
+       {name = "down", key = 115},
+       {name = "right", key = 100},
+       {name = "jump", key = 32}, -- Espacio para saltar
     },
---[[
-    -- Enemy 01
-    {
-        components = {
-            animation = {
-              numFrames = 6,
-              frameSpeedRate = 10,
-              isLoop = true,
-
+   
+    --Tabla de acciones y botones del raton
+   buttons = {},
+   
+    --Tabla de mapa
+    maps = {
+        map_path = "./assets/maps/level_1.tmx",
+        tilesets = {
+            [1] = {
+              tile_path = "assets/maps/ground.tsx",
+              tile_name = "ground",
+              firstgid = 1
             },
-            box_collider = {
-              width = 16 *2,
-              height = 16 *2,
-              offset= { x= 0, y = 0},
-
+            [2] = {
+              tile_path = "assets/maps/terrain.tsx",
+              tile_name = "terrain",
+              firstgid = 71 -- según lo que diga el TMX
             },
-            rigidbody ={
-                velocity = { x = 50, y = 0 },
-
-            },
-            script = {
-                path = "./assets/scripts/enemy_alan.lua",
-            },
-            sprite = {
-                assetId = "enemy_alan",
-                width = 16,
-                height = 16,
-                src_rect = { x = 0, y = 0},
-
-            },
-            tag = {
-                tag = "Enemy 01"
-            },
-            transform = {
-                position = { x = 200.0, y = 100.0},
-                scale = { x = 2.0, y = 2.0},
-                rotation = 0.0
-
-            }
-        }
-    },
-]]
-    -- Enemy 02
-    {
-        components = {
-            animation = {
-              numFrames = 6,
-              frameSpeedRate = 10,
-              isLoop = true,
-
-            },
-            box_collider = {
-                width = 16 *2,
-                height = 16 *2,
-                offset= { x= 0, y = 0},
-  
+            [3] = {
+                tile_path = "assets/maps/background.tsx",
+                tile_name = "background",
+                firstgid = 313  -- según lo que diga el TMX
               },
-            rigidbody ={
-                is_dynamic = false,
-                mass = 1;
-            },
-            script = {
-                path = "./assets/scripts/enemy_alan.lua",
-            },
-            sprite = {
-                assetId = "enemy_alan",
-                width = 16,
-                height = 16,
-                src_rect = { x = 0, y = 0},
-
-            },
-            tag = {
-                tag = "Enemy 02"
-            },
-            transform = {
-                position = { x = 600.0, y = 100.0},
-                scale = { x = 2.0, y = 2.0},
-                rotation = 0.0
-
-            }
+            [4] = {
+                tile_path = "assets/maps/objects.tsx",
+                tile_name = "objects",
+                firstgid = 393  -- según lo que diga el TMX
+              },
+            [5] = {
+                tile_path = "assets/maps/objects1.tsx",
+                tile_name = "objects1",
+                firstgid = 453  -- según lo que diga el TMX
+              },
+            [6] = {
+                tile_path = "assets/maps/sky.tsx",
+                tile_name = "sky",
+                firstgid = 541  -- según lo que diga el TMX
+              }
         }
     },
---Barrera 1
-{
-    components = {
-        box_collider = {
-            width = 16 *2,
-            height = 16 *2,
-            offset= { x= 0, y = 0},
 
-          },
-          sprite = {
-            assetId = "barrier_gem",
-            width = 16,
-            height = 16,
-            src_rect = { x = 0, y = 0},
+    --Tabla de entidades
+    entities = {
+      [0] = 
 
-        },
-        tag = {
-            tag = "Barrier"
-        },
-        transform = {
-            position = { x = 100.0, y = 100.0},
-            scale = { x = 2.0, y = 2.0},
-            rotation = 0.0
 
-        }
+      { -- PLAYER
+       components = {
+           animation = {
+               num_frames = 4,
+               speed_rate = 15,
+               is_loop = true,
+           },
+           camera_follow = {},
+           box_collider = {
+             width = 30,
+             height = 36,
+             offset= { x= 0, y = 0},
 
-    }
-},
---Barrera 2
-{
-    components = {
-        box_collider = {
-            width = 16 *2,
-            height = 16 *2,
-            offset= { x= 0, y = 0},
+           },
+           rigidbody ={
+               is_dynamic = true,
+               is_solid = true,
+               is_enemy = false,
+               is_player = true,
+               mass = 10,
 
-          },
-          sprite = {
-            assetId = "barrier_gem",
-            width = 16,
-            height = 16,
-            src_rect = { x = 0, y = 0},
+           },
+           script = {
+               path = "./assets/scripts/player01_dino.lua",
+           },
+           sprite = {
+               assetId = "player01_dino_idle",
+               width = 30,
+               height = 36,
+               src_rect = { x = 0, y = 0},
 
-        },
-        tag = {
-            tag = "Barrier"
-        },
-        transform = {
-            position = { x = 700.0, y = 100.0},
-            scale = { x = 2.0, y = 2.0},
-            rotation = 0.0
+           },
+           tag = {
+               tag = "player",
+           },
+           transform = {
+               position = { x = 50.0, y = 100.0},
+               scale = { x = 1.0, y = 1.0},
+               rotation = 0.0
 
-        }
+           }
+       }
+   },
 
-    }
-},
-    -- TEXT
-    {
-        components = {
-            clickable = {
 
-            },
-            text = {
-                text = "Score: 100",
-                fontId = "press_start_24",
-                r = 150,
-                g = 0,
-                b = 150,
-                a = 255
-            },
-            transform = {
-                position = { x = 500.0, y = 50.0},
-                scale = { x = 1.0, y = 1.0},
-                rotation = 0.0
-
-            }
-        }
     }
   }
-}
