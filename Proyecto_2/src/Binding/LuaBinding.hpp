@@ -15,6 +15,54 @@
 #include "../ECS/ECS.hpp"
 #include "../Game/Game.hpp"
 
+
+int GetTicks(){
+    return SDL_GetTicks();
+}
+
+void CreateArrow(Entity shooter) {
+    
+    // Verificar que el shooter existe y tiene los componentes necesarios
+    if (!shooter.HasComponent<TransformComponent>()) {
+        std::cout << "[ERROR] Shooter doesn't have TransformComponent!" << std::endl;
+        return;
+    }
+    
+    // Obtener la posición del disparador
+    const auto& shooterTransform = shooter.GetComponent<TransformComponent>();
+    float start_x = shooterTransform.position.x;
+    float start_y = shooterTransform.position.y;
+    
+    
+    // Determinar dirección de disparo
+    float vel_x = 400.0f;
+    float vel_y = 0.0f;
+    
+    
+    // Crear la entidad flecha
+    Entity arrow = Game::GetInstance().registry->CreateEntity();    
+    // Agregar componentes a la flecha
+    arrow.AddComponent<TagComponent>("arrow01");
+    
+    // Transform con posición inicial ligeramente desplazada del shooter
+    float arrow_x = start_x + (vel_x > 0 ? 25 : -25); // Desplazar según dirección
+    arrow.AddComponent<TransformComponent>(glm::vec2(arrow_x, start_y), glm::vec2(1, 1), 0);
+        
+    // Collider
+    arrow.AddComponent<BoxColliderComponent>(28, 12, glm::vec2(0, 0));
+    
+    // Animación
+    arrow.AddComponent<AnimationComponent>(2, 10, true);
+    
+    arrow.AddComponent<SpriteComponent>("arrow01", 28, 12, 0, 0);
+    
+    // RigidBody con velocidad aplicada
+    arrow.AddComponent<RigidBodyComponent>(true, true, true, false, 2.0f);
+    auto& rigidbody = arrow.GetComponent<RigidBodyComponent>();
+    rigidbody.sumForces += glm::vec2(1500 * 64.0, vel_y);
+
+
+}
 //Controles
 void ChangeAnimation(Entity entity, const std::string& animationId){
     auto& animation = entity.GetComponent<AnimationComponent>();
@@ -87,11 +135,12 @@ bool RightCollision(Entity e, Entity other){
 }
 bool TopCollision(Entity e, Entity other) {
     // Obtener componentes
+
     const auto& eCollider = e.GetComponent<BoxColliderComponent>();
     const auto& eTransform = e.GetComponent<TransformComponent>();
     const auto& oCollider = other.GetComponent<BoxColliderComponent>();
     const auto& oTransform = other.GetComponent<TransformComponent>();
-    
+
     // Extraer posiciones y dimensiones
     float eX = eTransform.position.x;
     float eY = eTransform.position.y;
@@ -116,11 +165,12 @@ bool TopCollision(Entity e, Entity other) {
     bool horizontalOverlap = (eLeft < oRight) && (eRight > oLeft);
     if (!horizontalOverlap) return false;
     
+
     // Verificar si están en rango vertical (5 píxeles)
     // El borde inferior de 'other' debe estar cerca del borde superior de 'e'
     const float range = 10.0f;
     bool inVerticalRange = (oBottom >= eTop - range) && (oBottom <= eTop + range);
-    
+
     return inVerticalRange;
 }
 

@@ -19,7 +19,10 @@ class ScriptSystem : public System {
 
     // Functions
     lua.set_function("change_animation", ChangeAnimation);
+    lua.set_function("get_ticks", GetTicks);
 
+
+    lua.set_function("create_arrow", CreateArrow);
     lua.set_function("is_action_activated", IsActionActivated);
     lua.set_function("get_velocity", GetVelocity);
     lua.set_function("set_velocity", SetVelocity);

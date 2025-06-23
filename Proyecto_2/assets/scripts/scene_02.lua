@@ -12,12 +12,15 @@ scene = {
         {assetId = "player01_dino_idle", filePath = "./assets/images/player01_dino_idle.png"},
         {assetId = "player01_dino_run", filePath = "./assets/images/player01_dino_run.png"},
         {assetId = "enemy01_idle", filePath = "./assets/images/enemy01_idle.png"},
+        {assetId = "arrow01", filePath = "./assets/images/arrow01.png"},
+
     },
    -- Tabla con info de animaciones
     animations = {
         [0] = 
         { animation_id = "player01_dino_idle", texture_id = "player01_dino_idle", w = 30, h = 36, num_frames = 4,speed_rate = 10, is_loop = true,},
         { animation_id = "player01_dino_run", texture_id = "player01_dino_run", w = 30, h = 36, num_frames = 6,speed_rate = 10, is_loop = true,},
+        { animation_id = "arrow01", texture_id = "arrow01", w = 28, h = 12, num_frames = 30,speed_rate = 10, is_loop = true,},
     },
    -- Tabla de fuentes
    fonts = {

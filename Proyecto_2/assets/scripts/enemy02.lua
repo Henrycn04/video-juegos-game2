@@ -2,8 +2,19 @@ function on_awake()
     set_velocity(this, -50, 0)
 end
 
+local last_arrow_time = 0
+local arrow_cooldown = 10000
 
-is_not_dead_01 = true
+function update()
+    local current_time = get_ticks()
+    
+    if current_time - last_arrow_time >= arrow_cooldown then
+        create_arrow(this) -- 'this' es la entidad completa
+        last_arrow_time = current_time
+    end
+end
+
+is_not_dead_02 = true
 
 function on_collision(other)
     this_tag = get_tag(this)
@@ -11,8 +22,9 @@ function on_collision(other)
     
     if other_tag == "player" then
         local hay_choque = top_collision(this, other)
-        if hay_choque and is_not_dead_01 then
-            is_not_dead_01 = false
+        if hay_choque and is_not_dead_02 then
+
+            is_not_dead_02 = false
             
             -- Obtener posición y velocidad del que rebota (this)
             local this_x, this_y = get_position(this)
@@ -64,6 +76,13 @@ function on_collision(other)
 
                 add_force(other, 0, delta)
             end
+
+
+
+
+            
+            
+            
             -- Desactivar colisiones temporalmente
             deactivate_collisions(this)
         end
