@@ -1,7 +1,26 @@
 function on_awake()
     set_velocity(this, -50, 0)
 end
+player_speed = 1.0 * 64.0
 
+enemy01_timer = 0
+direction = 1  -- 1 para derecha, -1 para izquierda
+function update()
+    local x_vel, y_vel = get_velocity(this)
+    
+    -- Incrementar el contador de tiempo
+    enemy01_timer = enemy01_timer + 1
+    
+
+    if enemy01_timer >= 20 then
+        enemy01_timer = 0
+        direction = direction * -1  -- Invertir dirección
+        print("Cambiando dirección a: " .. direction)
+    end
+    
+    x_vel = player_speed * direction
+    set_velocity(this, x_vel, y_vel)
+end
 
 is_not_dead_01 = true
 

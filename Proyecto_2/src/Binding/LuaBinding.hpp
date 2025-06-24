@@ -45,7 +45,7 @@ void CreateArrow(Entity shooter) {
     arrow.AddComponent<TagComponent>("arrow01");
     
     // Transform con posición inicial ligeramente desplazada del shooter
-    float arrow_x = start_x + (vel_x > 0 ? 25 : -25); // Desplazar según dirección
+    float arrow_x = start_x; // Desplazar según dirección
     arrow.AddComponent<TransformComponent>(glm::vec2(arrow_x, start_y), glm::vec2(1, 1), 0);
         
     // Collider
@@ -55,6 +55,39 @@ void CreateArrow(Entity shooter) {
     arrow.AddComponent<AnimationComponent>(2, 10, true);
     
     arrow.AddComponent<SpriteComponent>("arrow01", 28, 12, 0, 0);
+    auto& lua = Game::GetInstance().lua;
+                lua["on_awake"] = sol::nil;
+                lua["update"] = sol::nil;
+                lua["on_click"] = sol::nil;
+                lua["on_collision"] = sol::nil;
+                lua.script_file("./assets/scripts/arrow01.lua");
+
+                sol::optional<sol::function> hasOnAwake = lua["on_awake"];
+                sol::function onAwake = sol::nil;
+                if(hasOnAwake != sol::nullopt){
+                    onAwake = lua["on_collision"];
+                    onAwake(); // agregar funciones al binding de necesitarlas
+                }
+
+                sol::optional<sol::function> hasOnCollision = lua["on_collision"];
+                sol::function onCollision = sol::nil;
+                if(hasOnCollision != sol::nullopt){
+                    onCollision = lua["on_collision"];
+                }
+
+                sol::optional<sol::function> hasOnClick = lua["on_click"];
+                sol::function onClick = sol::nil;
+                if(hasOnClick != sol::nullopt){
+                    onClick = lua["on_click"];
+                }
+
+                sol::optional<sol::function> hasUpdate = lua["update"];
+                sol::function update = sol::nil;
+                if(hasUpdate != sol::nullopt){
+                    update = lua["update"];
+                }
+
+                arrow.AddComponent<ScriptComponent>(onCollision, update, onClick);
     
     // RigidBody con velocidad aplicada
     arrow.AddComponent<RigidBodyComponent>(true, true, true, false, 2.0f);
@@ -99,6 +132,9 @@ bool LeftCollision(Entity e, Entity other){
     float oX = oTransform.previousPosition.x;
     float oY = oTransform.previousPosition.y;
     float oH = static_cast<float>(oCollider.height);
+    std::cout << "Left Collision: " << (oY < eY + eH &&
+        oY + oH > eY &&
+        oX < eX) << std::endl;
 
     //El lado izquierdo e choca contra other
     return (
@@ -126,6 +162,9 @@ bool RightCollision(Entity e, Entity other){
     float oH = static_cast<float>(oCollider.height);
 
     //El lado derecho e choca contra other
+    std::cout << "Right Collision: " << (oY < eY + eH &&
+        oY + oH > eY &&
+        oX > eX) << std::endl;
     return (
         oY < eY + eH &&
         oY + oH > eY &&
