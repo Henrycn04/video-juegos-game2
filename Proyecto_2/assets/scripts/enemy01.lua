@@ -1,7 +1,5 @@
-function on_awake()
-    set_velocity(this, -50, 0)
-end
-player_speed = 1.0 * 64.0
+
+enemy01_player_speed = 1.0 * 64.0
 
 enemy01_timer = 0
 direction = 1  -- 1 para derecha, -1 para izquierda
@@ -18,7 +16,7 @@ function update()
         print("Cambiando dirección a: " .. direction)
     end
     
-    x_vel = player_speed * direction
+    x_vel = enemy01_player_speed * direction
     set_velocity(this, x_vel, y_vel)
 end
 
