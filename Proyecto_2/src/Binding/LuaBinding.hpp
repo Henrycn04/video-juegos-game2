@@ -9,6 +9,7 @@
 #include "../Components/RigidBodyComponent.hpp"
 #include "../Components/TagComponent.hpp"
 #include "../Components/TransformComponent.hpp"
+#include "../Components/ScriptComponent.hpp"
 #include "../Components/SpriteComponent.hpp"
 #include "../Components/BoxColliderComponent.hpp"
 #include "../Components/HealthComponent.hpp"

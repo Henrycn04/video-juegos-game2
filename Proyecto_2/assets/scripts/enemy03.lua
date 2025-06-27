@@ -1,36 +1,51 @@
+enemy03_can_jump = false
+enemy03_jump_force = -700.0 * 64.0
 
-enemy01_player_speed = 1.0 * 64.0
+enemy03_prev_jump = false
 
-enemy01_timer = 0
-direction = 1  -- 1 para derecha, -1 para izquierda
+enemy03_player_speed = 0.5 * 64.0
+
+enemy03_timer = 0
+enemy03_direction = 1  -- 1 para derecha, -1 para izquierda
 function update()
     local x_vel, y_vel = get_velocity(this)
     
     -- Incrementar el contador de tiempo
-    enemy01_timer = enemy01_timer + 1
+    enemy03_timer = enemy03_timer + 1
     
 
-    if enemy01_timer >= 20 then
-        enemy01_timer = 0
-        direction = direction * -1  -- Invertir dirección
-        print("Cambiando dirección a: " .. direction)
+    if enemy03_timer >= 80 then
+        enemy03_timer = 0
+        enemy03_direction = enemy03_direction * -1  -- Invertir dirección
+        print("Cambiando dirección a: " .. enemy03_direction)
+    end
+    if enemy03_can_jump then
+        add_force(this, 0, enemy03_jump_force)
+        enemy03_can_jump = false
     end
     
-    x_vel = enemy01_player_speed * direction
+    x_vel = enemy03_player_speed * enemy03_direction
     set_velocity(this, x_vel, y_vel)
+    enemy03_can_jump = false
 end
 
-is_not_dead_01 = true
+is_not_dead_03 = true
 
 function on_collision(other)
     this_tag = get_tag(this)
     other_tag = get_tag(other)
-    
+    if get_tag(other) == "floor" or get_tag(other) == "trembling"  or get_tag(other) == "damage" then
+        local x_vel, y_vel = get_velocity(this)
+        if y_vel == 0 then
+            enemy03_can_jump = true 
+        end
+    end
     if other_tag == "player" then
         local hay_choque = top_collision(this, other)
-        if hay_choque and is_not_dead_01 then
-            is_not_dead_01 = false
-            
+        if hay_choque and is_not_dead_03 then
+            is_not_dead_03 = false
+            -- TODO: que no salga volando ////////////////////////////////
+            -- TODO: creo que se soluciona matando la suma de fuerzas
             -- Obtener posición y velocidad del que rebota (this)
             set_velocity(this, 0, 0)
 
