@@ -288,57 +288,54 @@ void SceneLoader::LoadLayer(std::unique_ptr<Registry>& registry,
     std::string token;
     int tileNumber = 0;
 
-    while (std::getline(dataStream, token, ',')) {
-        // Eliminar espacios en blanco
-        std::stringstream tokenStream(token);
-        tokenStream >> std::ws;
-        if (tokenStream.eof()) continue; // Saltar tokens vacíos
+   while (std::getline(dataStream, token, ',')) {
+    // Eliminar espacios en blanco
+    std::stringstream tokenStream(token);
+    tokenStream >> std::ws;
+    if (tokenStream.eof()) continue; // Saltar tokens vacíos
 
-        try {
-            int gid = std::stoi(token);
+    try {
+        unsigned long gid = std::stoul(token);
 
-            if (gid > 0) {
-                // Buscar el tileset correspondiente al GID
-                const TileSetInfo* selectedTileset = nullptr;
-                for (int i = tilesets.size() - 1; i >= 0; --i) {
-                    if (gid >= tilesets[i].firstgid) {
-                        selectedTileset = &tilesets[i];
-                        break;
-                    }
+        if (gid > 0) {
+            const unsigned GID_MASK = 0x1FFFFFFF;
+            unsigned long cleanGid = gid & GID_MASK;
+
+            const TileSetInfo* selectedTileset = nullptr;
+            for (int i = tilesets.size() - 1; i >= 0; --i) {
+                if (cleanGid >= static_cast<unsigned long>(tilesets[i].firstgid)) {
+                    selectedTileset = &tilesets[i];
+                    break;
                 }
-
-                if (!selectedTileset) {
-                    throw std::runtime_error("No se encontró tileset para GID: " + std::to_string(gid));
-                }
-
-                // Calcular las coordenadas del tile en el tileset
-                int localId = gid - selectedTileset->firstgid;
-                int srcX = (localId % selectedTileset->columns) * selectedTileset->tileWidth;
-                int srcY = (localId / selectedTileset->columns) * selectedTileset->tileHeight;
-
-                // Crear la entidad para el tile
-                Entity tile = registry->CreateEntity();
-                tile.AddComponent<TransformComponent>(
-                    glm::vec2((tileNumber % mWidth) * selectedTileset->tileWidth,
-                              (tileNumber / mWidth) * selectedTileset->tileHeight));
-                tile.AddComponent<SpriteComponent>(
-                    selectedTileset->textureId,
-                    selectedTileset->tileWidth,
-                    selectedTileset->tileHeight,
-                    srcX,
-                    srcY
-                );
             }
-            // Incrementar tileNumber incluso para gid == 0 (tile vacío)
-            tileNumber++;
-        } catch (const std::invalid_argument& e) {
-            throw std::runtime_error("Error al convertir GID: " + token + " - " + e.what());
-        } catch (const std::out_of_range& e) {
-            throw std::runtime_error("GID fuera de rango: " + token + " - " + e.what());
-        }
-    }
-}
 
+            if (!selectedTileset) {
+                throw std::runtime_error("No se encontró tileset para GID: " + std::to_string(cleanGid));
+            }
+
+            auto localId = cleanGid - static_cast<unsigned long>(selectedTileset->firstgid);
+            int srcX = static_cast<int>((localId % static_cast<unsigned long>(selectedTileset->columns)) * static_cast<unsigned long>(selectedTileset->tileWidth));
+            int srcY = static_cast<int>((localId / static_cast<unsigned long>(selectedTileset->columns)) * static_cast<unsigned long>(selectedTileset->tileHeight));
+
+            Entity tile = registry->CreateEntity();
+            tile.AddComponent<TransformComponent>(
+                glm::vec2((tileNumber % mWidth) * selectedTileset->tileWidth,
+                          (tileNumber / mWidth) * selectedTileset->tileHeight));
+            tile.AddComponent<SpriteComponent>(
+                selectedTileset->textureId,
+                selectedTileset->tileWidth,
+                selectedTileset->tileHeight,
+                srcX,
+                srcY
+            );
+        }
+        tileNumber++;
+    } catch (const std::invalid_argument& e) {
+        throw std::runtime_error("Error al convertir GID: " + token + " - " + e.what());
+    } catch (const std::out_of_range& e) {
+        throw std::runtime_error("GID fuera de rango: " + token + " - " + e.what());
+    }
+}}
 
 void SceneLoader::LoadColliders(sol::state& lua, std::unique_ptr<Registry>& registry,
  tinyxml2::XMLElement* objectGroup){

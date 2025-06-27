@@ -41,14 +41,15 @@ buttons = {},
 
 --Tabla de mapa
 maps = {
-    map_path = "./assets/maps/level_2.tmx",
+    map_path = "./assets/maps/level_3.tmx",
     tilesets = {
-      [1] = { tile_path = "assets/maps/background.tsx", tile_name = "background", firstgid = 1},
-      [2] = { tile_path = "assets/maps/ground.tsx", tile_name = "ground", firstgid = 81 },
-      [3] = { tile_path = "assets/maps/terrain.tsx", tile_name = "terrain", firstgid = 151 },
-      [4] = { tile_path = "assets/maps/objects1.tsx", tile_name = "objects1", firstgid = 393 },
-      [5] = { tile_path = "assets/maps/objects.tsx", tile_name = "objects", firstgid = 481 },
-
+      [1] = { tile_path = "assets/maps/islands_1.tsx", tile_name = "islands_1", firstgid = 1 },
+      [2] = { tile_path = "assets/maps/sky.tsx", tile_name = "sky", firstgid = 101 },
+      [3] = { tile_path = "assets/maps/background.tsx", tile_name = "background", firstgid = 165 },
+      [4] = { tile_path = "assets/maps/ground.tsx", tile_name = "ground", firstgid = 245 },
+      [5] = { tile_path = "assets/maps/objects1.tsx", tile_name = "objects1", firstgid = 315 },
+      [6] = { tile_path = "assets/maps/objects.tsx", tile_name = "objects", firstgid = 403 },
+      [7] = { tile_path = "assets/maps/terrain.tsx", tile_name = "terrain", firstgid = 463 },
     }
 },
 
