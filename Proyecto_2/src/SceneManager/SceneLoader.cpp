@@ -365,11 +365,26 @@ void SceneLoader::LoadColliders(sol::state& lua, std::unique_ptr<Registry>& regi
         Entity collider = registry->CreateEntity();
 
         // Solo si tiene gid válido, agregar SpriteComponent
-        if(gid > 0 && (tag == "trembling" || tag == "bounce" || tag == "win") ){
+        if(gid > 0 && (tag == "trembling") ){
+             lua["update"] = sol::nil;
+            lua["on_collision"] = sol::nil;
+            lua.script_file("./assets/scripts/trembling.lua");
             collider.AddComponent<TagComponent>(tag);
             collider.AddComponent<TransformComponent>(glm::vec2(x,y));
             collider.AddComponent<BoxColliderComponent>(w,h);
-            collider.AddComponent<RigidBodyComponent>(false, true, false, false, 9999999999.0f);
+            collider.AddComponent<RigidBodyComponent>(false, true, false, false,  9999999999.0f);
+               sol::optional<sol::function> hasOnCollision = lua["on_collision"];
+                sol::function onCollision = sol::nil;
+                if(hasOnCollision != sol::nullopt){
+                    onCollision = lua["on_collision"];
+                }
+                sol::optional<sol::function> hasUpdate = lua["update"];
+                sol::function update = sol::nil;
+                if(hasUpdate != sol::nullopt){
+                    update = lua["update"];
+                }
+
+            collider.AddComponent<ScriptComponent>(onCollision, update);
             // Buscar tileset correcto
             const TileSetInfo* selectedTileset = nullptr;
             for (int i = tilesets.size() - 1; i >= 0; --i) {

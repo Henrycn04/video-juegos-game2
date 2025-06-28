@@ -20,6 +20,7 @@ int GetTicks(){
     return SDL_GetTicks();
 }
 
+
 void CreateArrow(Entity shooter) {
     
     // Verificar que el shooter existe y tiene los componentes necesarios
@@ -174,7 +175,6 @@ bool RightCollision(Entity e, Entity other){
 }
 bool TopCollision(Entity e, Entity other) {
     // Obtener componentes
-
     const auto& eCollider = e.GetComponent<BoxColliderComponent>();
     const auto& eTransform = e.GetComponent<TransformComponent>();
     const auto& oCollider = other.GetComponent<BoxColliderComponent>();
@@ -185,32 +185,34 @@ bool TopCollision(Entity e, Entity other) {
     float eY = eTransform.position.y;
     float eW = static_cast<float>(eCollider.width);
     float eH = static_cast<float>(eCollider.height);
-    
+
     float oX = oTransform.position.x;
     float oY = oTransform.position.y;
     float oW = static_cast<float>(oCollider.width);
     float oH = static_cast<float>(oCollider.height);
-    
-    // Calcular bordes importantes
+
+    // Calcular bordes actuales
     float eTop = eY;
     float eLeft = eX;
     float eRight = eX + eW;
-    
+
     float oBottom = oY + oH;
     float oLeft = oX;
     float oRight = oX + oW;
-    
-    // Verificar solapamiento horizontal primero
+
+    // Verificar solapamiento horizontal
     bool horizontalOverlap = (eLeft < oRight) && (eRight > oLeft);
     if (!horizontalOverlap) return false;
-    
 
-    // Verificar si están en rango vertical (5 píxeles)
-    // El borde inferior de 'other' debe estar cerca del borde superior de 'e'
-    const float range = 10.0f;
-    bool inVerticalRange = (oBottom >= eTop - range) && (oBottom <= eTop + range);
+    // Obtener posición anterior del jugador
+    float oPreviousY = oTransform.previousPosition.y;
+    float oBottomPrevious = oPreviousY + oH;
 
-    return inVerticalRange;
+    // Verificar que venía desde arriba
+    bool wasAbove = oBottomPrevious <= eTop;
+    bool isNowOverlapping = oBottom >= eTop;
+
+    return wasAbove && isNowOverlapping;
 }
 
 bool BottomCollision(Entity e, Entity other){
@@ -320,6 +322,11 @@ void GoToScene(const std::string& sceneName){
     Game::GetInstance().sceneManager->SetNextScene(sceneName);
     Game::GetInstance().sceneManager->StopScene();
 }
+
+int GetId(Entity entity){
+    return entity.GetId();
+}
+
 
 
 #endif

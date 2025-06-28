@@ -32,6 +32,7 @@ class ScriptSystem : public System {
     lua.set_function("go_to_scene", GoToScene);
     lua.set_function("flip_sprite", FlipSprite);
     lua.set_function("get_tag", GetTag);
+     lua.set_function("get_id", GetId);
     lua.set_function("get_position", GetPosition);
     lua.set_function("set_position", SetPosition);
     lua.set_function("get_size", GetSize);
@@ -41,6 +42,7 @@ class ScriptSystem : public System {
     lua.set_function("bottom_collision", BottomCollision);
     lua.set_function("deactivate_collisions", DeactivateCollisions);
   }
+
 
   void Update(sol::state& lua){
     for(auto entity : GetSystemEntities()){
