@@ -1,26 +1,26 @@
 
-enemy01_player_speed = 1.0 * 64.0
+enemy04_player_speed = 1.0 * 64.0
 
-enemy01_timer = 0
-direction = 1  -- 1 para derecha, -1 para izquierda
+enemy04_timer = 0
+enemy04_direction = 1  -- 1 para derecha, -1 para izquierda
 function update()
     local x_vel, y_vel = get_velocity(this)
     
     -- Incrementar el contador de tiempo
-    enemy01_timer = enemy01_timer + 1
+    enemy04_timer = enemy04_timer + 1
     
 
-    if enemy01_timer >= 20 then
-        enemy01_timer = 0
-        direction = direction * -1  -- Invertir dirección
-        print("Cambiando dirección a: " .. direction)
+    if enemy04_timer >= 120 then
+        enemy04_timer = 0
+        enemy04_direction = enemy04_direction * -1  -- Invertir dirección
+        print("Cambiando dirección a: " .. enemy04_direction)
     end
     
-    x_vel = enemy01_player_speed * direction
+    x_vel = enemy04_player_speed * enemy04_direction
     set_velocity(this, x_vel, y_vel)
 end
 
-is_not_dead_01 = true
+is_not_dead_04 = true
 
 function on_collision(other)
     this_tag = get_tag(this)
@@ -28,8 +28,8 @@ function on_collision(other)
     
     if other_tag == "player" then
         local hay_choque = top_collision(this, other)
-        if hay_choque and is_not_dead_01 then
-            is_not_dead_01 = false
+        if hay_choque and is_not_dead_04 then
+            is_not_dead_04 = false
             
             -- Obtener posición y velocidad del que rebota (this)
             set_velocity(this, 0, 0)

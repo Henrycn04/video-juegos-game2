@@ -501,6 +501,102 @@ void SceneLoader::LoadColliders(sol::state& lua, std::unique_ptr<Registry>& regi
 
                 collider.AddComponent<ScriptComponent>(onCollision, update, onClick);
         
+        } else if (tag == "enemy03") {
+            collider.AddComponent<TagComponent>(tag);
+            collider.AddComponent<TransformComponent>(glm::vec2(x,y));
+            collider.AddComponent<BoxColliderComponent>(w,h);
+            collider.AddComponent<RigidBodyComponent>(true, true, true, false, 20.0f);
+            collider.AddComponent<AnimationComponent>(15, 15, true); // 2 frames, 0.1s per frame, loop
+            collider.AddComponent<SpriteComponent>(
+                "enemy01_idle", // Asumiendo que tienes un sprite llamado "enemy01"
+                w, h,
+                0, 0 // src rect (x, y) as 0, 0
+            );
+            collider.AddComponent<HealthComponent>(true, false, 1, 1, 0); 
+            
+                lua["on_awake"] = sol::nil;
+                lua["update"] = sol::nil;
+                lua["on_click"] = sol::nil;
+                lua["on_collision"] = sol::nil;
+
+                
+                lua.script_file("./assets/scripts/enemy03.lua");
+
+                sol::optional<sol::function> hasOnAwake = lua["on_awake"];
+                sol::function onAwake = sol::nil;
+                if(hasOnAwake != sol::nullopt){
+                    onAwake = lua["on_collision"];
+                    onAwake(); // agregar funciones al binding de necesitarlas
+                }
+
+                sol::optional<sol::function> hasOnCollision = lua["on_collision"];
+                sol::function onCollision = sol::nil;
+                if(hasOnCollision != sol::nullopt){
+                    onCollision = lua["on_collision"];
+                }
+
+                sol::optional<sol::function> hasOnClick = lua["on_click"];
+                sol::function onClick = sol::nil;
+                if(hasOnClick != sol::nullopt){
+                    onClick = lua["on_click"];
+                }
+
+                sol::optional<sol::function> hasUpdate = lua["update"];
+                sol::function update = sol::nil;
+                if(hasUpdate != sol::nullopt){
+                    update = lua["update"];
+                }
+
+                collider.AddComponent<ScriptComponent>(onCollision, update, onClick);
+        
+        } else if (tag == "enemy04") {
+            collider.AddComponent<TagComponent>(tag);
+            collider.AddComponent<TransformComponent>(glm::vec2(x,y));
+            collider.AddComponent<BoxColliderComponent>(w,h);
+            collider.AddComponent<RigidBodyComponent>(false, true, true, false, 10.0f);
+            collider.AddComponent<AnimationComponent>(15, 15, true); // 2 frames, 0.1s per frame, loop
+            collider.AddComponent<SpriteComponent>(
+                "enemy01_idle", // Asumiendo que tienes un sprite llamado "enemy01"
+                w, h,
+                0, 0 // src rect (x, y) as 0, 0
+            );
+            collider.AddComponent<HealthComponent>(true, false, 1, 1, 0); 
+            
+                lua["on_awake"] = sol::nil;
+                lua["update"] = sol::nil;
+                lua["on_click"] = sol::nil;
+                lua["on_collision"] = sol::nil;
+
+                
+                lua.script_file("./assets/scripts/enemy04.lua");
+
+                sol::optional<sol::function> hasOnAwake = lua["on_awake"];
+                sol::function onAwake = sol::nil;
+                if(hasOnAwake != sol::nullopt){
+                    onAwake = lua["on_collision"];
+                    onAwake(); // agregar funciones al binding de necesitarlas
+                }
+
+                sol::optional<sol::function> hasOnCollision = lua["on_collision"];
+                sol::function onCollision = sol::nil;
+                if(hasOnCollision != sol::nullopt){
+                    onCollision = lua["on_collision"];
+                }
+
+                sol::optional<sol::function> hasOnClick = lua["on_click"];
+                sol::function onClick = sol::nil;
+                if(hasOnClick != sol::nullopt){
+                    onClick = lua["on_click"];
+                }
+
+                sol::optional<sol::function> hasUpdate = lua["update"];
+                sol::function update = sol::nil;
+                if(hasUpdate != sol::nullopt){
+                    update = lua["update"];
+                }
+
+                collider.AddComponent<ScriptComponent>(onCollision, update, onClick);
+        
         } else {
             
             collider.AddComponent<TagComponent>(tag);
