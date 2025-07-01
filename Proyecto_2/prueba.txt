@@ -3,7 +3,7 @@ Urgentes:
 -Controller para el tiempo 
 -Meter muerte de jugadores (pantalla de muerte y de gane), enemigos y flechas // H
 -Sistema de puntuacion // H
--Menu inicial // JM
+-Menu inicial // JM // H Hacer imagen // Jumpasaur
 
 Arreglos:
 -Voltear enemigos dependiendo de direcciones (cambio en el if de rebote del eje X) // H
