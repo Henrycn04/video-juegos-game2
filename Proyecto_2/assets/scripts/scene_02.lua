@@ -24,6 +24,10 @@ scene = {
     },
    -- Tabla de fuentes
    fonts = {
+           [0] = 
+       {fontId = "press_start_24", filePath="./assets/fonts/press_start_2p.ttf", fontSize = 24},
+       {fontId = "press_start_32", filePath="./assets/fonts/press_start_2p.ttf", fontSize = 32},
+
 },
 
 --Tabla de acciones y teclas

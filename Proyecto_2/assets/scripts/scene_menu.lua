@@ -46,7 +46,8 @@ scene = {
                    r = 150,
                    g = 0,
                    b = 150,
-                   a = 255
+                   a = 255,
+                   isStatic = false,
                },
                transform = {
                    position = { x = 50.0, y = 50.0},
@@ -70,7 +71,8 @@ scene = {
                 r = 150,
                 g = 150,
                 b = 0,
-                a = 255
+                a = 255,
+                isStatic = false,
             },
             transform = {
                 position = { x = 50.0, y = 150.0},

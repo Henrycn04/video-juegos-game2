@@ -37,7 +37,6 @@ void CreateArrow(Entity shooter) {
     
     
     // Determinar dirección de disparo
-    float vel_x = 400.0f;
     float vel_y = 0.0f;
     
     
@@ -67,7 +66,7 @@ void CreateArrow(Entity shooter) {
                 sol::optional<sol::function> hasOnAwake = lua["on_awake"];
                 sol::function onAwake = sol::nil;
                 if(hasOnAwake != sol::nullopt){
-                    onAwake = lua["on_collision"];
+                    onAwake = lua["on_awake"];
                     onAwake(); // agregar funciones al binding de necesitarlas
                 }
 
@@ -185,7 +184,6 @@ bool TopCollision(Entity e, Entity other) {
     float eX = eTransform.position.x;
     float eY = eTransform.position.y;
     float eW = static_cast<float>(eCollider.width);
-    float eH = static_cast<float>(eCollider.height);
 
     float oX = oTransform.position.x;
     float oY = oTransform.position.y;

@@ -363,7 +363,7 @@ void SceneLoader::LoadColliders(sol::state& lua, std::unique_ptr<Registry>& regi
         object->QueryIntAttribute("gid", &gid);
 
         Entity collider = registry->CreateEntity();
-
+        lua["this"] = collider;
         // Solo si tiene gid válido, agregar SpriteComponent
         if(gid > 0 && (tag == "trembling" || tag=="moveH" || tag=="moveV") ){
             lua["update"] = sol::nil;
@@ -435,9 +435,9 @@ void SceneLoader::LoadColliders(sol::state& lua, std::unique_ptr<Registry>& regi
             collider.AddComponent<TransformComponent>(glm::vec2(x,y));
             collider.AddComponent<BoxColliderComponent>(w,h);
             collider.AddComponent<RigidBodyComponent>(true, true, true, false, 10.0f);
-            collider.AddComponent<AnimationComponent>(15, 15, true); // 2 frames, 0.1s per frame, loop
+            collider.AddComponent<AnimationComponent>(15, 10, true);
             collider.AddComponent<SpriteComponent>(
-                "enemy01_idle", // Asumiendo que tienes un sprite llamado "enemy01"
+                "enemy01_idle",
                 w, h,
                 0, 0 // src rect (x, y) as 0, 0
             );
@@ -448,13 +448,12 @@ void SceneLoader::LoadColliders(sol::state& lua, std::unique_ptr<Registry>& regi
                 lua["on_click"] = sol::nil;
                 lua["on_collision"] = sol::nil;
 
-                
                 lua.script_file("./assets/scripts/enemy01.lua");
 
                 sol::optional<sol::function> hasOnAwake = lua["on_awake"];
                 sol::function onAwake = sol::nil;
                 if(hasOnAwake != sol::nullopt){
-                    onAwake = lua["on_collision"];
+                    onAwake = lua["on_awake"];
                     onAwake(); // agregar funciones al binding de necesitarlas
                 }
 
@@ -489,20 +488,19 @@ void SceneLoader::LoadColliders(sol::state& lua, std::unique_ptr<Registry>& regi
                 w, h,
                 0, 0 // src rect (x, y) as 0, 0
             );
+
             collider.AddComponent<HealthComponent>(true, false, 1, 1, 0); 
             
                 lua["on_awake"] = sol::nil;
                 lua["update"] = sol::nil;
                 lua["on_click"] = sol::nil;
                 lua["on_collision"] = sol::nil;
-
-                
                 lua.script_file("./assets/scripts/enemy02.lua");
 
                 sol::optional<sol::function> hasOnAwake = lua["on_awake"];
                 sol::function onAwake = sol::nil;
                 if(hasOnAwake != sol::nullopt){
-                    onAwake = lua["on_collision"];
+                    onAwake = lua["on_awake"];
                     onAwake(); // agregar funciones al binding de necesitarlas
                 }
 
@@ -550,7 +548,7 @@ void SceneLoader::LoadColliders(sol::state& lua, std::unique_ptr<Registry>& regi
                 sol::optional<sol::function> hasOnAwake = lua["on_awake"];
                 sol::function onAwake = sol::nil;
                 if(hasOnAwake != sol::nullopt){
-                    onAwake = lua["on_collision"];
+                    onAwake = lua["on_awake"];
                     onAwake(); // agregar funciones al binding de necesitarlas
                 }
 
@@ -598,7 +596,7 @@ void SceneLoader::LoadColliders(sol::state& lua, std::unique_ptr<Registry>& regi
                 sol::optional<sol::function> hasOnAwake = lua["on_awake"];
                 sol::function onAwake = sol::nil;
                 if(hasOnAwake != sol::nullopt){
-                    onAwake = lua["on_collision"];
+                    onAwake = lua["on_awake"];
                     onAwake(); // agregar funciones al binding de necesitarlas
                 }
 
@@ -752,7 +750,8 @@ void  SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities,
                     components["text"]["r"],
                     components["text"]["g"],
                     components["text"]["b"],
-                    components["text"]["a"]
+                    components["text"]["a"],
+                    components["text"]["isStatic"]
                 );
             }
 
@@ -794,7 +793,7 @@ void  SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities,
                 sol::optional<sol::function> hasOnAwake = lua["on_awake"];
                 sol::function onAwake = sol::nil;
                 if(hasOnAwake != sol::nullopt){
-                    onAwake = lua["on_collision"];
+                    onAwake = lua["on_awake"];
                     onAwake(); // agregar funciones al binding de necesitarlas
                 }
 

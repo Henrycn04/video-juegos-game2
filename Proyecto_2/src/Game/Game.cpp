@@ -195,7 +195,7 @@ void Game::Render(){
     SDL_RenderClear(renderer);
 
     registry->GetSystem<RenderSystem>().Update(renderer, camera, assetManager);
-    registry->GetSystem<RenderTextSystem>().Update(renderer, assetManager);
+    registry->GetSystem<RenderTextSystem>().Update(renderer, assetManager, camera);
     if(isDebugMode){
 
      registry->GetSystem<RenderBoxColliderSystem>().Update(renderer, camera);}
