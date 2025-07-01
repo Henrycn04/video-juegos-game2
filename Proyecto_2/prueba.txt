@@ -1,6 +1,9 @@
 Urgentes:
 -Reivsar escala y animacion de los enemigos
 -Controller para el tiempo 
+
+-Buscar sprites para los 3 tipos de enemigos restantes (arquero, saltarin y volador) // JM
+-Meter sistema de tiempo (determinar tiempo para cada nivel) // JM
 -Meter muerte de jugadores (pantalla de muerte y de gane), enemigos y flechas // H
 -Sistema de puntuacion // H
 -Menu inicial // JM // H Hacer imagen // Jumpasaur
