@@ -365,10 +365,35 @@ void SceneLoader::LoadColliders(sol::state& lua, std::unique_ptr<Registry>& regi
         Entity collider = registry->CreateEntity();
 
         // Solo si tiene gid válido, agregar SpriteComponent
-        if(gid > 0 && (tag == "trembling") ){
-             lua["update"] = sol::nil;
+        if(gid > 0 && (tag == "trembling" || tag=="moveH" || tag=="moveV") ){
+            lua["update"] = sol::nil;
             lua["on_collision"] = sol::nil;
-            lua.script_file("./assets/scripts/trembling.lua");
+            sol::load_result loaded_script;
+            if(tag == "moveV"){
+                loaded_script = lua.load_file("./assets/scripts/moveV.lua");
+            }
+
+             if(tag == "moveH"){
+                loaded_script = lua.load_file("./assets/scripts/moveH.lua");
+            }
+            
+             if (tag == "trembling") {
+                loaded_script = lua.load_file("./assets/scripts/trembling.lua");
+            }
+
+            if (!loaded_script.valid()) {
+                sol::error err = loaded_script;
+                std::cerr << "Error al cargar el script para tag " << tag << ": " << err.what() << std::endl;
+                return;
+            }
+            sol::protected_function_result result = loaded_script();
+            if (!result.valid()) {
+                sol::error err = result;
+                std::cerr << "Error al ejecutar el script: " << err.what() << std::endl;
+                return;
+            }
+
+          
             collider.AddComponent<TagComponent>(tag);
             collider.AddComponent<TransformComponent>(glm::vec2(x,y));
             collider.AddComponent<BoxColliderComponent>(w,h);

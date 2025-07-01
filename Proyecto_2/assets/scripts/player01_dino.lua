@@ -15,6 +15,8 @@ player_speed = 3.0 * 64.0
 
 
 prev_jump = false
+checkpoint_position = { x = 50.0, y = 100.0 }
+check = false;
 
 function update()
     local x_vel, y_vel = get_velocity(this)
@@ -43,6 +45,13 @@ end
 
 function on_collision(other)
     --Aplicar efectos
+    if get_tag(other) == "check" then
+        local x, y = get_position(this)
+        checkpoint_position.x = x
+        checkpoint_position.y = y
+        check = true;
+    end
+
     if get_tag(other) == "floor" or get_tag(other) == "trembling"  then
         local x_vel, y_vel = get_velocity(this)
         if y_vel == 0 then
@@ -69,7 +78,12 @@ function on_collision(other)
     end
     -- Muerto
     if get_tag(other) == "damage"  then
-            go_to_scene("level_02")      
+        if check then
+            set_position(this, checkpoint_position.x, checkpoint_position.y)
+            set_velocity(this, 0.0, 0.0)
+        else
+            go_to_scene("level_02") 
+        end      
     end
 
     -- Gane
