@@ -10,7 +10,10 @@ scene = {
        {assetId = "sky", filePath = "./assets/images/sky_.png"},
        {assetId = "player01_dino_idle", filePath = "./assets/images/player01_dino_idle.png"},
        {assetId = "player01_dino_run", filePath = "./assets/images/player01_dino_run.png"},
-       {assetId = "enemy01_idle", filePath = "./assets/images/enemy01_idle.png"},
+       {assetId = "enemy01", filePath = "./assets/images/enemy01.png"},
+       {assetId = "enemy02", filePath = "./assets/images/enemy02.png"},
+       {assetId = "enemy03", filePath = "./assets/images/enemy03.png"},
+       {assetId = "enemy04", filePath = "./assets/images/enemy04.png"},
             {assetId = "arrow01", filePath = "./assets/images/arrow01.png"},
 
       },
@@ -84,7 +87,49 @@ scene = {
     --Tabla de entidades
     entities = {
       [0] = 
+-- Timer
+{
+  components = {
+      script={
+          path = "./assets/scripts/timer.lua",
+      },
+      text = {
+          text = "0",
+          fontId = "press_start_24",
+          r = 0,
+          g = 0,
+          b = 0,
+          a = 0,
+          isStatic = true
+      },
+      transform = {
+          position = { x = 125.0, y = 5.0},
+          scale = { x = 1.0, y = 1.0},
+          rotation = 0.0
 
+      }
+  }
+}, 
+ -- Time Text
+ {
+  components = {
+      text = {
+          text = "TIME:  ",
+          fontId = "press_start_24",
+          r = 0,
+          g = 0,
+          b = 0,
+          a = 0,
+          isStatic = true
+      },
+      transform = {
+          position = { x = 5.0, y = 5.0},
+          scale = { x = 1.0, y = 1.0},
+          rotation = 0.0
+
+      }
+  }
+}, 
 
       { -- PLAYER
        components = {

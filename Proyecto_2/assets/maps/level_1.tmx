@@ -335,7 +335,7 @@
   <object id="228" name="floor" x="10096" y="464" width="16" height="32"/>
   <object id="229" name="floor" x="10112" y="448" width="16" height="16"/>
   <object id="230" name="wall" x="10128" y="432" width="16" height="16"/>
-  <object id="231" name="enemy01" x="256" y="416" width="28" height="32"/>
+  <object id="231" name="enemy01" x="256" y="416" width="32" height="32"/>
   <object id="232" name="win" x="14240" y="384" width="16" height="16"/>
   <object id="233" name="bounce" x="12944" y="480" width="16" height="16"/>
   <object id="234" name="bounce" x="13056" y="480" width="16" height="16"/>
@@ -355,47 +355,47 @@
   <object id="252" name="floor" x="7616" y="688" width="16" height="16"/>
   <object id="253" name="floor" x="7712" y="624" width="16" height="16"/>
   <object id="254" name="enemy02" x="608" y="352" width="28" height="32"/>
-  <object id="255" name="enemy03" x="1120" y="144" width="28" height="32"/>
+  <object id="255" name="enemy03" x="1120" y="144" width="32" height="32"/>
   <object id="257" name="enemy02" x="1120" y="208" width="28" height="32"/>
-  <object id="258" name="enemy04" x="1120" y="272" width="28" height="32"/>
-  <object id="259" name="enemy01" x="1344" y="336" width="28" height="32"/>
-  <object id="260" name="enemy03" x="1632" y="208" width="28" height="32"/>
-  <object id="261" name="enemy04" x="2096" y="512" width="28" height="32"/>
-  <object id="262" name="enemy04" x="2416" y="528" width="28" height="32"/>
+  <object id="258" name="enemy04" x="1120" y="272" width="32" height="32"/>
+  <object id="259" name="enemy01" x="1344" y="336" width="32" height="32"/>
+  <object id="260" name="enemy03" x="1632" y="208" width="32" height="32"/>
+  <object id="261" name="enemy04" x="2096" y="512" width="32" height="32"/>
+  <object id="262" name="enemy04" x="2416" y="528" width="32" height="32"/>
   <object id="263" name="enemy02" x="3056" y="304" width="28" height="32"/>
   <object id="264" name="check" x="3056" y="448" width="16" height="16"/>
-  <object id="265" name="enemy01" x="2960" y="432" width="28" height="32"/>
-  <object id="268" name="enemy04" x="3504" y="400" width="28" height="32"/>
-  <object id="269" name="enemy03" x="4192" y="416" width="28" height="32"/>
+  <object id="265" name="enemy01" x="2960" y="432" width="32" height="32"/>
+  <object id="268" name="enemy04" x="3504" y="400" width="32" height="32"/>
+  <object id="269" name="enemy03" x="4192" y="416" width="32" height="32"/>
   <object id="270" name="enemy02" x="4016" y="480" width="28" height="32"/>
   <object id="272" name="enemy02" x="4896" y="304" width="28" height="32"/>
-  <object id="273" name="enemy03" x="5088" y="448" width="28" height="32"/>
-  <object id="274" name="enemy03" x="5280" y="448" width="28" height="32"/>
+  <object id="273" name="enemy03" x="5088" y="448" width="32" height="32"/>
+  <object id="274" name="enemy03" x="5280" y="448" width="32" height="32"/>
   <object id="276" name="enemy02" x="5760" y="320" width="28" height="32"/>
-  <object id="277" name="enemy01" x="5760" y="256" width="28" height="32"/>
-  <object id="279" name="enemy01" x="6080" y="448" width="28" height="32"/>
-  <object id="280" name="enemy01" x="6160" y="448" width="28" height="32"/>
+  <object id="277" name="enemy01" x="5760" y="256" width="32" height="32"/>
+  <object id="279" name="enemy01" x="6080" y="448" width="32" height="32"/>
+  <object id="280" name="enemy01" x="6160" y="448" width="32" height="32"/>
   <object id="281" name="check" x="6272" y="464" width="16" height="16"/>
   <object id="282" name="enemy02" x="6544" y="720" width="28" height="32"/>
   <object id="283" name="enemy02" x="6768" y="720" width="28" height="32"/>
   <object id="285" name="enemy02" x="7984" y="512" width="28" height="32"/>
   <object id="286" name="enemy02" x="7840" y="544" width="28" height="32"/>
-  <object id="287" name="enemy03" x="8304" y="480" width="28" height="32"/>
-  <object id="288" name="enemy03" x="8672" y="480" width="28" height="32"/>
-  <object id="289" name="enemy01" x="9232" y="384" width="28" height="32"/>
-  <object id="290" name="enemy01" x="9520" y="464" width="28" height="32"/>
-  <object id="291" name="enemy03" x="9840" y="464" width="28" height="32"/>
-  <object id="292" name="enemy04" x="9920" y="464" width="28" height="32"/>
+  <object id="287" name="enemy03" x="8304" y="480" width="32" height="32"/>
+  <object id="288" name="enemy03" x="8672" y="480" width="32" height="32"/>
+  <object id="289" name="enemy01" x="9232" y="384" width="32" height="32"/>
+  <object id="290" name="enemy01" x="9520" y="464" width="32" height="32"/>
+  <object id="291" name="enemy03" x="9840" y="464" width="32" height="32"/>
+  <object id="292" name="enemy04" x="9920" y="464" width="32" height="32"/>
   <object id="293" name="enemy02" x="10368" y="320" width="28" height="32"/>
-  <object id="294" name="enemy01" x="10208" y="384" width="28" height="32"/>
-  <object id="295" name="enemy01" x="10672" y="448" width="28" height="32"/>
-  <object id="296" name="enemy03" x="10736" y="448" width="28" height="32"/>
-  <object id="297" name="enemy01" x="10800" y="448" width="28" height="32"/>
+  <object id="294" name="enemy01" x="10208" y="384" width="32" height="32"/>
+  <object id="295" name="enemy01" x="10672" y="448" width="32" height="32"/>
+  <object id="296" name="enemy03" x="10736" y="448" width="32" height="32"/>
+  <object id="297" name="enemy01" x="10800" y="448" width="32" height="32"/>
   <object id="300" name="enemy02" x="11360" y="480" width="28" height="32"/>
-  <object id="301" name="enemy03" x="11600" y="528" width="28" height="32"/>
-  <object id="302" name="enemy01" x="12064" y="432" width="28" height="32"/>
-  <object id="303" name="enemy04" x="12256" y="368" width="28" height="32"/>
-  <object id="304" name="enemy01" x="12704" y="432" width="28" height="32"/>
+  <object id="301" name="enemy03" x="11600" y="528" width="32" height="32"/>
+  <object id="302" name="enemy01" x="12064" y="432" width="32" height="32"/>
+  <object id="303" name="enemy04" x="12256" y="368" width="32" height="32"/>
+  <object id="304" name="enemy01" x="12704" y="432" width="32" height="32"/>
   <object id="305" name="enemy02" x="13344" y="416" width="28" height="32"/>
   <object id="306" name="enemy02" x="13840" y="400" width="28" height="32"/>
  </objectgroup>

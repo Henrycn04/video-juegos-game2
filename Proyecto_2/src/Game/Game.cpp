@@ -17,6 +17,7 @@
 #include "../Systems/CameraMovmentSystem.hpp"
 #include "../Systems/PhysicsSystem.hpp"
 #include "../Systems/OverlapSystem.hpp"
+#include "../Systems/SceneTimeSystem.hpp"
 
 Game::Game(){
     std::cout<< "[Game] Se ejecuta constructor" << std::endl;
@@ -103,6 +104,7 @@ void Game:: Setup(){
     registry->AddSystem<CameraMovmentSystem>();
     registry->AddSystem<PhysicsSystem>();
     registry->AddSystem<OverlapSystem>();
+        registry->AddSystem<SceneTimeSystem>();
 
     sceneManager->LoadSceneFromScript("./assets/scripts/scenes.lua", lua);
 
@@ -177,7 +179,8 @@ void Game::Update(){
     registry->GetSystem<UISystem>().SubscribeToClickEvent(eventManager);
     
     registry->Update();
-
+    
+    registry->GetSystem<SceneTimeSystem>().Update();
     registry->GetSystem<ScriptSystem>().Update(lua);
 
     registry->GetSystem<PhysicsSystem>().Update();

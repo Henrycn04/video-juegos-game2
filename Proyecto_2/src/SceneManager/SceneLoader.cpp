@@ -435,11 +435,11 @@ void SceneLoader::LoadColliders(sol::state& lua, std::unique_ptr<Registry>& regi
             collider.AddComponent<TransformComponent>(glm::vec2(x,y));
             collider.AddComponent<BoxColliderComponent>(w,h);
             collider.AddComponent<RigidBodyComponent>(true, true, true, false, 10.0f);
-            collider.AddComponent<AnimationComponent>(15, 10, true);
+            collider.AddComponent<AnimationComponent>(8, 15, true);
             collider.AddComponent<SpriteComponent>(
-                "enemy01_idle",
+                "enemy01",
                 w, h,
-                0, 0 // src rect (x, y) as 0, 0
+                0, 32 // src rect (x, y) as 0, 0
             );
             collider.AddComponent<HealthComponent>(true, false, 1, 1, 0); 
             
@@ -484,7 +484,7 @@ void SceneLoader::LoadColliders(sol::state& lua, std::unique_ptr<Registry>& regi
             collider.AddComponent<RigidBodyComponent>(true, true, true, false, 10.0f);
             collider.AddComponent<AnimationComponent>(15, 15, true); // 2 frames, 0.1s per frame, loop
             collider.AddComponent<SpriteComponent>(
-                "enemy01_idle", // Asumiendo que tienes un sprite llamado "enemy01"
+                "enemy02", // Asumiendo que tienes un sprite llamado "enemy01"
                 w, h,
                 0, 0 // src rect (x, y) as 0, 0
             );
@@ -529,9 +529,9 @@ void SceneLoader::LoadColliders(sol::state& lua, std::unique_ptr<Registry>& regi
             collider.AddComponent<TransformComponent>(glm::vec2(x,y));
             collider.AddComponent<BoxColliderComponent>(w,h);
             collider.AddComponent<RigidBodyComponent>(true, true, true, false, 20.0f);
-            collider.AddComponent<AnimationComponent>(15, 15, true); // 2 frames, 0.1s per frame, loop
+            collider.AddComponent<AnimationComponent>(4, 15, true); // 2 frames, 0.1s per frame, loop
             collider.AddComponent<SpriteComponent>(
-                "enemy01_idle", // Asumiendo que tienes un sprite llamado "enemy01"
+                "enemy03", // Asumiendo que tienes un sprite llamado "enemy01"
                 w, h,
                 0, 0 // src rect (x, y) as 0, 0
             );
@@ -574,12 +574,12 @@ void SceneLoader::LoadColliders(sol::state& lua, std::unique_ptr<Registry>& regi
         
         } else if (tag == "enemy04") {
             collider.AddComponent<TagComponent>(tag);
-            collider.AddComponent<TransformComponent>(glm::vec2(x,y));
+           collider.AddComponent<TransformComponent>(glm::vec2(x,y));
             collider.AddComponent<BoxColliderComponent>(w,h);
             collider.AddComponent<RigidBodyComponent>(false, true, true, false, 10.0f);
-            collider.AddComponent<AnimationComponent>(15, 15, true); // 2 frames, 0.1s per frame, loop
+            collider.AddComponent<AnimationComponent>(4, 15, true); // 2 frames, 0.1s per frame, loop
             collider.AddComponent<SpriteComponent>(
-                "enemy01_idle", // Asumiendo que tienes un sprite llamado "enemy01"
+                "enemy04", // Asumiendo que tienes un sprite llamado "enemy01"
                 w, h,
                 0, 0 // src rect (x, y) as 0, 0
             );

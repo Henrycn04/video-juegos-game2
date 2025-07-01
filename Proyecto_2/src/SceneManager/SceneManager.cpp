@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include "../Game/Game.hpp"
+#include "../Systems/SceneTimeSystem.hpp"
  
 SceneManager::SceneManager(){
     std::cout<< "[SceneManager] Se ejecuta constructor" << std::endl;
@@ -49,6 +50,8 @@ std::string SceneManager::GetNextScene() const{
 
 void SceneManager::SetNextScene(const std::string& nextScene){
     this->nextScene = nextScene;
+      Game& game = Game::GetInstance();
+    game.registry->GetSystem<SceneTimeSystem>().Reset();
 }
  
 bool SceneManager::IsSceneRunning() const{

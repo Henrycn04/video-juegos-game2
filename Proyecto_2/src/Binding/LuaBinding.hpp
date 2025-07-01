@@ -15,6 +15,7 @@
 #include "../Components/HealthComponent.hpp"
 #include "../ECS/ECS.hpp"
 #include "../Game/Game.hpp"
+#include "../Systems/SceneTimeSystem.hpp"
 
 
 int GetTicks(){
@@ -324,6 +325,38 @@ void GoToScene(const std::string& sceneName){
 
 int GetId(Entity entity){
     return entity.GetId();
+}
+
+//Time
+
+
+/**
+ * @brief Gets the delta time of the current scene from SceneTimeSystem.
+ * @return Delta time in milliseconds.
+ */
+int GetDeltaTime(){
+    int time = Game::GetInstance().registry->GetSystem<SceneTimeSystem>().GetDeltaTime();
+    return time;
+}
+
+/**
+ * @brief Gets the total scene time from SceneTimeSystem.
+ * @return Scene time in milliseconds.
+ */
+int GetTime(){
+    int time = Game::GetInstance().registry->GetSystem<SceneTimeSystem>().GetSceneTime();
+    return time;
+}
+
+/**
+ * @brief Sets a timer text value in a TextComponent from the given time.
+ * @param entity The target entity.
+ * @param newTime New time value in milliseconds.
+ */
+void SetTimer(Entity entity, int newTime){
+    std::string timer = std::to_string(newTime / 1000);
+    entity.GetComponent<TextComponent>().text = timer;
+    
 }
 
 

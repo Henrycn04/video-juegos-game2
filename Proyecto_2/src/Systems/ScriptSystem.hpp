@@ -41,6 +41,9 @@ class ScriptSystem : public System {
     lua.set_function("top_collision", TopCollision);
     lua.set_function("bottom_collision", BottomCollision);
     lua.set_function("deactivate_collisions", DeactivateCollisions);
+     lua.set_function("get_delta_time", GetDeltaTime);
+    lua.set_function("get_time", GetTime);
+    lua.set_function("set_timer", SetTimer);
   }
 
 
