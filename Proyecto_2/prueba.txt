@@ -1,0 +1,15 @@
+Urgentes:
+-Buscar sprites para los 3 tipos de enemigos restantes (arquero, saltarin y volador) // JM
+-Meter sistema de tiempo (determinar tiempo para cada nivel) // JM
+-Meter muerte de jugadores (pantalla de muerte y de gane), enemigos y flechas // H
+-Sistema de puntuacion // H
+-Menu inicial // JM
+
+Arreglos:
+-Voltear enemigos dependiendo de direcciones (cambio en el if de rebote del eje X) // H
+-Mover enemigos para que el movimiento se de en la plataforma bien // H
+
+Si da tiempo:
+-Visualizacion de vidas
+-Monedas
+-Que vean al jugador los arqueros
