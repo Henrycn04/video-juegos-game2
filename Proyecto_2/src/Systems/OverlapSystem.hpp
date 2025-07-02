@@ -86,7 +86,45 @@ private:
             }
         }
     }
+void AvoidOverlapPlatform(Entity platform, Entity passenger) {
+    auto& platformTransform = platform.GetComponent<TransformComponent>();
+    auto& passengerTransform = passenger.GetComponent<TransformComponent>();
+    auto& platformBox = platform.GetComponent<BoxColliderComponent>();
+    auto& passengerBox = passenger.GetComponent<BoxColliderComponent>();
+    auto& platformRigidBody = platform.GetComponent<RigidBodyComponent>();
+    auto& passengerRigidBody = passenger.GetComponent<RigidBodyComponent>();
 
+    float platformLeft = platformTransform.position.x;
+    float platformRight = platformTransform.position.x + platformBox.width * platformTransform.scale.x;
+    float platformTop = platformTransform.position.y;
+    float platformBottom = platformTransform.position.y + platformBox.height * platformTransform.scale.y;
+
+    float passengerLeft = passengerTransform.position.x;
+    float passengerRight = passengerTransform.position.x + passengerBox.width * passengerTransform.scale.x;
+    float passengerTop = passengerTransform.position.y;
+    float passengerBottom = passengerTransform.position.y + passengerBox.height * passengerTransform.scale.y;
+
+    // Verificar si el passenger está realmente solapando la parte superior de la plataforma
+    bool xOverlap = (passengerRight > platformLeft) && (passengerLeft < platformRight);
+    bool yOverlap = (passengerBottom > platformTop) && (passengerTop < platformTop);
+
+    // Solo si viene cayendo hacia la plataforma
+    bool fallingOntoPlatform = passengerRigidBody.velocity.y >= 0;
+
+    if (xOverlap && yOverlap && fallingOntoPlatform) {
+        // Ajustar posición justo encima de la plataforma
+        passengerTransform.position.y = platformTop - passengerBox.height * passengerTransform.scale.y;
+
+        // Transferir el movimiento vertical de la plataforma al pasajero
+        passengerTransform.position.y += platformRigidBody.velocity.y;
+
+
+        // Resetear velocidad vertical del pasajero si está cayendo
+        if (passengerRigidBody.velocity.y > 0) {
+            passengerRigidBody.velocity.y = 0;
+        }
+    }
+}
 public:
     OverlapSystem() {
         RequireComponent<TransformComponent>();
@@ -103,13 +141,27 @@ public:
         auto& bRigidBody = e.b.GetComponent<RigidBodyComponent>();
 
         bool isPlayerEnemyCollision = (aRigidBody.isPlayer && bRigidBody.isEnemy) || (aRigidBody.isEnemy && bRigidBody.isPlayer);
-
-        if (aRigidBody.isSolid && bRigidBody.isSolid && !isPlayerEnemyCollision && !aRigidBody.isInvulnerable && !bRigidBody.isInvulnerable) {
-            if (aRigidBody.mass >= bRigidBody.mass) {
-                AvoidOverlap(e.a, e.b);
-            } else {
-                AvoidOverlap(e.b, e.a);
+        bool isEnemyEnemyCollision = (aRigidBody.isEnemy && bRigidBody.isEnemy);
+        bool isPlatformPlatformCollision = (e.a.GetComponent<TagComponent>().tag == "moveV" && e.b.GetComponent<TagComponent>().tag == "moveV") ||
+                                           (e.a.GetComponent<TagComponent>().tag == "moveH" && e.b.GetComponent<TagComponent>().tag == "moveH") ||
+                                           (e.a.GetComponent<TagComponent>().tag == "moveV" && e.b.GetComponent<TagComponent>().tag == "moveH") ||
+                                           (e.a.GetComponent<TagComponent>().tag == "moveH" && e.b.GetComponent<TagComponent>().tag == "moveV");
+        if (aRigidBody.isSolid && bRigidBody.isSolid && !isPlayerEnemyCollision && !isEnemyEnemyCollision && !isPlatformPlatformCollision && !aRigidBody.isInvulnerable && !bRigidBody.isInvulnerable) {
+            if (e.a.GetComponent<TagComponent>().tag == "moveV" || e.b.GetComponent<TagComponent>().tag == "moveV" ||
+                e.a.GetComponent<TagComponent>().tag == "moveH" || e.b.GetComponent<TagComponent>().tag == "moveH") {
+                if (aRigidBody.mass >= bRigidBody.mass) {
+                    AvoidOverlapPlatform(e.a, e.b);
+                } else {
+                    AvoidOverlapPlatform(e.b, e.a);
+                }
+            }else {
+                if (aRigidBody.mass >= bRigidBody.mass) {
+                    AvoidOverlap(e.a, e.b);
+                } else {
+                    AvoidOverlap(e.b, e.a);
+                }
             }
+
         }
     }
 };

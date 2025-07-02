@@ -1,17 +1,17 @@
 
-timer = 0
-dir = -1
+timerV = 0
+dirV = -1
 function update()
 
 
-    timer = timer + 1
+    timerV = timerV + 1
 
-    if timer<= 100000 then
+    if timerV<= 2000 then
         local x, y = get_position(this)
-        set_position(this, x, y + dir)
+        set_position(this, x, y + dirV)
     else
-        timer = 0
-        dir = -dir
+        timerV = 0
+        dirV = -dirV
     end
 
 end

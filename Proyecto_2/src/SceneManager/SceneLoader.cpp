@@ -341,16 +341,25 @@ void SceneLoader::LoadLayer(std::unique_ptr<Registry>& registry,
 
 void SceneLoader::LoadColliders(sol::state& lua, std::unique_ptr<Registry>& registry,
  tinyxml2::XMLElement* objectGroup){
+    
     tinyxml2::XMLElement* object = objectGroup->FirstChildElement("object");
     while(object != nullptr){
-        const char* name;
+        const char* name = nullptr;
         std::string tag;
         int x, y, w, h;
         int gid = 0; // inicializamos
 
         // Obtener la tag del objeto
         object->QueryStringAttribute("name", &name);
-        tag = name ? name : "";  // precaución si name es nullptr
+        if (name != nullptr) {
+            tag = name;
+        } else {
+            tag = "";  // precaución si name es nullptr
+        }
+
+
+
+
 
         // Obtener la posicion
         object->QueryIntAttribute("x", &x);
@@ -362,11 +371,9 @@ void SceneLoader::LoadColliders(sol::state& lua, std::unique_ptr<Registry>& regi
 
         // Obtener gid (si existe)
         object->QueryIntAttribute("gid", &gid);
-
         Entity collider = registry->CreateEntity();
         lua["this"] = collider;
         // Solo si tiene gid válido, agregar SpriteComponent
-
         if(gid > 0 && (tag == "trembling" || tag=="moveH" || tag=="moveV") ){
             lua["update"] = sol::nil;
             lua["on_collision"] = sol::nil;
@@ -642,6 +649,7 @@ void SceneLoader::LoadColliders(sol::state& lua, std::unique_ptr<Registry>& regi
 
 void  SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, 
   std::unique_ptr<Registry>& registry){
+    
     int index = 0;
     while (true){
         sol::optional<sol::table> hasEntity = entities [index];

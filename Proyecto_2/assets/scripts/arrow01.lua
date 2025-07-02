@@ -24,7 +24,7 @@ function on_collision(other)
             local this_vel_x, this_vel_y = get_velocity(this)
 
             -- Definir fuerza base de salto
-            local jump_force = 1500 * 64.0 * 8
+            local jump_force = -1500 * 64.0 * 8
 
             -- Aplicar salto a 'this' (el que fue pisado o interactuado)
             add_force(other, jump_force, 0)

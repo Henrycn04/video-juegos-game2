@@ -56,7 +56,7 @@ function on_collision(other)
         check = true;
     end
 
-    if get_tag(other) == "floor" or get_tag(other) == "trembling"  then
+    if get_tag(other) == "floor" or get_tag(other) == "trembling" or get_tag(other) == "moveV"  or get_tag(other) == "moveH"   then
         local x_vel, y_vel = get_velocity(this)
         if y_vel == 0 then
             player_can_jump = true 
