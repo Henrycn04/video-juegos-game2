@@ -11,7 +11,10 @@ scene = {
         {assetId = "sky", filePath = "./assets/images/sky_.png"},
         {assetId = "player01_dino_idle", filePath = "./assets/images/player01_dino_idle.png"},
         {assetId = "player01_dino_run", filePath = "./assets/images/player01_dino_run.png"},
-        {assetId = "enemy01_idle", filePath = "./assets/images/enemy01_idle.png"},
+        {assetId = "enemy01", filePath = "./assets/images/enemy01.png"},
+        {assetId = "enemy02", filePath = "./assets/images/enemy02.png"},
+        {assetId = "enemy03", filePath = "./assets/images/enemy03.png"},
+        {assetId = "enemy04", filePath = "./assets/images/enemy04.png"},
         {assetId = "arrow01", filePath = "./assets/images/arrow01.png"},
 
     },

@@ -58,8 +58,10 @@ void SceneLoader::LoadScene(const std::string& scenePath, sol::state& lua
   sol::table buttons = scene["buttons"];
   LoadButtons(buttons, controllerManager);
 
-  sol::table maps = scene["maps"];
-  LoadMap(lua, maps, registry);
+ sol::optional<sol::table> maybe_maps = scene["maps"];
+    if (maybe_maps) {
+        LoadMap(lua, maybe_maps.value(), registry);
+    }
 
   sol::table entities = scene["entities"];
   LoadEntities(lua, entities, registry);

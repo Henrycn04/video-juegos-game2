@@ -1,23 +1,22 @@
 scene = {
     --Tabla de imagenes y sprites
     sprites = {
-       [0]=
-       {assetId = "terrain", filePath = "./assets/images/Terrain.png"},
-       {assetId = "background", filePath = "./assets/images/background_.png"},
-       {assetId = "ground", filePath = "./assets/images/midground_.png"},
-       {assetId = "objects", filePath = "./assets/images/objects_.png"},
-       {assetId = "objects1", filePath = "./assets/images/objects1_.png"},
-       {assetId = "sky", filePath = "./assets/images/sky_.png"},
-       {assetId = "player01_dino_idle", filePath = "./assets/images/player01_dino_idle.png"},
-       {assetId = "player01_dino_run", filePath = "./assets/images/player01_dino_run.png"},
-       {assetId = "enemy01", filePath = "./assets/images/enemy01.png"},
-       {assetId = "enemy02", filePath = "./assets/images/enemy02.png"},
-       {assetId = "enemy03", filePath = "./assets/images/enemy03.png"},
-       {assetId = "enemy04", filePath = "./assets/images/enemy04.png"},
-            {assetId = "arrow01", filePath = "./assets/images/arrow01.png"},
-
-      },
-   -- Tabla con info de animaciones
+        [0]=
+        {assetId = "terrain", filePath = "./assets/images/Terrain.png"},
+        {assetId = "background", filePath = "./assets/images/background_.png"},
+        {assetId = "ground", filePath = "./assets/images/midground_.png"},
+        {assetId = "objects", filePath = "./assets/images/objects_.png"},
+        {assetId = "objects1", filePath = "./assets/images/objects1_.png"},
+        {assetId = "sky", filePath = "./assets/images/sky_.png"},
+        {assetId = "player01_dino_idle", filePath = "./assets/images/player01_dino_idle.png"},
+        {assetId = "player01_dino_run", filePath = "./assets/images/player01_dino_run.png"},
+        {assetId = "enemy01", filePath = "./assets/images/enemy01.png"},
+        {assetId = "enemy02", filePath = "./assets/images/enemy02.png"},
+        {assetId = "enemy03", filePath = "./assets/images/enemy03.png"},
+        {assetId = "enemy04", filePath = "./assets/images/enemy04.png"},
+        {assetId = "arrow01", filePath = "./assets/images/arrow01.png"},
+ 
+       },
    -- Tabla con info de animaciones
    animations = {
     [0] = 
@@ -51,38 +50,15 @@ scene = {
     maps = {
         map_path = "./assets/maps/level_1.tmx",
         tilesets = {
-            [1] = {
-              tile_path = "assets/maps/ground.tsx",
-              tile_name = "ground",
-              firstgid = 1
-            },
-            [2] = {
-              tile_path = "assets/maps/terrain.tsx",
-              tile_name = "terrain",
-              firstgid = 71 -- según lo que diga el TMX
-            },
-            [3] = {
-                tile_path = "assets/maps/background.tsx",
-                tile_name = "background",
-                firstgid = 313  -- según lo que diga el TMX
-              },
-            [4] = {
-                tile_path = "assets/maps/objects.tsx",
-                tile_name = "objects",
-                firstgid = 393  -- según lo que diga el TMX
-              },
-            [5] = {
-                tile_path = "assets/maps/objects1.tsx",
-                tile_name = "objects1",
-                firstgid = 453  -- según lo que diga el TMX
-              },
-            [6] = {
-                tile_path = "assets/maps/sky.tsx",
-                tile_name = "sky",
-                firstgid = 541  -- según lo que diga el TMX
-              }
+          [1] = { tile_path = "assets/maps/background.tsx", tile_name = "background", firstgid = 1},
+          [2] = { tile_path = "assets/maps/ground.tsx", tile_name = "ground", firstgid = 81 },
+          [3] = { tile_path = "assets/maps/terrain.tsx", tile_name = "terrain", firstgid = 151 },
+          [4] = { tile_path = "assets/maps/objects1.tsx", tile_name = "objects1", firstgid = 393 },
+          [5] = { tile_path = "assets/maps/objects.tsx", tile_name = "objects", firstgid = 481 },
+    
         }
     },
+    
 
     --Tabla de entidades
     entities = {
@@ -195,3 +171,4 @@ scene = {
 
     }
   }
+
