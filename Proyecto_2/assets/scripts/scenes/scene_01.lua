@@ -87,25 +87,7 @@ scene = {
     --Tabla de entidades
     entities = {
       [0] = 
-{
-  components = {
-      text = {
-          text = "0",
-          fontId = "press_start_24",
-          r = 0,
-          g = 0,
-          b = 0,
-          a = 0,
-          isStatic = true
-      },
-      transform = {
-          position = { x = 325.0, y = 5.0},
-          scale = { x = 1.0, y = 1.0},
-          rotation = 0.0
 
-      }
-  }
-}, 
 -- Timer
 {
   components = {
@@ -152,6 +134,15 @@ scene = {
 
       { -- PLAYER
        components = {
+            text = {
+                text = "00000000",
+                fontId = "press_start_24",
+                r = 0,
+                g = 0,
+                b = 0,
+                a = 0,
+                isStatic = true
+            },
            animation = {
                num_frames = 4,
                speed_rate = 15,
@@ -190,7 +181,14 @@ scene = {
                scale = { x = 1.0, y = 1.0},
                rotation = 0.0
 
-           }
+           },
+           health = {
+                is_enemy = false,
+                is_player = true,
+                max_health = 3,
+                current_health = 3,
+                invincibility_time = 2.0,
+            },
        }
    },
 

@@ -110,6 +110,7 @@ function on_collision(other)
             
             -- Desactivar colisiones temporalmente
             deactivate_collisions(this)
+            add_points(this, other) -- Añadir puntos al jugador
         end
     end
     if other_tag == "damage"  then

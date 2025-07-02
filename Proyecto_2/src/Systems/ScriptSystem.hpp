@@ -45,6 +45,7 @@ class ScriptSystem : public System {
     lua.set_function("get_time", GetTime);
     lua.set_function("set_timer", SetTimer);
     lua.set_function("kill_entity", KillEntity);
+    lua.set_function("add_points", AddPoints);
   }
 
 

@@ -362,12 +362,23 @@ void SetTimer(Entity entity, int newTime){
     std::string timer = std::to_string(newTime / 1000);
     entity.GetComponent<TextComponent>().text = timer;
 }
+#include <iomanip>
+#include <sstream>
 
-void AddPoints(Entity enemy, Entity player, int points){
+void AddPoints(Entity enemy, Entity player){
     auto& health = enemy.GetComponent<HealthComponent>();
-    health.points;
-    // Buscar entidad del texto de puntos y sumarle 
+    auto& healthPlayer = player.GetComponent<HealthComponent>();
+
+    // Convertir a string con formato de 8 dígitos
+    int puntaje = healthPlayer.points += health.points;
+    std::ostringstream oss;
+    oss << std::setw(8) << std::setfill('0') << puntaje;
+
+    // Buscar entidad del texto de puntos y sumarle
+    auto& text = player.GetComponent<TextComponent>();
+    text.text = oss.str();
 }
+
 
 
 

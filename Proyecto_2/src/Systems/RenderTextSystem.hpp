@@ -9,6 +9,8 @@
 #include "../AssetManager/AssetManager.hpp"
 #include "../Components/TextComponent.hpp"
 #include "../Components/TransformComponent.hpp"
+#include "../Components/HealthComponent.hpp"
+#include "../Components/TagComponent.hpp"
 #include "../ECS/ECS.hpp"
 
 class RenderTextSystem : public System {
@@ -33,8 +35,20 @@ class RenderTextSystem : public System {
             SDL_FreeSurface(surface);
             
             SDL_Rect dstRect;
-            
-            if(text.isStatic){
+            bool puntaje = false;
+            if (entity.GetComponent<TagComponent>().tag == "player") {
+                puntaje = entity.GetComponent<HealthComponent>().isPlayer;
+            }
+
+            if (puntaje) {
+                // Texto para el jugador - Se muestra fijo en la pantalla (UI)
+                dstRect = {
+                    static_cast<int>(425.0),
+                    static_cast<int>(5.0),
+                    text.width * static_cast<int>(transform.scale.x),
+                    text.height * static_cast<int>(transform.scale.y)
+                };
+            } else if (text.isStatic) {
                 // Texto estático (UI) - No se ve afectado por la cámara
                 dstRect = {
                     static_cast<int>(transform.position.x),
@@ -51,6 +65,7 @@ class RenderTextSystem : public System {
                     text.height * static_cast<int>(transform.scale.y)
                 };
             }
+
             
             SDL_RenderCopy(renderer, texture, NULL, &dstRect);
             SDL_DestroyTexture(texture);
