@@ -665,6 +665,13 @@ void  SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities,
         if(hasComponents != sol::nullopt){
             sol::table components = entity["components"];
 
+            //* TagComponent
+            sol::optional<sol::table> hasTag = components["tag"];
+            if(hasTag != sol::nullopt){
+                std::string tag = components["tag"]["tag"];
+                newEntity.AddComponent<TagComponent>(tag);
+            }
+
             //* AnimationComponent
             sol::optional<sol::table>hasAnimation = 
             components["animation"];
@@ -725,6 +732,11 @@ void  SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities,
                     components["health"]["invincibility_time"]
                  
                 );
+                if(actualLife > 0){
+                    if(newEntity.HasComponent<TagComponent>()){
+                    if(newEntity.GetComponent<TagComponent>().tag == "player"){
+                        newEntity.GetComponent<HealthComponent>().health = actualLife;}}
+                }
             }       
 
             //* RigidbodyComponent
@@ -771,13 +783,6 @@ void  SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities,
                 );
             }
 
-            //* TagComponent
-            sol::optional<sol::table> hasTag = components["tag"];
-            if(hasTag != sol::nullopt){
-                std::string tag = components["tag"]["tag"];
-                newEntity.AddComponent<TagComponent>(tag);
-            }
-
             //* Transform Component
             sol::optional<sol::table>hasTransform = 
             components["transform"];
@@ -793,6 +798,14 @@ void  SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities,
                  ),
                  components["transform"]["rotation"]
                 );
+                 if(checkPosX != newEntity.GetComponent<TransformComponent>().position.x && newEntity.HasComponent<TagComponent>()){
+                    if(newEntity.GetComponent<TagComponent>().tag == "player" && actualLife != 0){
+                     newEntity.GetComponent<TransformComponent>().position.x = checkPosX;}
+                }
+                 if(checkPosY != newEntity.GetComponent<TransformComponent>().position.y && newEntity.HasComponent<TagComponent>()){
+                    if(newEntity.GetComponent<TagComponent>().tag == "player" && actualLife != 0){
+                        newEntity.GetComponent<TransformComponent>().position.y = checkPosY;}
+                }
             }
 
             //* ScriptComponent

@@ -269,6 +269,25 @@ void DoDamage(Entity self, Entity other){
     }
 }
 
+void SetCheckPosition(float posX, float posY){
+    Game::GetInstance().sceneManager->sceneLoader->checkPosX = posX;
+    Game::GetInstance().sceneManager->sceneLoader->checkPosY = posY;
+
+}
+
+void SetCurrentLife(int currentLife){
+    Game::GetInstance().sceneManager->sceneLoader->actualLife = currentLife;
+
+}
+
+void SetLifeText(Entity entity){
+    std::string life = std::to_string(Game::GetInstance().sceneManager->sceneLoader->actualLife);
+    if (life == "0"){
+        life = "3";
+    }
+    entity.GetComponent<TextComponent>().text = life;
+}
+
 int GetHealth(Entity self){
    auto& health = self.GetComponent<HealthComponent>();
    return health.health;

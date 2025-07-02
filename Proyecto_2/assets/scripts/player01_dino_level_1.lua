@@ -15,8 +15,7 @@ player_speed = 3.0 * 64.0
 
 
 prev_jump = false
-checkpoint_position = { x = 50.0, y = 100.0 }
-check = false;
+
 
 function update()
     local x_vel, y_vel = get_velocity(this)
@@ -42,20 +41,22 @@ function update()
     player_can_jump = false
 
     if get_health(this) == 0 or get_time() > 48000 then
+        set_check(0,0)  
+        set_current_life(0) 
         go_to_scene("menu")      
     end
 end
 
 
 function on_collision(other)
-    --Aplicar efectos
-    if get_tag(other) == "check" then
-        local x, y = get_position(this)
-        checkpoint_position.x = x
-        checkpoint_position.y = y
-        check = true;
+     -- check
+     if get_tag(other) == "check"  then
+        local x,y = get_position(other)
+        print(x)
+        print(y)
+        set_check(x+32,y-32)       
     end
-
+    
     if get_tag(other) == "floor" or get_tag(other) == "trembling" or get_tag(other) == "moveV"  or get_tag(other) == "moveH"   then
         local x_vel, y_vel = get_velocity(this)
         if y_vel == 0 then
@@ -76,18 +77,26 @@ function on_collision(other)
 
     end
     -- Enemigos
-    if get_tag(other) == "enemy01"  then
+    if get_tag(other) == "enemy01" or  get_tag(other) == "enemy02" or get_tag(other) == "enemy03" or  get_tag(other) == "enemy04" then
             
             do_damage(this, other) -- aplicar daño al jugador
+            set_current_life(get_health(this))  
     end
     -- Dano po caida
-    if get_tag(other) == "damage"  then  
-        go_to_scene("level_01")       
+    if get_tag(other) == "damage"  then 
+        do_damage(this, other)
+        set_current_life(get_health(this)) 
+        if get_health(this) == 0 then
+            go_to_scene("menu")
+        else  
+        go_to_scene("level_01")  
+        end   
     end
-
-    -- Gane
+    -- gane
     if get_tag(other) == "win"  then
-        go_to_scene("level_02")      
+        set_check(0,0)  
+        set_current_life(0) 
+        go_to_scene("level_02")    
     end
 end
 
@@ -123,28 +132,4 @@ function update_animation_state()
         end
     end
 
---[[
-    if take_damage  then
-        if player_state ~= player_states["idle"] then
-            player_state = player_states["idle"]
-            change_animation(this, "player01_dino_idle", 4)
-        end
-    end
-
-
-    -- caida
-    if y_vel >= 0.001 then
-        if player_state ~= player_states["fall"] then
-            player_state = player_states["fall"]
-            change_animation(this, "player01_dino_fall")
-        end
-    end
-
-    -- saltando
-    if y_vel <= -0.001 then
-        if player_state ~= player_states["jump"] then
-            player_state = player_states["jump"]
-            change_animation(this, "player01_dino_jump")
-        end
-    end ]]
 end

@@ -47,6 +47,9 @@ class ScriptSystem : public System {
     lua.set_function("kill_entity", KillEntity);
     lua.set_function("add_points", AddPoints);
     lua.set_function("get_health", GetHealth);
+    lua.set_function("set_check", SetCheckPosition);
+    lua.set_function("set_current_life", SetCurrentLife);
+    lua.set_function("set_life_text", SetLifeText);
   }
 
 

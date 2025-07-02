@@ -13,9 +13,9 @@ class SceneManager{
   std::map<std::string, std::string> scenes;
   std::string nextScene;
   bool isSceneRunning = false;
-  std::unique_ptr<SceneLoader> sceneLoader;
 
 public:
+std::unique_ptr<SceneLoader> sceneLoader;
  SceneManager();
  ~SceneManager();
 

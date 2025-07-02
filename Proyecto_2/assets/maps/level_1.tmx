@@ -420,7 +420,7 @@
   <object id="421" name="floor" x="11200" y="288" width="64" height="16"/>
   <object id="422" name="floor" x="11232" y="304" width="32" height="16"/>
   <object id="423" name="enemy02" x="800" y="304" width="28" height="32"/>
-  <object id="424" name="enemy01" x="480" y="352" width="32" height="3"/>
+  <object id="424" name="enemy01" x="480" y="352" width="32" height="30"/>
   <object id="425" name="enemy01" x="256" y="352" width="32" height="30"/>
   <object id="426" name="enemy01" x="704" y="352" width="32" height="30"/>
   <object id="427" name="enemy01" x="1376" y="464" width="32" height="30"/>

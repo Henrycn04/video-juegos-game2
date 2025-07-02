@@ -44,6 +44,9 @@ class SceneLoader {
   void LoadColliders(sol::state& lua, std::unique_ptr<Registry>& registry, tinyxml2::XMLElement* objectGroup);
 
   public:
+  float checkPosX = 0;
+  float checkPosY = 0;
+  int actualLife = 0;
   SceneLoader();
   ~SceneLoader();
   void LoadScene(const std::string& scenePath, sol::state& lua
