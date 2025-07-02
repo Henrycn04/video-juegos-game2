@@ -53,15 +53,23 @@ class ScriptSystem : public System {
   }
 
 
-  void Update(sol::state& lua){
-    for(auto entity : GetSystemEntities()){
+void Update(sol::state& lua) {
+    for (auto entity : GetSystemEntities()) {
         const auto& script = entity.GetComponent<ScriptComponent>();
 
-        if(script.update != sol::lua_nil){
+        if (script.update.valid() && script.update != sol::lua_nil) {
             lua["this"] = entity;
-            script.update();
-        }
+
+            sol::protected_function update_fn = script.update;
+            sol::protected_function_result result = update_fn();
+
+            if (!result.valid()) {
+                sol::error err = result;
+                std::cerr << "[Lua Error] " << err.what() << std::endl;
+                continue; 
+            }
+        } 
     }
-  }
+}
 };
 #endif

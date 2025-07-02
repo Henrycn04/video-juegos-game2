@@ -45,6 +45,7 @@ function update()
     if get_health(this) == 0 or get_time() > 500000 then
         set_check(0,0)  
         set_current_life(0) 
+        set_check(50,50) 
         go_to_scene("defeat1")      
     end
 
@@ -97,6 +98,7 @@ function on_collision(other)
         do_damage(this, other)
         set_current_life(get_health(this)) 
         if get_health(this) == 0 then
+            set_check(50,50) 
             go_to_scene("defeat1")
         else  
         go_to_scene("level_01")  
@@ -164,7 +166,5 @@ function update_animation_state()
     end
 
     x,y = get_position(this)
-    print(x)
-    print(y)
 
 end

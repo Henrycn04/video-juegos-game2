@@ -43,6 +43,7 @@ function update()
     player_can_jump = false
 
     if get_health(this) == 0 or get_time() > 500000 then 
+        set_check(50,50) 
         go_to_scene("defeat2")      
     end
 
@@ -95,6 +96,7 @@ function on_collision(other)
         do_damage(this, other)
         set_current_life(get_health(this)) 
         if get_health(this) == 0 then
+            set_check(50,50) 
             go_to_scene("defeat2")
         else
             go_to_scene("level_02")    

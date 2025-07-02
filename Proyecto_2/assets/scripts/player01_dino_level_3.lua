@@ -44,6 +44,7 @@ function update()
     player_can_jump = false
 
     if get_health(this) == 0 or get_time() > 500000 then 
+        set_check(50,50) 
         go_to_scene("defeat3")        
     end
 
@@ -56,6 +57,18 @@ function update()
             change_animation(this, "player01_dino_run")
         end
     end
+    local x, y = get_position(this)
+    --Todavia no funciona
+    if x < 0 then
+        x = 5    
+    end
+    if y < 0 then
+        y = 284    
+    end
+    set_position(this, x, y)
+
+    print(x)
+    print(y)
 end
 
 
@@ -95,6 +108,7 @@ function on_collision(other)
         do_damage(this, other)
         set_current_life(get_health(this)) 
         if get_health(this) == 0 then
+            set_check(50,50) 
             go_to_scene("defeat3")
         else   
         go_to_scene("level_03")  
