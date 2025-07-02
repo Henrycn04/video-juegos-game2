@@ -8,17 +8,24 @@ struct HealthComponent {
     int maxHealth;
     bool isPlayer;
     bool isEnemy;
+
+    int points;
     
     time_t lastDamageTaken;
     double invincibilityDuration; // duración de invencibilidad después de recibir daño
     
-    HealthComponent(bool isEnemy = false, bool isPlayer = false, int initialHealth = 1, int maximumHealth = 1, double invincibilityTime = 0.0) {
+    HealthComponent(bool isEnemy = false, bool isPlayer = false, int initialHealth = 1, int maximumHealth = 1, double invincibilityTime = 0.0, int initialPoints = 100) {
         this->isEnemy = isEnemy;
         this->isPlayer = isPlayer;
         health = initialHealth;
         maxHealth = maximumHealth;
         lastDamageTaken = 0;
         invincibilityDuration = invincibilityTime;
+        if (isEnemy) {
+            this->points = initialPoints;
+        } else if (isPlayer) {
+            this->points = 0;
+        }
     }
     
     bool IsAlive() const {

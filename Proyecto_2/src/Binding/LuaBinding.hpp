@@ -22,6 +22,9 @@ int GetTicks(){
     return SDL_GetTicks();
 }
 
+void KillEntity(Entity entity) {
+    entity.Kill();
+}
 
 void CreateArrow(Entity shooter) {
     
@@ -93,9 +96,17 @@ void CreateArrow(Entity shooter) {
     
     // RigidBody con velocidad aplicada
     arrow.AddComponent<RigidBodyComponent>(true, true, true, false, 2.0f);
-    auto& rigidbody = arrow.GetComponent<RigidBodyComponent>();
-    rigidbody.sumForces += glm::vec2(1500 * 64.0, vel_y);
 
+
+    // Direccion de disparo
+    auto& spriteShooter = shooter.GetComponent<SpriteComponent>();
+    int direccion = 1; 
+    if (spriteShooter.flip) { // a la derecha
+        direccion = -1; // Derecha
+        arrow.GetComponent<SpriteComponent>().flip = true; // Voltear sprite de la flecha
+    }
+    auto& rigidbody = arrow.GetComponent<RigidBodyComponent>();
+    rigidbody.sumForces += glm::vec2(direccion * 1500 * 64.0, vel_y);
 
 }
 //Controles
@@ -356,7 +367,12 @@ int GetTime(){
 void SetTimer(Entity entity, int newTime){
     std::string timer = std::to_string(newTime / 1000);
     entity.GetComponent<TextComponent>().text = timer;
-    
+}
+
+void AddPoints(Entity enemy, Entity player, int points){
+    auto& health = enemy.GetComponent<HealthComponent>();
+    health.points;
+    // Buscar entidad del texto de puntos y sumarle 
 }
 
 

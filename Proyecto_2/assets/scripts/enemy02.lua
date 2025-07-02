@@ -11,6 +11,7 @@ function on_awake()
         arrow_cooldown = 10000,
         is_not_dead_02 = true
     }
+    flip_sprite(this, true)
 end
 
 function update()
@@ -101,5 +102,9 @@ function on_collision(other)
             -- Desactivar colisiones temporalmente
             deactivate_collisions(this)
         end
+    end
+    if other_tag == "damage"  then
+        kill_entity(this)
+        print("Enemy02 killed")
     end
 end

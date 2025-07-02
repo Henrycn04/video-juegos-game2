@@ -87,6 +87,25 @@ scene = {
     --Tabla de entidades
     entities = {
       [0] = 
+{
+  components = {
+      text = {
+          text = "0",
+          fontId = "press_start_24",
+          r = 0,
+          g = 0,
+          b = 0,
+          a = 0,
+          isStatic = true
+      },
+      transform = {
+          position = { x = 325.0, y = 5.0},
+          scale = { x = 1.0, y = 1.0},
+          rotation = 0.0
+
+      }
+  }
+}, 
 -- Timer
 {
   components = {

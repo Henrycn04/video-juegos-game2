@@ -15,6 +15,7 @@ function on_awake()
         enemy03_direction = 1, -- 1 para derecha, -1 para izquierda
         is_not_dead_03 = true
     }
+    
 end
 
 function update()
@@ -43,6 +44,8 @@ function update()
     if t.enemy03_timer >= 80 then
         t.enemy03_timer = 0
         t.enemy03_direction = t.enemy03_direction * -1 -- Invertir dirección
+        flip_sprite(this, t.enemy03_direction == -1) -- Voltear sprite según la dirección
+
     end
     
     if t.enemy03_can_jump then
@@ -130,5 +133,9 @@ function on_collision(other)
             -- Desactivar colisiones temporalmente
             deactivate_collisions(this)
         end
+    end
+    if other_tag == "damage"  then
+        kill_entity(this)
+        print("Enemy03 killed")
     end
 end

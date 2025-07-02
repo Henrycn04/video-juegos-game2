@@ -9,7 +9,7 @@ Urgentes:
 -Menu inicial // JM // H Hacer imagen // Jumpasaur
 
 Arreglos:
--Voltear enemigos dependiendo de direcciones (cambio en el if de rebote del eje X) // H
+Listo -Voltear enemigos dependiendo de direcciones (cambio en el if de rebote del eje X) // H
 -Mover enemigos para que el movimiento se de en la plataforma bien // H
 
 Si da tiempo:

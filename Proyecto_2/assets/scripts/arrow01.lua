@@ -33,6 +33,11 @@ function on_collision(other)
             local other_vel_x, other_vel_y = get_velocity(other)
             -- Desactivar colisiones temporalmente
             deactivate_collisions(this)
+            kill_entity(this)
         end
+    end
+    if other_tag == "damage" or other_tag == "floor" or other_tag == "wall" 
+            or other_tag == "bounce" or other_tag == "trembling" or other_tag == "moveH" or other_tag == "moveV"  then
+        kill_entity(this)
     end
 end

@@ -37,6 +37,8 @@ function update()
     if t.enemy04_timer >= 120 then
         t.enemy04_timer = 0
         t.enemy04_direction = t.enemy04_direction * -1 -- Invertir dirección
+        flip_sprite(this, t.enemy04_direction == -1) -- Voltear sprite según la dirección
+        
     end
     
     x_vel = t.enemy04_player_speed * t.enemy04_direction
@@ -108,5 +110,9 @@ function on_collision(other)
             -- Desactivar colisiones temporalmente
             deactivate_collisions(this)
         end
+    end
+    if other_tag == "damage"  then
+        kill_entity(this)
+        print("Enemy04 killed")
     end
 end

@@ -39,6 +39,7 @@ function update()
     if t.enemy01_timer >= 20 then
         t.enemy01_timer = 0
         t.direction = t.direction * -1 -- Invertir dirección
+        flip_sprite(this, t.direction == -1) -- Voltear sprite según la dirección
     end
     
     x_vel = t.enemy01_player_speed * t.direction
@@ -110,5 +111,9 @@ function on_collision(other)
             -- Desactivar colisiones temporalmente
             deactivate_collisions(this)
         end
+    end
+    if other_tag == "damage"  then
+        kill_entity(this)
+        print("Enemy01 killed")
     end
 end
