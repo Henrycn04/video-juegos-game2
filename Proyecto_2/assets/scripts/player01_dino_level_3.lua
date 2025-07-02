@@ -41,7 +41,7 @@ function update()
     player_can_jump = false
 
     if get_health(this) == 0 or get_time() > 500000 then 
-        go_to_scene("menu")        
+        go_to_scene("defeat3")        
     end
 end
 
@@ -82,7 +82,7 @@ function on_collision(other)
         do_damage(this, other)
         set_current_life(get_health(this)) 
         if get_health(this) == 0 then
-            go_to_scene("menu")
+            go_to_scene("defeat3")
         else   
         go_to_scene("level_03")  
         end     
@@ -92,7 +92,7 @@ function on_collision(other)
     if get_tag(other) == "win"  then
         set_check(0,0)  
         set_current_life(0)  
-        go_to_scene("menu")      
+        go_to_scene("win3")      
     end
 end
 

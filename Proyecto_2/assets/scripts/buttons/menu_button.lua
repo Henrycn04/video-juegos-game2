@@ -1,3 +1,3 @@
 function on_click()
-    go_to_scene("main_menu")
+    go_to_scene("menu")
 end
