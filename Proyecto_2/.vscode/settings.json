@@ -75,6 +75,8 @@
         "variant": "cpp",
         "format": "cpp",
         "semaphore": "cpp",
-        "stdfloat": "cpp"
+        "stdfloat": "cpp",
+        "unordered_set": "cpp",
+        "text_encoding": "cpp"
     }
 }
