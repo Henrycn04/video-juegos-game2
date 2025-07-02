@@ -33,6 +33,9 @@ scene = {
 
 },
 
+music = {
+    [0] =  { musicId = "main", filePath = "./assets/audio/level3.mp3" }
+},
 --Tabla de acciones y teclas
 keys ={
    [0]=
@@ -182,8 +185,8 @@ maps = {
             health = {
                 is_enemy = false,
                 is_player = true,
-                max_health = 3,
-                current_health = 3,
+                max_health = 5,
+                current_health = 5,
                 invincibility_time = 2.0,
             },
         }
@@ -195,7 +198,7 @@ maps = {
             path = "./assets/scripts/lives.lua",
         },
         text = {
-            text = "3",
+            text = "5",
             fontId = "press_start_24",
             r = 0,
             g = 0,

@@ -40,7 +40,7 @@ function update()
     prev_jump = current_jump
     player_can_jump = false
 
-    if get_health(this) == 0 or get_time() > 48000 then
+    if get_health(this) == 0 or get_time() > 500000 then
         set_check(0,0)  
         set_current_life(0) 
         go_to_scene("menu")      

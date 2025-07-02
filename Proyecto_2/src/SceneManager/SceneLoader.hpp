@@ -42,7 +42,12 @@ class SceneLoader {
   void LoadLayer(std::unique_ptr<Registry>& registry,
     tinyxml2::XMLElement* layer, int mWidth);
   void LoadColliders(sol::state& lua, std::unique_ptr<Registry>& registry, tinyxml2::XMLElement* objectGroup);
-
+     /**
+     * @brief Loads music assets from Lua table into the AssetManager.
+     * @param musicTable Lua table containing music definitions.
+     * @param assetManager Unique pointer to the AssetManager instance.
+     */
+  void LoadMusic(const sol::table& musicTable, std::unique_ptr<AssetManager>& assetManager);
   public:
   float checkPosX = 0;
   float checkPosY = 0;

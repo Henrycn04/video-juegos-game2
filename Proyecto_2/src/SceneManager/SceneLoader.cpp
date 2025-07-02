@@ -52,6 +52,11 @@ void SceneLoader::LoadScene(const std::string& scenePath, sol::state& lua
   sol::table fonts = scene["fonts"];
   LoadFonts(fonts, assetManager);
 
+  sol::optional<sol::table> maybe_music = scene["music"];
+   if (maybe_music) {
+        LoadMusic(maybe_music.value(), assetManager);
+  }
+
   sol::table keys = scene["keys"];
   LoadKeys(keys, controllerManager);
 
@@ -110,6 +115,28 @@ void SceneLoader::LoadAnimations(const sol::table& animations
         animationManager->AddAnimation(animationId, textureId, width, height, numFrames, frameSpeedRate, isLoop);
 
         index++;
+    }
+}
+
+void SceneLoader::LoadMusic(const sol::table& musicTable, std::unique_ptr<AssetManager>& assetManager) {
+    int index = 0;
+    while (true) {
+        sol::optional<sol::table> hasMusic = musicTable[index];
+        if (hasMusic == sol::nullopt) {
+            break;
+        }
+
+        sol::table music = musicTable[index];
+        std::string musicId = music["musicId"];
+        std::string filePath = music["filePath"];
+
+        assetManager->LoadMusic(musicId, filePath);
+
+        index++;
+    }
+    if(index > 0){
+        std::cout<<"[SceneLoader] Se activa la musica de fondo"<<std::endl;
+        assetManager->PlayMusic(musicTable[0]["musicId"],-1);
     }
 }
 

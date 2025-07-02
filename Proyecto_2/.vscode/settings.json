@@ -78,5 +78,6 @@
         "stdfloat": "cpp",
         "unordered_set": "cpp",
         "text_encoding": "cpp"
-    }
+    },
+    "cmake.sourceDirectory": "/home/josemariocastrochanto/Escritorio/Videojuegos2/video-juegos-game2/Proyecto_2/libs/glm"
 }

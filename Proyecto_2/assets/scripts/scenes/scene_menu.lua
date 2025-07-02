@@ -14,6 +14,10 @@ scene = {
        {fontId = "press_start_50", filePath="./assets/fonts/press_start_2p.ttf", fontSize = 50},
 
     },
+
+    music = {
+        [0] =  { musicId = "menu", filePath = "./assets/audio/menu.mp3" }
+    },
    
     --Tabla de acciones y teclas
     keys ={

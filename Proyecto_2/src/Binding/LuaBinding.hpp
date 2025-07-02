@@ -283,7 +283,7 @@ void SetCurrentLife(int currentLife){
 void SetLifeText(Entity entity){
     std::string life = std::to_string(Game::GetInstance().sceneManager->sceneLoader->actualLife);
     if (life == "0"){
-        life = "3";
+        life = "5";
     }
     entity.GetComponent<TextComponent>().text = life;
 }

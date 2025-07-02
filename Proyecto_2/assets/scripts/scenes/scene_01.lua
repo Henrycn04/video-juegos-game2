@@ -32,6 +32,10 @@ scene = {
        {fontId = "press_start_32", filePath="./assets/fonts/press_start_2p.ttf", fontSize = 32},
 
     },
+
+    music = {
+        [0] =  { musicId = "main", filePath = "./assets/audio/level1.mp3" }
+    },
    
     --Tabla de acciones y teclas
     keys ={
@@ -115,7 +119,7 @@ scene = {
             path = "./assets/scripts/lives.lua",
         },
         text = {
-            text = "3",
+            text = "5",
             fontId = "press_start_24",
             r = 0,
             g = 0,
@@ -225,8 +229,8 @@ scene = {
            health = {
                 is_enemy = false,
                 is_player = true,
-                max_health = 3,
-                current_health = 3,
+                max_health = 5,
+                current_health = 5,
                 invincibility_time = 2.0,
             },
        }
