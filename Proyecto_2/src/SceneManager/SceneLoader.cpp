@@ -439,7 +439,7 @@ void SceneLoader::LoadColliders(sol::state& lua, std::unique_ptr<Registry>& regi
             collider.AddComponent<SpriteComponent>(
                 "enemy01",
                 w, h,
-                0, 32 // src rect (x, y) as 0, 0
+                0, 0 // src rect (x, y) as 0, 0
             );
             collider.AddComponent<HealthComponent>(true, false, 1, 1, 0); 
             
