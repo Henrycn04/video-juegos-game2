@@ -40,6 +40,10 @@ function update()
     update_animation_state()
     prev_jump = current_jump
     player_can_jump = false
+
+    if get_health(this) == 0 or get_time() > 48000 then
+        go_to_scene("menu")      
+    end
 end
 
 
@@ -76,14 +80,9 @@ function on_collision(other)
             
             do_damage(this, other) -- aplicar daño al jugador
     end
-    -- Muerto
-    if get_tag(other) == "damage"  then
-        if check then
-            set_position(this, checkpoint_position.x, checkpoint_position.y)
-            set_velocity(this, 0.0, 0.0)
-        else
-            go_to_scene("level_02") 
-        end      
+    -- Dano po caida
+    if get_tag(other) == "damage"  then  
+        go_to_scene("level_01")       
     end
 
     -- Gane

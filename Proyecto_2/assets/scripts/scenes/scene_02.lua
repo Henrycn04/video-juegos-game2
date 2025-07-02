@@ -86,25 +86,6 @@ scene = {
     --Tabla de entidades
     entities = {
       [0] = 
-{
-  components = {
-      text = {
-          text = "0",
-          fontId = "press_start_24",
-          r = 0,
-          g = 0,
-          b = 0,
-          a = 0,
-          isStatic = true
-      },
-      transform = {
-          position = { x = 325.0, y = 5.0},
-          scale = { x = 1.0, y = 1.0},
-          rotation = 0.0
-
-      }
-  }
-}, 
 -- Timer
 {
   components = {
@@ -148,9 +129,37 @@ scene = {
       }
   }
 }, 
-
+ -- Points Text
+ {
+    components = {
+        text = {
+            text = "POINTS:  ",
+            fontId = "press_start_24",
+            r = 0,
+            g = 0,
+            b = 0,
+            a = 0,
+            isStatic = true
+        },
+        transform = {
+            position = { x = 250.0, y = 5.0},
+            scale = { x = 1.0, y = 1.0},
+            rotation = 0.0
+  
+        }
+    }
+  }, 
       { -- PLAYER
        components = {
+        text = {
+            text = "00000000",
+            fontId = "press_start_24",
+            r = 0,
+            g = 0,
+            b = 0,
+            a = 0,
+            isStatic = true
+        },
            animation = {
                num_frames = 4,
                speed_rate = 15,
@@ -172,7 +181,7 @@ scene = {
 
            },
            script = {
-               path = "./assets/scripts/player01_dino.lua",
+               path = "./assets/scripts/player01_dino_level_2.lua",
            },
            sprite = {
                assetId = "player01_dino_idle",

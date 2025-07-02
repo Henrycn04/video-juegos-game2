@@ -268,6 +268,12 @@ void DoDamage(Entity self, Entity other){
         health.Damage(1);
     }
 }
+
+int GetHealth(Entity self){
+   auto& health = self.GetComponent<HealthComponent>();
+   return health.health;
+    
+}
 // RigidBodyComponent
 std::tuple<int, int> GetVelocity(Entity entity){
     const auto& rigidbody = entity.GetComponent<RigidBodyComponent>();

@@ -64,9 +64,82 @@ maps = {
     entities = {
        [0] = 
 
+-- Timer
+{
+  components = {
+      script={
+          path = "./assets/scripts/timer.lua",
+      },
+      text = {
+          text = "0",
+          fontId = "press_start_24",
+          r = 0,
+          g = 0,
+          b = 0,
+          a = 0,
+          isStatic = true
+      },
+      transform = {
+          position = { x = 125.0, y = 5.0},
+          scale = { x = 1.0, y = 1.0},
+          rotation = 0.0
+
+      }
+  }
+}, 
+ -- Time Text
+ {
+  components = {
+      text = {
+          text = "TIME:  ",
+          fontId = "press_start_24",
+          r = 0,
+          g = 0,
+          b = 0,
+          a = 0,
+          isStatic = true
+      },
+      transform = {
+          position = { x = 5.0, y = 5.0},
+          scale = { x = 1.0, y = 1.0},
+          rotation = 0.0
+
+      }
+  }
+}, 
+
+ -- Points Text
+ {
+    components = {
+        text = {
+            text = "POINTS:  ",
+            fontId = "press_start_24",
+            r = 0,
+            g = 0,
+            b = 0,
+            a = 0,
+            isStatic = true
+        },
+        transform = {
+            position = { x = 250.0, y = 5.0},
+            scale = { x = 1.0, y = 1.0},
+            rotation = 0.0
+  
+        }
+    }
+  }, 
 
        { -- PLAYER
         components = {
+            text = {
+                text = "00000000",
+                fontId = "press_start_24",
+                r = 0,
+                g = 0,
+                b = 0,
+                a = 0,
+                isStatic = true
+            },
             animation = {
                 num_frames = 4,
                 speed_rate = 15,
@@ -88,7 +161,7 @@ maps = {
 
             },
             script = {
-                path = "./assets/scripts/player01_dino.lua",
+                path = "./assets/scripts/player01_dino_level_3.lua",
             },
             sprite = {
                 assetId = "player01_dino_idle",

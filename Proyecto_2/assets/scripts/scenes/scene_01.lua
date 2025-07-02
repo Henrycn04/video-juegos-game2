@@ -107,6 +107,26 @@ scene = {
       }
   }
 }, 
+ -- Points Text
+ {
+    components = {
+        text = {
+            text = "POINTS:  ",
+            fontId = "press_start_24",
+            r = 0,
+            g = 0,
+            b = 0,
+            a = 0,
+            isStatic = true
+        },
+        transform = {
+            position = { x = 250.0, y = 5.0},
+            scale = { x = 1.0, y = 1.0},
+            rotation = 0.0
+  
+        }
+    }
+  }, 
 
       { -- PLAYER
        components = {
@@ -140,7 +160,7 @@ scene = {
 
            },
            script = {
-               path = "./assets/scripts/player01_dino.lua",
+               path = "./assets/scripts/player01_dino_level_1.lua",
            },
            sprite = {
                assetId = "player01_dino_idle",
