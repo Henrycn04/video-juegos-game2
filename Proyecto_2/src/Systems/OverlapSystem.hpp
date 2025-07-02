@@ -97,7 +97,7 @@ void AvoidOverlapPlatform(Entity platform, Entity passenger) {
     float platformLeft = platformTransform.position.x;
     float platformRight = platformTransform.position.x + platformBox.width * platformTransform.scale.x;
     float platformTop = platformTransform.position.y;
-    float platformBottom = platformTransform.position.y + platformBox.height * platformTransform.scale.y;
+
 
     float passengerLeft = passengerTransform.position.x;
     float passengerRight = passengerTransform.position.x + passengerBox.width * passengerTransform.scale.x;
@@ -168,9 +168,3 @@ public:
 
 #endif
 
-/*
-🔧 Ajuste clave:
-- Ya NO cancela velocity.y cuando un objeto sube y choca desde abajo, solo lo reposiciona.
-- Esto permite saltos naturales y evita que enemigos o jugadores queden pegados al techo.
-- Lógica estrictamente dentro de los atributos que compartiste.
-*/

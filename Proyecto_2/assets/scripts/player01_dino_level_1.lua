@@ -163,4 +163,8 @@ function update_animation_state()
         end
     end
 
+    x,y = get_position(this)
+    print(x)
+    print(y)
+
 end

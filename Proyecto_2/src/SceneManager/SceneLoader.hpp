@@ -49,8 +49,8 @@ class SceneLoader {
      */
   void LoadMusic(const sol::table& musicTable, std::unique_ptr<AssetManager>& assetManager);
   public:
-  float checkPosX = 0;
-  float checkPosY = 0;
+  float checkPosX = 32;
+  float checkPosY = 32;
   int actualLife = 0;
   SceneLoader();
   ~SceneLoader();
