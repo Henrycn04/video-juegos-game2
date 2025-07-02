@@ -29,30 +29,36 @@ class BoxCollisionSystem : public System {
 void Update(const std::unique_ptr<EventManager>& eventManager, sol::state& lua) {
     auto entities = GetSystemEntities();
 
-    for(auto i = entities.begin(); i != entities.end(); i++){
-        Entity a = *i;
-        const auto& aCollider = a.GetComponent<BoxColliderComponent>();
-        const auto& aTransform = a.GetComponent<TransformComponent>();
+for(auto i = entities.begin(); i != entities.end(); i++){
+    Entity a = *i;
+    const auto& aCollider = a.GetComponent<BoxColliderComponent>();
+    const auto& aTransform = a.GetComponent<TransformComponent>();
 
-        for(auto j = i; j != entities.end(); j++){
-            Entity b = *j;
+    for(auto j = i; j != entities.end(); j++){
+        Entity b = *j;
 
-            if(a == b){
-              continue;
-            }
-            const auto& bCollider = b.GetComponent<BoxColliderComponent>();
-            const auto& bTransform = b.GetComponent<TransformComponent>();
+        if(a == b){
+            continue;
+        }
+        const auto& bCollider = b.GetComponent<BoxColliderComponent>();
+        const auto& bTransform = b.GetComponent<TransformComponent>();
 
-            bool collision = CheckAABBCollision(
-                aTransform.position.x,
-                aTransform.position.y,
-                static_cast<float>(aCollider.width),
-                static_cast<float>(aCollider.height),
-                bTransform.position.x,
-                bTransform.position.y,
-                static_cast<float>(bCollider.width),
-                static_cast<float>(bCollider.height)
-            );
+        // Calcular ancho y alto con escala
+        float aWidth = static_cast<float>(aCollider.width) * aTransform.scale.x;
+        float aHeight = static_cast<float>(aCollider.height) * aTransform.scale.y;
+        float bWidth = static_cast<float>(bCollider.width) * bTransform.scale.x;
+        float bHeight = static_cast<float>(bCollider.height) * bTransform.scale.y;
+
+        bool collision = CheckAABBCollision(
+            aTransform.position.x,
+            aTransform.position.y,
+            aWidth,
+            aHeight,
+            bTransform.position.x,
+            bTransform.position.y,
+            bWidth,
+            bHeight
+        );
             if(collision){
                 eventManager->EmitEvent<CollisionEvent>(a, b);
                 if(a.HasComponent<ScriptComponent>()){

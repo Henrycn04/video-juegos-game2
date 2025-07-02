@@ -398,5 +398,7 @@
   <object id="304" name="enemy01" x="12704" y="432" width="32" height="30"/>
   <object id="305" name="enemy02" x="13344" y="416" width="28" height="32"/>
   <object id="306" name="enemy02" x="13840" y="400" width="28" height="32"/>
+  <object id="307" name="powerup" x="3056" y="448" width="16" height="16"/>
+  <object id="308" name="powerup" x="6272" y="464" width="16" height="16"/>
  </objectgroup>
 </map>

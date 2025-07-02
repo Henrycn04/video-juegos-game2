@@ -16,6 +16,9 @@ player_speed = 3.0 * 64.0
 
 prev_jump = false
 
+powerup_active = false
+powerup_timer = 0
+
 function update()
     local x_vel, y_vel = get_velocity(this)
     x_vel = 0
@@ -41,6 +44,16 @@ function update()
 
     if get_health(this) == 0 or get_time() > 500000 then 
         go_to_scene("defeat2")      
+    end
+
+    if powerup_active then
+        powerup_timer = powerup_timer + 1
+        if powerup_timer > 350 then
+            powerup_active = false
+            powerup_timer = 0
+            player_speed = 3.0 * 64.0
+            change_animation(this, "player01_dino_run")
+        end
     end
 end
 
@@ -94,17 +107,29 @@ function on_collision(other)
         set_current_life(0) 
         go_to_scene("win2")      
     end
+        -- powerup
+    if get_tag(other) == "powerup"  then
+        powerup_active = true
+        powerup_timer = 0
+        player_speed = 5.0 * 64.0
+        change_animation(this, "player01_dino_run_powerup")
+        kill_entity(other) 
+    end
 end
 
 function update_animation_state()
     local x_vel, y_vel = get_velocity(this)
 
 
-    -- no se mueve
+      -- no se mueve
     if -0.001 < x_vel and x_vel < 0.001 then
         if player_state ~= player_states["idle"] then
             player_state = player_states["idle"]
-            change_animation(this, "player01_dino_idle")
+            if powerup_active then
+                change_animation(this, "player01_dino_idle_powerup")
+            else
+                change_animation(this, "player01_dino_idle")
+            end
         end
     end
 
@@ -114,7 +139,11 @@ function update_animation_state()
         flip_sprite(this, false)
         if player_state ~= player_states["run"] then
             player_state = player_states["run"]
-            change_animation(this, "player01_dino_run")
+            if powerup_active then
+                change_animation(this, "player01_dino_run_powerup")
+            else
+                change_animation(this, "player01_dino_run")
+            end
         end
     end
 
@@ -124,7 +153,11 @@ function update_animation_state()
         flip_sprite(this, true)
         if player_state ~= player_states["run"] then
             player_state = player_states["run"]
-            change_animation(this, "player01_dino_run")
+            if powerup_active then
+                change_animation(this, "player01_dino_run_powerup")
+            else
+                change_animation(this, "player01_dino_run")
+            end
         end
     end
 

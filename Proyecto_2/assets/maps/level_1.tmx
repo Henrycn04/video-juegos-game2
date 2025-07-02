@@ -464,6 +464,8 @@
   <object id="471" name="enemy01" x="14048" y="416" width="32" height="30"/>
   <object id="472" name="check" x="5232" y="464" width="16" height="16"/>
   <object id="473" name="check" x="8864" y="384" width="16" height="16"/>
+  <object id="474" name="powerup" x="5232" y="464" width="16" height="16"/>
+  <object id="475" name="powerup" x="8864" y="384" width="16" height="16"/>
  </objectgroup>
  <layer id="2" name="platform" width="900" height="40">
   <data encoding="csv">

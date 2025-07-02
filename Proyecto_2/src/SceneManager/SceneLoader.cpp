@@ -656,7 +656,19 @@ void SceneLoader::LoadColliders(sol::state& lua, std::unique_ptr<Registry>& regi
 
                 collider.AddComponent<ScriptComponent>(onCollision, update, onClick);
         
-        }else if (tag == "check" || tag == "win") {
+        }else if (tag == "powerup") {
+            collider.AddComponent<TagComponent>(tag);
+            collider.AddComponent<TransformComponent>(glm::vec2(x,y - 45), glm::vec2(3.0, 3.0));
+            collider.AddComponent<BoxColliderComponent>(w,h);
+            collider.AddComponent<RigidBodyComponent>(false, true, false, false, 1.0f);
+            collider.AddComponent<AnimationComponent>(3, 3, true); // 2 frames, 0.1s per frame, loop
+            collider.AddComponent<SpriteComponent>(
+                "powerup", 
+                w, h,
+                0, 0 // src rect (x, y) as 0, 0
+            );
+            collider.GetComponent<RigidBodyComponent>().isInvulnerable = true;
+        }   else if (tag == "check" || tag == "win") {
             collider.AddComponent<TagComponent>(tag);
             collider.AddComponent<TransformComponent>(glm::vec2(x,y));
             collider.AddComponent<BoxColliderComponent>(w,h);
