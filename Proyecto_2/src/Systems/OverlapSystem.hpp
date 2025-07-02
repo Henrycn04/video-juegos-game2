@@ -88,7 +88,7 @@ class OverlapSystem : public System {
                 (aRigidBody.isPlayer && bRigidBody.isEnemy) || 
                 (aRigidBody.isEnemy && bRigidBody.isPlayer);
 
-            if (aRigidBody.isSolid && bRigidBody.isSolid && !isPlayerEnemyCollision) {
+            if (aRigidBody.isSolid && bRigidBody.isSolid && !isPlayerEnemyCollision && !aRigidBody.isInvulnerable&& !bRigidBody.isInvulnerable) {
                 if (aRigidBody.mass >= bRigidBody.mass) {
                     AvoidOverlap(e.a, e.b);
                 } else {

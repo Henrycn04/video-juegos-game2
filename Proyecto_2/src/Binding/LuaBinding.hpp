@@ -145,9 +145,7 @@ bool LeftCollision(Entity e, Entity other){
     float oX = oTransform.previousPosition.x;
     float oY = oTransform.previousPosition.y;
     float oH = static_cast<float>(oCollider.height);
-    std::cout << "Left Collision: " << (oY < eY + eH &&
-        oY + oH > eY &&
-        oX < eX) << std::endl;
+
 
     //El lado izquierdo e choca contra other
     return (
@@ -174,10 +172,6 @@ bool RightCollision(Entity e, Entity other){
     float oY = oTransform.previousPosition.y;
     float oH = static_cast<float>(oCollider.height);
 
-    //El lado derecho e choca contra other
-    std::cout << "Right Collision: " << (oY < eY + eH &&
-        oY + oH > eY &&
-        oX > eX) << std::endl;
     return (
         oY < eY + eH &&
         oY + oH > eY &&

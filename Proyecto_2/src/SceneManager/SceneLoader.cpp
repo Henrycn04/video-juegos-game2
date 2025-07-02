@@ -620,6 +620,12 @@ void SceneLoader::LoadColliders(sol::state& lua, std::unique_ptr<Registry>& regi
 
                 collider.AddComponent<ScriptComponent>(onCollision, update, onClick);
         
+        }else if (tag == "check" || tag == "win") {
+            collider.AddComponent<TagComponent>(tag);
+            collider.AddComponent<TransformComponent>(glm::vec2(x,y));
+            collider.AddComponent<BoxColliderComponent>(w,h);
+            collider.AddComponent<RigidBodyComponent>(false, true, false, false, 1.0f);
+            collider.GetComponent<RigidBodyComponent>().isInvulnerable = true; // Hacerlo un trigger
         } else {
             
             collider.AddComponent<TagComponent>(tag);
