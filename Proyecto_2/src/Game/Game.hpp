@@ -27,6 +27,8 @@ private:
 
     bool isRunning = false;
     bool isDebugMode = false;
+    bool isPaused = false;///< Flag to check if the game is currently paused.
+    bool wasPaused = false;///< Flag to check if the game was paused in the last frame.
 
 public:
     SDL_Renderer* renderer = nullptr;

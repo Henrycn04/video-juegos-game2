@@ -126,7 +126,22 @@ void Game::ProcessInput(){
                 sceneManager->StopScene();
                 isRunning = false;
                 break;
-              }
+              }else if (sdlEvent.key.keysym.sym == SDLK_p) {
+                isPaused = !isPaused;
+                std::cout << "[GAME] Pausa: " << (isPaused ? "Activada" : "Desactivada") << std::endl;
+                 if (isPaused) {
+                        wasPaused = true;
+                    } 
+                if(isPaused){
+                    registry->GetSystem<SceneTimeSystem>().Pause();
+                    //assetManager->PauseMusic();
+                    }
+                else{
+                    registry->GetSystem<SceneTimeSystem>().Resume();
+                    //assetManager->ResumeMusic();
+                }
+                break;
+            }
               if(sdlEvent.key.keysym.sym == SDLK_i){
                 isDebugMode = !isDebugMode;
                 break;
@@ -162,6 +177,13 @@ void Game::ProcessInput(){
 }
 
 void Game::Update(){
+    if (isPaused) {
+        return;  
+    }
+    if (wasPaused) {
+        milisecsPreviousFrame = SDL_GetTicks(); 
+        wasPaused = false;  
+    }
     int timeToWait = MILISECS_PER_FRAME - (SDL_GetTicks() - milisecsPreviousFrame);
     if(0 < timeToWait && timeToWait <= MILISECS_PER_FRAME){
         SDL_Delay(timeToWait);
@@ -202,6 +224,13 @@ void Game::Render(){
     if(isDebugMode){
 
      registry->GetSystem<RenderBoxColliderSystem>().Update(renderer, camera);}
+      if(isPaused){
+            registry->GetSystem<RenderTextSystem>().RenderFixedText(renderer,
+                                     assetManager->GetFont("press_start_24"),
+                                     "Press P to continue",
+                                     SDL_Color{255,255,255,255},
+                                     5, 550, 1.0f, 1.0f);
+    }
 
     SDL_RenderPresent(renderer);
 }

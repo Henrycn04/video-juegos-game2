@@ -108,7 +108,7 @@ scene = {
   }
 }, 
 
--- Timer
+-- Life
 {
     components = {
         script={
