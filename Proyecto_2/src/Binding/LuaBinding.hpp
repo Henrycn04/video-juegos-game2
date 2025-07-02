@@ -23,8 +23,19 @@ int GetTicks(){
 }
 
 void KillEntity(Entity entity) {
+    auto& tag = entity.GetComponent<TagComponent>();
+    auto& transform = entity.GetComponent<TransformComponent>();
+    if (tag.tag != "arrow01") {
+    std::cout << "[INFO] Killing entity with ID: " << entity.GetId()
+              << " Tag: " << tag.tag
+              << " at position (" << transform.position.x << ", " << transform.position.y << ")"
+              << std::endl;
+    }
+
+
     entity.Kill();
 }
+
 
 void CreateArrow(Entity shooter) {
     
@@ -214,7 +225,7 @@ bool TopCollision(Entity e, Entity other) {
     float oBottomPrevious = oPreviousY + oH;
 
     // Verificar que venía desde arriba
-    bool wasAbove = oBottomPrevious <= eTop;
+    bool wasAbove = oBottomPrevious <= eTop + 5.0f;
     bool isNowOverlapping = oBottom >= eTop;
 
     return wasAbove && isNowOverlapping;
@@ -252,7 +263,7 @@ void DeactivateCollisions(Entity entity){
 void DoDamage(Entity self, Entity other){
     auto& sRigidbody = self.GetComponent<RigidBodyComponent>();
     auto& oRigidbody = other.GetComponent<RigidBodyComponent>();
-    if (!sRigidbody.isInvulnerable && !oRigidbody.isInvulnerable){
+    if (!sRigidbody.isInvulnerable && !oRigidbody.isInvulnerable){ // TODO: revisar cual es el que tiene invencibilidad (para jugador mas que todo)
         auto& health = self.GetComponent<HealthComponent>();
         health.Damage(1);
     }

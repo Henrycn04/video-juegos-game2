@@ -18,17 +18,22 @@ class MovementSystem : public System{
             auto& rigidbody = entity.GetComponent<RigidBodyComponent>();
             auto& transform = entity.GetComponent<TransformComponent>();
 
+            // Guardar la posición anterior antes de integrar
             transform.previousPosition = transform.position;
+
             if (rigidbody.isDinamic) {
+                // Integración de fuerzas -> aceleración -> velocidad -> posición
                 rigidbody.acceleration = rigidbody.sumForces * rigidbody.invMass;
                 rigidbody.velocity += rigidbody.acceleration * static_cast<float>(dt);
                 transform.position += rigidbody.velocity * static_cast<float>(dt);
+
+                // Resetear fuerzas aplicadas
                 rigidbody.sumForces = glm::vec2(0); 
             } else {
-                transform.position.x += rigidbody.velocity.x * dt;
-                transform.position.y += rigidbody.velocity.y * dt;            
+                // Movimiento sin integración de fuerzas, solo con velocidad (ej. para plataformas móviles)
+                transform.position.x += rigidbody.velocity.x * static_cast<float>(dt);
+                transform.position.y += rigidbody.velocity.y * static_cast<float>(dt);            
             }
-            
         }
     }
 };

@@ -530,7 +530,7 @@ void SceneLoader::LoadColliders(sol::state& lua, std::unique_ptr<Registry>& regi
             collider.AddComponent<TagComponent>(tag);
             collider.AddComponent<TransformComponent>(glm::vec2(x,y));
             collider.AddComponent<BoxColliderComponent>(w,h);
-            collider.AddComponent<RigidBodyComponent>(true, true, true, false, 20.0f);
+            collider.AddComponent<RigidBodyComponent>(true, true, true, false, 15.0f);
             collider.AddComponent<AnimationComponent>(4, 15, true); // 2 frames, 0.1s per frame, loop
             collider.AddComponent<SpriteComponent>(
                 "enemy03", // Asumiendo que tienes un sprite llamado "enemy01"

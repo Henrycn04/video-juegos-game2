@@ -26,7 +26,7 @@ function update()
         -- Si no existe el estado, crearlo (por seguridad)
         t = {
             enemy03_can_jump = false,
-            enemy03_jump_force = -1500.0 * 64.0,
+            enemy03_jump_force = -2500.0 * 64.0,
             enemy03_prev_jump = false,
             enemy03_player_speed = 0.5 * 64.0,
             enemy03_timer = 0,

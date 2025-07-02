@@ -1,5 +1,6 @@
 #ifndef OVERLAPSYSTEM_HPP
 #define OVERLAPSYSTEM_HPP
+
 #include "../Components/TransformComponent.hpp"
 #include "../Components/BoxColliderComponent.hpp"
 #include "../Components/RigidBodyComponent.hpp"
@@ -8,10 +9,10 @@
 #include "../EventManager/EventManager.hpp"
 #include <memory>
 
-enum Direction {top, left, bottom, right};
+enum Direction { top, left, bottom, right };
 
 class OverlapSystem : public System {
-    private:
+private:
     bool CheckCollision(Entity a, Entity b, Direction dir) {
         auto& aTransform = a.GetComponent<TransformComponent>();
         auto& bTransform = b.GetComponent<TransformComponent>();
@@ -54,49 +55,70 @@ class OverlapSystem : public System {
         auto& bBoxCollider = b.GetComponent<BoxColliderComponent>();
         auto& bRigidBody = b.GetComponent<RigidBodyComponent>();
 
-        if (CheckCollision(a, b, Direction::top)) { // revisar esta cosa
-            bTransform.position = glm::vec2(bTransform.position.x, aTransform.previousPosition.y - bBoxCollider.height * bTransform.scale.y);
-            bRigidBody.velocity = glm::vec2(bRigidBody.velocity.x, 0);
-        } 
-        if (CheckCollision(a, b, Direction::bottom)) {
-            bTransform.position = glm::vec2(bTransform.position.x, aTransform.previousPosition.y + aBoxCollider.height * aTransform.scale.y);
-            bRigidBody.velocity = glm::vec2(bRigidBody.velocity.x, 0);
-        }
-        if (CheckCollision(a, b, Direction::left)) {
-            bTransform.position = glm::vec2(aTransform.previousPosition.x - bBoxCollider.width * bTransform.scale.x, bTransform.position.y);
-            bRigidBody.velocity = glm::vec2(0, bRigidBody.velocity.y);
-        }
-        if (CheckCollision(a, b, Direction::right)) {
-            bTransform.position = glm::vec2(aTransform.previousPosition.x + aBoxCollider.width * aTransform.scale.x, bTransform.position.y);
-            bRigidBody.velocity = glm::vec2(0, bRigidBody.velocity.y);
-        }
-    }
-    public:
-        OverlapSystem() {
-            RequireComponent<TransformComponent>();
-            RequireComponent<BoxColliderComponent>();
-            RequireComponent<RigidBodyComponent>();
-        }
-        void SubscribeToCollisionEvents(const std::unique_ptr<EventManager>& eventManager) {
-            eventManager->SubscribeToEvent<CollisionEvent, OverlapSystem>(this, &OverlapSystem::OnCollisionEvent);
-
-        }
-        void OnCollisionEvent(CollisionEvent& e) {
-            auto& aRigidBody = e.a.GetComponent<RigidBodyComponent>();
-            auto& bRigidBody = e.b.GetComponent<RigidBodyComponent>();
-            bool isPlayerEnemyCollision = 
-                (aRigidBody.isPlayer && bRigidBody.isEnemy) || 
-                (aRigidBody.isEnemy && bRigidBody.isPlayer);
-
-            if (aRigidBody.isSolid && bRigidBody.isSolid && !isPlayerEnemyCollision && !aRigidBody.isInvulnerable&& !bRigidBody.isInvulnerable) {
-                if (aRigidBody.mass >= bRigidBody.mass) {
-                    AvoidOverlap(e.a, e.b);
-                } else {
-                    AvoidOverlap(e.b, e.a);
-                }
+        // Colisión desde arriba (B debajo de A)
+        if (CheckCollision(a, b, Direction::top)) {
+            bTransform.position.y = aTransform.position.y - bBoxCollider.height * bTransform.scale.y;
+            // Si B está cayendo (velocity.y > 0), cancelar la velocidad
+            if (bRigidBody.velocity.y > 0) {
+                bRigidBody.velocity.y = 0;
             }
         }
 
+        // Colisión desde abajo (B encima de A)
+        if (CheckCollision(a, b, Direction::bottom)) {
+            bTransform.position.y = aTransform.position.y + aBoxCollider.height * aTransform.scale.y + 1.0f;
+        }
 
+
+        // Colisión desde la izquierda (B a la derecha de A)
+        if (CheckCollision(a, b, Direction::left)) {
+            bTransform.position.x = aTransform.position.x - bBoxCollider.width * bTransform.scale.x;
+            if (bRigidBody.velocity.x > 0) {
+                bRigidBody.velocity.x = 0;
+            }
+        }
+
+        // Colisión desde la derecha (B a la izquierda de A)
+        if (CheckCollision(a, b, Direction::right)) {
+            bTransform.position.x = aTransform.position.x + aBoxCollider.width * aTransform.scale.x;
+            if (bRigidBody.velocity.x < 0) {
+                bRigidBody.velocity.x = 0;
+            }
+        }
+    }
+
+public:
+    OverlapSystem() {
+        RequireComponent<TransformComponent>();
+        RequireComponent<BoxColliderComponent>();
+        RequireComponent<RigidBodyComponent>();
+    }
+
+    void SubscribeToCollisionEvents(const std::unique_ptr<EventManager>& eventManager) {
+        eventManager->SubscribeToEvent<CollisionEvent, OverlapSystem>(this, &OverlapSystem::OnCollisionEvent);
+    }
+
+    void OnCollisionEvent(CollisionEvent& e) {
+        auto& aRigidBody = e.a.GetComponent<RigidBodyComponent>();
+        auto& bRigidBody = e.b.GetComponent<RigidBodyComponent>();
+
+        bool isPlayerEnemyCollision = (aRigidBody.isPlayer && bRigidBody.isEnemy) || (aRigidBody.isEnemy && bRigidBody.isPlayer);
+
+        if (aRigidBody.isSolid && bRigidBody.isSolid && !isPlayerEnemyCollision && !aRigidBody.isInvulnerable && !bRigidBody.isInvulnerable) {
+            if (aRigidBody.mass >= bRigidBody.mass) {
+                AvoidOverlap(e.a, e.b);
+            } else {
+                AvoidOverlap(e.b, e.a);
+            }
+        }
+    }
 };
+
 #endif
+
+/*
+🔧 Ajuste clave:
+- Ya NO cancela velocity.y cuando un objeto sube y choca desde abajo, solo lo reposiciona.
+- Esto permite saltos naturales y evita que enemigos o jugadores queden pegados al techo.
+- Lógica estrictamente dentro de los atributos que compartiste.
+*/
