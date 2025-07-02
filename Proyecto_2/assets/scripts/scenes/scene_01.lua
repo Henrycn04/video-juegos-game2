@@ -228,7 +228,7 @@ scene = {
                tag = "player",
            },
            transform = {
-               position = { x = 5200.0, y = 300.0},
+               position = { x = 50.0, y = 50.0},
                scale = { x = 1.0, y = 1.0},
                rotation = 0.0
 
