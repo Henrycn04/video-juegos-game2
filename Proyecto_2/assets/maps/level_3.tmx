@@ -507,6 +507,8 @@
   <object id="504" name="enemy04" x="13280" y="160" width="32" height="25"/>
   <object id="505" name="enemy04" x="13888" y="320" width="32" height="25"/>
   <object id="506" name="enemy04" x="13632" y="272" width="32" height="25"/>
+  <object id="507" name="powerup" x="3408" y="272" width="16" height="16"/>
+  <object id="508" name="powerup" x="8832" y="144" width="16" height="16"/>
  </objectgroup>
  <layer id="2" name="platform" width="900" height="40">
   <data encoding="csv">

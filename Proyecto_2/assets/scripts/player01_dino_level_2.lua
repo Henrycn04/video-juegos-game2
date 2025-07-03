@@ -19,6 +19,10 @@ prev_jump = false
 powerup_active = false
 powerup_timer = 0
 
+damage_timer = 0
+damage_active = false
+damage_duration = 10
+
 function update()
     local x_vel, y_vel = get_velocity(this)
     x_vel = 0
@@ -56,6 +60,30 @@ function update()
             change_animation(this, "player01_dino_run")
         end
     end
+    if damage_active then
+        damage_timer = damage_timer + 1
+        if damage_timer >= damage_duration then
+            damage_active = false
+            damage_timer = 0
+            if powerup_active then
+                change_animation(this, "player01_dino_run_powerup")
+            else 
+                change_animation(this, "player01_dino_run")
+            end
+        end
+    end
+    local x, y = get_position(this)
+    if x < 0 or y < 0 then
+        do_damage_to_self(this)
+        set_current_life(get_health(this)) 
+        if get_health(this) == 0 then
+            set_check(50,50) 
+            go_to_scene("defeat2")
+        else   
+        go_to_scene("level_02")  
+        end   
+    end
+
 end
 
 
@@ -87,9 +115,14 @@ function on_collision(other)
     end
     -- Enemigos
     if get_tag(other) == "enemy01" or  get_tag(other) == "enemy02" or get_tag(other) == "enemy03" or  get_tag(other) == "enemy04" then
-            
+            local initHP = get_health(this)
             do_damage(this, other) -- aplicar daño al jugador
-            set_current_life(get_health(this))  
+            set_current_life(get_health(this))
+            if get_health(this) < initHP then
+                damage_active = true
+                damage_timer = 0
+                change_animation(this, "player01_dino_run_damage_taken")
+            end
     end
     -- Dano po caida
     if get_tag(other) == "damage"  then 

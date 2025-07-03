@@ -18,6 +18,7 @@ scene = {
         {assetId = "powerup", filePath = "./assets/images/powerup.png"},
          {assetId = "player01_dino_idle_powerup", filePath = "./assets/images/player01_dino_idle_powerup.png"},
         {assetId = "player01_dino_run_powerup", filePath = "./assets/images/player01_dino_run_powerup.png"},
+        {assetId = "player01_dino_run_damage_taken", filePath = "./assets/images/player01_dino_run_damage_taken.png"},
 
       },
    -- Tabla con info de animaciones
@@ -29,6 +30,7 @@ scene = {
         { animation_id = "powerup", texture_id = "powerup", w = 16, h = 16, num_frames = 3,speed_rate = 3, is_loop = true,},
     { animation_id = "player01_dino_idle_powerup", texture_id = "player01_dino_idle_powerup", w = 30, h = 36, num_frames = 4,speed_rate = 10, is_loop = true,},
     { animation_id = "player01_dino_run_powerup", texture_id = "player01_dino_run_powerup", w = 30, h = 36, num_frames = 6,speed_rate = 10, is_loop = true,},
+        { animation_id = "player01_dino_run_damage_taken", texture_id = "player01_dino_run_damage_taken", w = 30, h = 36, num_frames = 3, speed_rate = 15, is_loop = true,},
 
   },
     -- Tabla de fuentes
