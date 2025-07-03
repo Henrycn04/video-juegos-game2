@@ -58,7 +58,6 @@ function update()
         end
     end
     local x, y = get_position(this)
-    --Todavia no funciona
     if x < 0 or y < 0 then
         do_damage_to_self(this)
         set_current_life(get_health(this)) 
