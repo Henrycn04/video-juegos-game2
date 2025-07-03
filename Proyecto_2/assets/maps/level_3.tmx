@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.1-99-gec89c545" orientation="orthogonal" renderorder="right-down" width="900" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="455">
+<map version="1.10" tiledversion="1.11.1-99-gec89c545" orientation="orthogonal" renderorder="right-down" width="900" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="507">
  <tileset firstgid="1" source="islands_1.tsx"/>
  <tileset firstgid="101" source="sky.tsx"/>
  <tileset firstgid="165" source="background.tsx"/>
@@ -457,9 +457,56 @@
   <object id="452" name="enemy01" x="14080" y="400" width="32" height="30"/>
   <object id="453" name="enemy01" x="14160" y="400" width="32" height="30"/>
   <object id="454" name="check" x="8832" y="144" width="16" height="16"/>
-  <object id="455" name="powerup" x="3408" y="272" width="16" height="16"/>
-  <object id="456" name="powerup" x="8832" y="144" width="16" height="16"/>
-
+  <object id="455" name="trembling" gid="263" x="8704" y="352" width="16" height="16"/>
+  <object id="456" name="trembling" gid="263" x="8688" y="352" width="16" height="16"/>
+  <object id="457" name="trembling" gid="263" x="8672" y="352" width="16" height="16"/>
+  <object id="458" name="trembling" gid="263" x="8736" y="304" width="16" height="16"/>
+  <object id="459" name="trembling" gid="263" x="8752" y="304" width="16" height="16"/>
+  <object id="460" name="trembling" gid="263" x="8768" y="304" width="16" height="16"/>
+  <object id="461" name="trembling" gid="263" x="8640" y="272" width="16" height="16"/>
+  <object id="462" name="trembling" gid="263" x="8656" y="272" width="16" height="16"/>
+  <object id="463" name="trembling" gid="263" x="8672" y="272" width="16" height="16"/>
+  <object id="464" name="trembling" gid="263" x="8736" y="240" width="16" height="16"/>
+  <object id="465" name="trembling" gid="263" x="8752" y="240" width="16" height="16"/>
+  <object id="466" name="trembling" gid="263" x="8768" y="240" width="16" height="16"/>
+  <object id="467" name="trembling" gid="263" x="8688" y="192" width="16" height="16"/>
+  <object id="468" name="trembling" gid="263" x="8672" y="192" width="16" height="16"/>
+  <object id="469" name="trembling" gid="263" x="8752" y="176" width="16" height="16"/>
+  <object id="470" name="enemy04" x="8064" y="352" width="32" height="25"/>
+  <object id="471" name="enemy04" x="7792" y="208" width="32" height="25"/>
+  <object id="472" name="enemy04" x="6528" y="224" width="32" height="25"/>
+  <object id="473" name="enemy04" x="6832" y="208" width="32" height="25"/>
+  <object id="474" name="enemy04" x="7008" y="208" width="32" height="25"/>
+  <object id="475" name="enemy04" x="5248" y="256" width="32" height="25"/>
+  <object id="476" name="enemy04" x="5456" y="256" width="32" height="25"/>
+  <object id="477" name="enemy04" x="3760" y="368" width="32" height="25"/>
+  <object id="478" name="enemy04" x="4048" y="352" width="32" height="25"/>
+  <object id="479" name="enemy01" x="5984" y="224" width="32" height="30"/>
+  <object id="480" name="enemy04" x="6240" y="288" width="32" height="25"/>
+  <object id="481" name="enemy04" x="9280" y="176" width="32" height="25"/>
+  <object id="482" name="enemy04" x="9600" y="208" width="32" height="25"/>
+  <object id="483" name="enemy04" x="9792" y="208" width="32" height="25"/>
+  <object id="484" name="enemy04" x="9680" y="144" width="32" height="25"/>
+  <object id="485" name="enemy04" x="9936" y="176" width="32" height="25"/>
+  <object id="486" name="enemy04" x="10080" y="208" width="32" height="25"/>
+  <object id="487" name="enemy04" x="10704" y="304" width="32" height="25"/>
+  <object id="489" name="enemy04" x="10848" y="304" width="32" height="25"/>
+  <object id="490" name="enemy04" x="11024" y="304" width="32" height="25"/>
+  <object id="491" name="enemy04" x="11136" y="288" width="32" height="25"/>
+  <object id="492" name="enemy04" x="11056" y="240" width="32" height="25"/>
+  <object id="493" name="enemy04" x="10928" y="240" width="32" height="25"/>
+  <object id="494" name="enemy04" x="10752" y="240" width="32" height="25"/>
+  <object id="495" name="enemy04" x="11552" y="288" width="32" height="25"/>
+  <object id="496" name="enemy04" x="11808" y="288" width="32" height="25"/>
+  <object id="498" name="enemy04" x="11968" y="288" width="32" height="25"/>
+  <object id="499" name="enemy04" x="12112" y="288" width="32" height="25"/>
+  <object id="500" name="enemy04" x="12384" y="288" width="32" height="25"/>
+  <object id="501" name="enemy04" x="12624" y="288" width="32" height="25"/>
+  <object id="502" name="enemy04" x="13424" y="224" width="32" height="25"/>
+  <object id="503" name="enemy04" x="13120" y="176" width="32" height="25"/>
+  <object id="504" name="enemy04" x="13280" y="160" width="32" height="25"/>
+  <object id="505" name="enemy04" x="13888" y="320" width="32" height="25"/>
+  <object id="506" name="enemy04" x="13632" y="272" width="32" height="25"/>
  </objectgroup>
  <layer id="2" name="platform" width="900" height="40">
   <data encoding="csv">

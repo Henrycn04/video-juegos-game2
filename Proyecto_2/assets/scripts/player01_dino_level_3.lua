@@ -70,6 +70,8 @@ function update()
     end
 
     set_position(this, x, y)
+    print(x)
+    print(y)
 
 
     

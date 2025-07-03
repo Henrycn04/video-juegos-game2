@@ -6,7 +6,7 @@ function update()
 
     timer = timer + 1
 
-    if timer<= 40000 then
+    if timer<= 6000 then
         local x, y = get_position(this)
         set_position(this, x+ dir, y)
     else
