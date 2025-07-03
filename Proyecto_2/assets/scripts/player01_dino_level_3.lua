@@ -59,16 +59,21 @@ function update()
     end
     local x, y = get_position(this)
     --Todavia no funciona
-    if x < 0 then
-        x = 5    
+    if x < 0 or y < 0 then
+        do_damage_to_self(this)
+        set_current_life(get_health(this)) 
+        if get_health(this) == 0 then
+            set_check(50,50) 
+            go_to_scene("defeat3")
+        else   
+        go_to_scene("level_03")  
+        end   
     end
-    if y < 0 then
-        y = 284    
-    end
+
     set_position(this, x, y)
 
-    print(x)
-    print(y)
+
+    
 end
 
 

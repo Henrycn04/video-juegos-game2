@@ -117,7 +117,7 @@ void CreateArrow(Entity shooter) {
         arrow.GetComponent<SpriteComponent>().flip = true; // Voltear sprite de la flecha
     }
     auto& rigidbody = arrow.GetComponent<RigidBodyComponent>();
-    rigidbody.sumForces += glm::vec2(direccion * 1500 * 64.0, vel_y);
+    rigidbody.sumForces += glm::vec2(direccion * 1300 * 64.0, vel_y);
 
 }
 //Controles
@@ -264,6 +264,13 @@ void DoDamage(Entity self, Entity other){
     auto& sRigidbody = self.GetComponent<RigidBodyComponent>();
     auto& oRigidbody = other.GetComponent<RigidBodyComponent>();
     if (!sRigidbody.isInvulnerable && !oRigidbody.isInvulnerable){ // TODO: revisar cual es el que tiene invencibilidad (para jugador mas que todo)
+        auto& health = self.GetComponent<HealthComponent>();
+        health.Damage(1);
+    }
+}
+void DoDamageToSelf(Entity self){
+    auto& sRigidbody = self.GetComponent<RigidBodyComponent>();
+    if (!sRigidbody.isInvulnerable){ // TODO: revisar cual es el que tiene invencibilidad (para jugador mas que todo)
         auto& health = self.GetComponent<HealthComponent>();
         health.Damage(1);
     }

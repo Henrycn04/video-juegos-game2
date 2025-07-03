@@ -1,11 +1,25 @@
 
 function update()
-
+    local id = get_id(this)
+    local t = state[id]
+    
+    if not t then
+        -- Si no existe el estado, crearlo (por seguridad)
+        t = {
+            arrow01_is_not_dead = true
+        }
+        state[id] = t
+    end
 end
 
-arrow01_is_not_dead = true
+
 
 function on_collision(other)
+    local id = get_id(this)
+    local t = state[id]
+    
+    if not t then return end -- Si no existe el estado, salir
+
     this_tag = get_tag(this)
     other_tag = get_tag(other)
     
@@ -15,9 +29,9 @@ function on_collision(other)
 
         local hay_choque = (hay_choque1 or hay_choque2)
 
-        if hay_choque and arrow01_is_not_dead then
+        if hay_choque and t.arrow01_is_not_dead then
 
-            arrow01_is_not_dead = false
+            t.arrow01_is_not_dead = false
             
             -- Obtener posición y velocidad del que rebota (this)
             local this_x, this_y = get_position(this)

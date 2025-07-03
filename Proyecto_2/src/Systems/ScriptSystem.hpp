@@ -50,6 +50,7 @@ class ScriptSystem : public System {
     lua.set_function("set_check", SetCheckPosition);
     lua.set_function("set_current_life", SetCurrentLife);
     lua.set_function("set_life_text", SetLifeText);
+    lua.set_function("do_damage_to_self", DoDamageToSelf);
   }
 
 
