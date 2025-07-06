@@ -8,15 +8,31 @@
 #include "../Components/TagComponent.hpp"
 #include "../ECS/ECS.hpp"
 
+/**
+ * @class AnimationSystem
+ * @brief System that updates animation frames for all entities that have both AnimationComponent and SpriteComponent.
+ * 
+ * This system calculates the current animation frame based on elapsed time and updates the sprite's source rectangle accordingly.
+ */
 class AnimationSystem : public System{
   public:
+    /**
+     * @brief Constructs the AnimationSystem and sets the required components.
+     * 
+     * Requires both AnimationComponent and SpriteComponent to function.
+     */
    AnimationSystem() {
     RequireComponent<AnimationComponent>();
     RequireComponent<SpriteComponent>();
    }
 
 void Update(){
-    // Obtener el tiempo actual una vez para toda la iteración
+    /**
+     * @brief Updates the animation frames for all relevant entities.
+     * 
+     * Calculates the elapsed time since the animation started and updates the current frame based on the frame speed.
+     * Then, it adjusts the sprite's source rectangle (`srcRect.x`) to show the correct frame.
+     */
     Uint32 currentTime = SDL_GetTicks();
     
     for(auto entity : GetSystemEntities()){

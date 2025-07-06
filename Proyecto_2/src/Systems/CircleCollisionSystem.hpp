@@ -8,14 +8,29 @@
 #include "../Events/CollisionEvent.hpp"
 
 #include <memory>
-
+/**
+ * @class CircleCollisionSystem
+ * @brief System responsible for detecting and handling collisions between circular collider components.
+ * 
+ * This system iterates through entities with CircleColliderComponent and TransformComponent,
+ * checking for circular collisions and emitting collision events when collisions occur.
+ */
 class CircleCollisionSystem : public System {
  public:
+    /**
+     * @brief Constructs the CircleCollisionSystem and sets required components.
+     * 
+     * Requires CircleColliderComponent and TransformComponent.
+     */
   CircleCollisionSystem(){
     RequireComponent<CircleColliderComponent>();
     RequireComponent<TransformComponent>();
   }
-
+    /**
+     * @brief Updates the system by checking collisions between all entities with circular colliders.
+     * 
+     * @param eventManager Unique pointer to the EventManager used to emit collision events.
+     */
   void Update(std::unique_ptr<EventManager>& eventManager) {
     auto entities = GetSystemEntities();
 
@@ -54,7 +69,15 @@ class CircleCollisionSystem : public System {
         }
     }
   }
-  
+    /**
+     * @brief Checks if two circles are colliding based on their radii and positions.
+     * 
+     * @param aRadius Radius of the first circle.
+     * @param bRadius Radius of the second circle.
+     * @param aPos Center position of the first circle.
+     * @param bPos Center position of the second circle.
+     * @return true if circles are colliding, false otherwise.
+     */  
   bool CheckCircularCollision(int aRadius, int bRadius, glm::vec2 aPos
   , glm::vec2 bPos){
     glm::vec2 dif = aPos - bPos;

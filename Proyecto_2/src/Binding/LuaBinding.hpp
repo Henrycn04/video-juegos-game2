@@ -16,12 +16,34 @@
 #include "../ECS/ECS.hpp"
 #include "../Game/Game.hpp"
 #include "../Systems/SceneTimeSystem.hpp"
+#include <iomanip>
+#include <sstream>
 
 
+/**
+ * @file LuaBinding.hpp
+ * @brief Contains functions exposed to Lua for controlling game entities, physics, animation, UI, collisions, and more.
+ *
+ * This file defines global utility functions that are registered in the Lua scripting environment
+ * and allow scripts to interact with entities, perform collision checks, modify animations,
+ * control movement, health, and manage scene transitions.
+ *
+ * @note This header is designed to be included in a Lua binding setup and used with Sol2.
+ */
+
+
+/**
+ * @brief Returns the number of milliseconds since the SDL library was initialized.
+ * @return Milliseconds since initialization.
+ */ 
 int GetTicks(){
     return SDL_GetTicks();
 }
 
+/**
+ * @brief Marks an entity for deletion and logs information about it, unless it is an "arrow01".
+ * @param entity The entity to kill.
+ */
 void KillEntity(Entity entity) {
     auto& tag = entity.GetComponent<TagComponent>();
     auto& transform = entity.GetComponent<TransformComponent>();
@@ -36,22 +58,23 @@ void KillEntity(Entity entity) {
     entity.Kill();
 }
 
-
+/**
+ * @brief Creates a new arrow entity shot from the given shooter entity.
+ * Initializes its transform, collider, sprite, animation, physics, and Lua script.
+ * @param shooter The entity that shoots the arrow.
+ */
 void CreateArrow(Entity shooter) {
     
-    // Verificar que el shooter existe y tiene los componentes necesarios
     if (!shooter.HasComponent<TransformComponent>()) {
         std::cout << "[ERROR] Shooter doesn't have TransformComponent!" << std::endl;
         return;
     }
     
-    // Obtener la posición del disparador
     const auto& shooterTransform = shooter.GetComponent<TransformComponent>();
     float start_x = shooterTransform.position.x;
     float start_y = shooterTransform.position.y;
     
     
-    // Determinar dirección de disparo
     float vel_y = 0.0f;
     
     
@@ -82,7 +105,7 @@ void CreateArrow(Entity shooter) {
                 sol::function onAwake = sol::nil;
                 if(hasOnAwake != sol::nullopt){
                     onAwake = lua["on_awake"];
-                    onAwake(); // agregar funciones al binding de necesitarlas
+                    onAwake(); 
                 }
 
                 sol::optional<sol::function> hasOnCollision = lua["on_collision"];
@@ -105,22 +128,25 @@ void CreateArrow(Entity shooter) {
 
                 arrow.AddComponent<ScriptComponent>(onCollision, update, onClick);
     
-    // RigidBody con velocidad aplicada
     arrow.AddComponent<RigidBodyComponent>(true, true, true, false, 2.0f);
 
 
-    // Direccion de disparo
     auto& spriteShooter = shooter.GetComponent<SpriteComponent>();
     int direccion = 1; 
-    if (spriteShooter.flip) { // a la derecha
-        direccion = -1; // Derecha
+    if (spriteShooter.flip) { 
+        direccion = -1; 
         arrow.GetComponent<SpriteComponent>().flip = true; // Voltear sprite de la flecha
     }
     auto& rigidbody = arrow.GetComponent<RigidBodyComponent>();
     rigidbody.sumForces += glm::vec2(direccion * 1300 * 64.0, vel_y);
 
 }
-//Controles
+
+/**
+ * @brief Changes the current animation of an entity to the one identified by animationId.
+ * @param entity The target entity.
+ * @param animationId The animation ID to set.
+ */
 void ChangeAnimation(Entity entity, const std::string& animationId){
     auto& animation = entity.GetComponent<AnimationComponent>();
     auto& sprite = entity.GetComponent<SpriteComponent>();
@@ -138,10 +164,23 @@ void ChangeAnimation(Entity entity, const std::string& animationId){
     animation.isLoop = animationData.isLoop;
     animation.startTime = SDL_GetTicks();
 }
+
+/**
+ * @brief Checks if a specific game action is currently activated.
+ * @param action The action name (e.g., "jump", "shoot").
+ * @return true if the action is active; false otherwise.
+ */
 bool IsActionActivated(const std::string& action){
     return Game::GetInstance().controllerManager->IsActionActivated(action);
 }
-// Collisions
+
+
+/**
+ * @brief Checks if another entity is colliding with the left side of the given entity.
+ * @param e The base entity.
+ * @param other The other entity to check collision with.
+ * @return true if collision from the left is detected.
+ */
 bool LeftCollision(Entity e, Entity other){
     const auto& eCollider = e.GetComponent<BoxColliderComponent>();
     const auto& eTransform = e.GetComponent<TransformComponent>();
@@ -158,7 +197,6 @@ bool LeftCollision(Entity e, Entity other){
     float oH = static_cast<float>(oCollider.height);
 
 
-    //El lado izquierdo e choca contra other
     return (
         oY < eY + eH &&
         oY + oH > eY &&
@@ -167,7 +205,12 @@ bool LeftCollision(Entity e, Entity other){
 
 }
 
-// Collisions
+/**
+ * @brief Checks if another entity is colliding with the right side of the given entity.
+ * @param e The base entity.
+ * @param other The other entity to check collision with.
+ * @return true if collision from the right is detected.
+ */
 bool RightCollision(Entity e, Entity other){
     const auto& eCollider = e.GetComponent<BoxColliderComponent>();
     const auto& eTransform = e.GetComponent<TransformComponent>();
@@ -190,14 +233,21 @@ bool RightCollision(Entity e, Entity other){
     );
 
 }
+
+/**
+ * @brief Checks if another entity is colliding with the top side of the given entity.
+ * @param e The base entity.
+ * @param other The other entity to check collision with.
+ * @return true if collision from the top is detected.
+ */
 bool TopCollision(Entity e, Entity other) {
-    // Obtener componentes
+
     const auto& eCollider = e.GetComponent<BoxColliderComponent>();
     const auto& eTransform = e.GetComponent<TransformComponent>();
     const auto& oCollider = other.GetComponent<BoxColliderComponent>();
     const auto& oTransform = other.GetComponent<TransformComponent>();
 
-    // Extraer posiciones y dimensiones
+  
     float eX = eTransform.position.x;
     float eY = eTransform.position.y;
     float eW = static_cast<float>(eCollider.width);
@@ -207,7 +257,7 @@ bool TopCollision(Entity e, Entity other) {
     float oW = static_cast<float>(oCollider.width);
     float oH = static_cast<float>(oCollider.height);
 
-    // Calcular bordes actuales
+   
     float eTop = eY;
     float eLeft = eX;
     float eRight = eX + eW;
@@ -216,21 +266,28 @@ bool TopCollision(Entity e, Entity other) {
     float oLeft = oX;
     float oRight = oX + oW;
 
-    // Verificar solapamiento horizontal
+   
     bool horizontalOverlap = (eLeft < oRight) && (eRight > oLeft);
     if (!horizontalOverlap) return false;
 
-    // Obtener posición anterior del jugador
+  
     float oPreviousY = oTransform.previousPosition.y;
     float oBottomPrevious = oPreviousY + oH;
 
-    // Verificar que venía desde arriba
+   
     bool wasAbove = oBottomPrevious <= eTop + 5.0f;
     bool isNowOverlapping = oBottom >= eTop;
 
     return wasAbove && isNowOverlapping;
 }
 
+
+/**
+ * @brief Checks if another entity is colliding with the bottom side of the given entity.
+ * @param e The base entity.
+ * @param other The other entity to check collision with.
+ * @return true if collision from the bottom is detected.
+ */
 bool BottomCollision(Entity e, Entity other){
     const auto& eCollider = e.GetComponent<BoxColliderComponent>();
     const auto& eTransform = e.GetComponent<TransformComponent>();
@@ -246,20 +303,29 @@ bool BottomCollision(Entity e, Entity other){
     float oW = static_cast<float>(oCollider.width);
     float oH = static_cast<float>(oCollider.height);
     
-    // La parte inferior de e choca contra other
     return (
         oX < eX + eW &&
         oX + oW > eX &&
         oY + oH > eY + eH
     );
 }
+
+/**
+ * @brief Makes an entity non-solid and invulnerable (disables collisions).
+ * @param entity The entity to modify.
+ */
 void DeactivateCollisions(Entity entity){
     auto& rigidbody = entity.GetComponent<RigidBodyComponent>();
     rigidbody.isDinamic = true;
     rigidbody.isSolid = false;
     rigidbody.isInvulnerable = true;
 }
-// HealthComponent
+
+/**
+ * @brief Applies 1 point of damage to `self` if both entities are not invulnerable.
+ * @param self The entity taking damage.
+ * @param other The entity dealing damage.
+ */
 void DoDamage(Entity self, Entity other){
     auto& sRigidbody = self.GetComponent<RigidBodyComponent>();
     auto& oRigidbody = other.GetComponent<RigidBodyComponent>();
@@ -268,6 +334,11 @@ void DoDamage(Entity self, Entity other){
         health.Damage(1);
     }
 }
+
+/**
+ * @brief Applies 1 point of damage to `self`, if not invulnerable.
+ * @param self The entity to damage.
+ */
 void DoDamageToSelf(Entity self){
     auto& sRigidbody = self.GetComponent<RigidBodyComponent>();
     if (!sRigidbody.isInvulnerable){ // TODO: revisar cual es el que tiene invencibilidad (para jugador mas que todo)
@@ -276,17 +347,31 @@ void DoDamageToSelf(Entity self){
     }
 }
 
+/**
+ * @brief Sets the current checkpoint position for the scene loader.
+ * @param posX X coordinate.
+ * @param posY Y coordinate.
+ */
 void SetCheckPosition(float posX, float posY){
     Game::GetInstance().sceneManager->sceneLoader->checkPosX = posX;
     Game::GetInstance().sceneManager->sceneLoader->checkPosY = posY;
 
 }
 
+/**
+ * @brief Sets the current player life value in the scene loader.
+ * @param currentLife The life value to set.
+ */
 void SetCurrentLife(int currentLife){
     Game::GetInstance().sceneManager->sceneLoader->actualLife = currentLife;
 
 }
 
+
+/**
+ * @brief Updates a TextComponent with the player's current life count.
+ * @param entity The entity with the TextComponent.
+ */
 void SetLifeText(Entity entity){
     std::string life = std::to_string(Game::GetInstance().sceneManager->sceneLoader->actualLife);
     if (life == "0"){
@@ -295,12 +380,22 @@ void SetLifeText(Entity entity){
     entity.GetComponent<TextComponent>().text = life;
 }
 
+/**
+ * @brief Gets the current health value of an entity.
+ * @param self The entity to check.
+ * @return Integer value representing health.
+ */
 int GetHealth(Entity self){
    auto& health = self.GetComponent<HealthComponent>();
    return health.health;
     
 }
-// RigidBodyComponent
+
+/**
+ * @brief Gets the velocity of an entity as a tuple.
+ * @param entity The entity to check.
+ * @return A tuple of (x, y) velocity.
+ */
 std::tuple<int, int> GetVelocity(Entity entity){
     const auto& rigidbody = entity.GetComponent<RigidBodyComponent>();
     return {
@@ -309,16 +404,34 @@ std::tuple<int, int> GetVelocity(Entity entity){
     };
 }
 
+/**
+ * @brief Sets the velocity of an entity.
+ * @param entity The entity to modify.
+ * @param x Velocity in the x-axis.
+ * @param y Velocity in the y-axis.
+ */
 void SetVelocity(Entity entity, float x, float y){
     auto& rigidbody = entity.GetComponent<RigidBodyComponent>();
     rigidbody.velocity.x = x;
     rigidbody.velocity.y = y;
 }
+
+/**
+ * @brief Adds a force to an entity.
+ * @param entity The entity to modify.
+ * @param x Force in the x-axis.
+ * @param y Force in the y-axis.
+ */
 void AddForce(Entity entity, float x, float y){
     auto& rigidbody = entity.GetComponent<RigidBodyComponent>();
     rigidbody.sumForces += glm::vec2(x, y);
 }
 
+/**
+ * @brief Gets the accumulated forces of an entity.
+ * @param entity The entity to check.
+ * @return A tuple of (x, y) forces.
+ */
 std::tuple<int, int> GetSumForces(Entity entity) {
     const auto& rigidbody = entity.GetComponent<RigidBodyComponent>();
     std::cout << "Sum Forces: " << rigidbody.sumForces.x << ", " << rigidbody.sumForces.y << std::endl;
@@ -328,17 +441,30 @@ std::tuple<int, int> GetSumForces(Entity entity) {
     };
 }
 
-// TagComponent
+/**
+ * @brief Gets the tag of an entity.
+ * @param entity The entity to inspect.
+ * @return The tag as a string.
+ */
 std::string GetTag(Entity entity){
     return entity.GetComponent<TagComponent>().tag;
 }
-// Sprite
 
+/**
+ * @brief Sets the horizontal flip status of an entity's sprite.
+ * @param entity The entity to modify.
+ * @param flip Whether to flip the sprite.
+ */
 void FlipSprite(Entity entity, bool flip){
     auto& sprite = entity.GetComponent<SpriteComponent>();
     sprite.flip = flip;
 }
-//TransformComponent
+
+/**
+ * @brief Gets the position of an entity.
+ * @param entity The entity to inspect.
+ * @return Tuple (x, y) with position.
+ */
 std::tuple<int, int> GetPosition(Entity entity){
     const auto& transform = entity.GetComponent<TransformComponent>();
     return {
@@ -347,6 +473,12 @@ std::tuple<int, int> GetPosition(Entity entity){
     };
 }
 
+/**
+ * @brief Sets the position of an entity.
+ * @param entity The entity to move.
+ * @param x New x coordinate.
+ * @param y New y coordinate.
+ */
 void SetPosition(Entity entity, int x, int y){
     auto& transform = entity.GetComponent<TransformComponent>();
     transform.position.x = x;
@@ -354,6 +486,11 @@ void SetPosition(Entity entity, int x, int y){
 
 }
 
+/**
+ * @brief Gets the size of an entity considering sprite size and scale.
+ * @param entity The entity to check.
+ * @return Tuple (width, height).
+ */
 std::tuple<int, int> GetSize(Entity entity){
     const auto& sprite = entity.GetComponent<SpriteComponent>();
     const auto& transform = entity.GetComponent<TransformComponent>();
@@ -365,12 +502,20 @@ std::tuple<int, int> GetSize(Entity entity){
 
 }
 
-// Scenes
+/**
+ * @brief Transitions to the specified scene.
+ * @param sceneName The name of the next scene.
+ */
 void GoToScene(const std::string& sceneName){
     Game::GetInstance().sceneManager->SetNextScene(sceneName);
     Game::GetInstance().sceneManager->StopScene();
 }
 
+/**
+ * @brief Gets the unique ID of an entity.
+ * @param entity The entity.
+ * @return Integer ID.
+ */
 int GetId(Entity entity){
     return entity.GetId();
 }
@@ -405,19 +550,22 @@ void SetTimer(Entity entity, int newTime){
     std::string timer = std::to_string(newTime / 1000);
     entity.GetComponent<TextComponent>().text = timer;
 }
-#include <iomanip>
-#include <sstream>
 
+/**
+ * @brief Adds the points from an enemy to the player and updates the score UI.
+ * @param enemy The defeated entity.
+ * @param player The player entity gaining points.
+ */
 void AddPoints(Entity enemy, Entity player){
     auto& health = enemy.GetComponent<HealthComponent>();
     auto& healthPlayer = player.GetComponent<HealthComponent>();
 
-    // Convertir a string con formato de 8 dígitos
+
     int puntaje = healthPlayer.points += health.points;
     std::ostringstream oss;
     oss << std::setw(8) << std::setfill('0') << puntaje;
 
-    // Buscar entidad del texto de puntos y sumarle
+
     auto& text = player.GetComponent<TextComponent>();
     text.text = oss.str();
 }

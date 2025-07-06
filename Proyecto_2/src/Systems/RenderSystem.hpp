@@ -6,13 +6,30 @@
 #include "../Components/TransformComponent.hpp"
 #include "../ECS/ECS.hpp"
 
+/**
+ * @class RenderSystem
+ * @brief System responsible for rendering entities with SpriteComponent and TransformComponent.
+ * 
+ * This system draws textured sprites on the screen, applying transformations such as scaling, rotation, and flipping.
+ */
 class RenderSystem : public System {
   public:
+    /**
+     * @brief Constructs the RenderSystem and sets required components.
+     * 
+     * Requires entities to have both SpriteComponent and TransformComponent.
+     */
    RenderSystem(){
     RequireComponent<SpriteComponent>();
     RequireComponent<TransformComponent>();
    }
-
+    /**
+     * @brief Renders all entities managed by this system.
+     * 
+     * @param renderer Pointer to the SDL_Renderer used for drawing.
+     * @param camera SDL_Rect representing the current camera view to offset rendering.
+     * @param AssetManager Unique pointer to the AssetManager to retrieve textures.
+     */
    void Update(SDL_Renderer* renderer, SDL_Rect& camera
    , const std::unique_ptr<AssetManager>& AssetManager){
     for(auto entity : GetSystemEntities() ){

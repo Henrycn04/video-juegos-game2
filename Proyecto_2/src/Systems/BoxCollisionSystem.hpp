@@ -9,8 +9,28 @@
 #include "../Events/CollisionEvent.hpp"
 #include "../EventManager/EventManager.hpp"
 
+/**
+ * @class BoxCollisionSystem
+ * @brief System to detect and handle collisions between entities using BoxColliderComponent and TransformComponent.
+ * 
+ * This system checks for AABB collisions among entities and emits CollisionEvents when collisions occur.
+ * It also invokes the onCollision script callback for involved entities if available.
+ */
 class BoxCollisionSystem : public System {
  private:
+     /**
+     * @brief Checks if two AABBs collide.
+     * 
+     * @param aX X position of first box.
+     * @param aY Y position of first box.
+     * @param aW Width of first box.
+     * @param aH Height of first box.
+     * @param bX X position of second box.
+     * @param bY Y position of second box.
+     * @param bW Width of second box.
+     * @param bH Height of second box.
+     * @return true if boxes collide, false otherwise.
+     */
  bool CheckAABBCollision(float aX, float aY, float aW, float aH,
  float bX, float bY, float bW, float bH){
     return(
@@ -21,11 +41,21 @@ class BoxCollisionSystem : public System {
     );
  }
  public:
+    /**
+     * @brief Constructs the BoxCollisionSystem and sets required components.
+     * 
+     * Requires BoxColliderComponent and TransformComponent on entities.
+     */
   BoxCollisionSystem(){
     RequireComponent<BoxColliderComponent>();
     RequireComponent<TransformComponent>();
   }
-
+    /**
+     * @brief Updates the system, checking for collisions between entities and handling collision events.
+     * 
+     * @param eventManager Shared pointer to the EventManager to emit collision events.
+     * @param lua Reference to the Lua state used for calling onCollision script functions.
+     */
 void Update(const std::unique_ptr<EventManager>& eventManager, sol::state& lua) {
     auto entities = GetSystemEntities();
 
@@ -43,7 +73,6 @@ for(auto i = entities.begin(); i != entities.end(); i++){
         const auto& bCollider = b.GetComponent<BoxColliderComponent>();
         const auto& bTransform = b.GetComponent<TransformComponent>();
 
-        // Calcular ancho y alto con escala
         float aWidth = static_cast<float>(aCollider.width) * aTransform.scale.x;
         float aHeight = static_cast<float>(aCollider.height) * aTransform.scale.y;
         float bWidth = static_cast<float>(bCollider.width) * bTransform.scale.x;

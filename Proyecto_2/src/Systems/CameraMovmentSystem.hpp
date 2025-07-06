@@ -7,13 +7,31 @@
 #include "../ECS/ECS.hpp"
 #include "../Game/Game.hpp"
 
+/**
+ * @class CameraMovementSystem
+ * @brief System that moves the camera to follow entities with CameraFollowComponent and TransformComponent.
+ * 
+ * The camera position is updated based on the entity's position, with constraints to keep the camera within the map boundaries.
+ */
 class CameraMovmentSystem : public System {
     public:
+    /**
+     * @brief Constructs the CameraMovementSystem and sets required components.
+     * 
+     * Requires CameraFollowComponent and TransformComponent.
+     */
     CameraMovmentSystem(){
         RequireComponent<CameraFollowComponent>();
         RequireComponent<TransformComponent>();
     }
-
+    /**
+     * @brief Updates the camera position to follow the entity.
+     * 
+     * @param camera Reference to the SDL_Rect representing the camera viewport.
+     * 
+     * The camera will center on the entity's position but will not move beyond the map boundaries.
+     * A vertical offset is applied to slightly adjust the camera height.
+     */
     void Update(SDL_Rect& camera) {
     const int offsetY = 100; 
 

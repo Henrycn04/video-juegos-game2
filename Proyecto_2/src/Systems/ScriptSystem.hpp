@@ -7,12 +7,29 @@
 #include "../Binding/LuaBinding.hpp"
 #include "../Components/ScriptComponent.hpp"
 #include "../ECS/ECS.hpp"
+
+/**
+ * @class ScriptSystem
+ * @brief System responsible for executing Lua scripts attached to entities via ScriptComponent.
+ * 
+ * This system binds C++ functions and entity operations to Lua, enabling game logic to be defined and executed
+ * through Lua scripting. Each entity's `update` function is called every frame if defined.
+ */
 class ScriptSystem : public System {
  public:
+     /**
+     * @brief Constructs the ScriptSystem and sets required components.
+     */
   ScriptSystem(){
     RequireComponent<ScriptComponent>();
   }
 
+    /**
+     * @brief Registers all available C++ functions and entities into the Lua state.
+     * 
+     * This function exposes helper functions and entity-related operations to be used in Lua scripts.
+     * @param lua The Lua state to bind functions to.
+     */
   void CreateLuaBinding(sol::state& lua){
     // Classes
     lua.new_usertype<Entity>("entity");
@@ -20,8 +37,6 @@ class ScriptSystem : public System {
     // Functions
     lua.set_function("change_animation", ChangeAnimation);
     lua.set_function("get_ticks", GetTicks);
-
-
     lua.set_function("create_arrow", CreateArrow);
     lua.set_function("is_action_activated", IsActionActivated);
     lua.set_function("get_velocity", GetVelocity);
@@ -53,7 +68,14 @@ class ScriptSystem : public System {
     lua.set_function("do_damage_to_self", DoDamageToSelf);
   }
 
-
+    /**
+     * @brief Executes the update Lua script for each entity with a ScriptComponent.
+     * 
+     * This function checks whether the `update` function is defined and valid, and executes it.
+     * If the execution fails, an error is printed to standard error output.
+     * 
+     * @param lua The Lua state where the scripts are executed.
+     */
 void Update(sol::state& lua) {
     for (auto entity : GetSystemEntities()) {
         const auto& script = entity.GetComponent<ScriptComponent>();

@@ -13,13 +13,33 @@
 #include "../Components/TagComponent.hpp"
 #include "../ECS/ECS.hpp"
 
+
+/**
+ * @class RenderTextSystem
+ * @brief System that renders entities with TextComponent and TransformComponent.
+ * 
+ * This system handles both UI text (static/fixed) and world-space text (affected by the camera).
+ * It supports rendering player health, score, or other in-game text indicators.
+ */
+
 class RenderTextSystem : public System {
  public:
+    /**
+     * @brief Constructs the RenderTextSystem and defines the required components.
+     * 
+     * Requires TextComponent and TransformComponent.
+     */
     RenderTextSystem(){
         RequireComponent<TextComponent>();
         RequireComponent<TransformComponent>();
     }
-
+    /**
+     * @brief Renders all entities managed by this system.
+     * 
+     * @param renderer Pointer to the SDL_Renderer used to draw text.
+     * @param assetManager Unique pointer to the AssetManager for font access.
+     * @param camera SDL_Rect representing the camera viewport for adjusting dynamic positions.
+     */
     void Update(SDL_Renderer* renderer, const std::unique_ptr<AssetManager>& assetManager, const SDL_Rect& camera){
         for(auto entity : GetSystemEntities()){
             auto& text = entity.GetComponent<TextComponent>();

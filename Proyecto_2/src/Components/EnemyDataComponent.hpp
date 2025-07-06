@@ -1,38 +1,66 @@
 #ifndef ENEMYDATACOMPONENT_HPP
 #define ENEMYDATACOMPONENT_HPP
 
+/**
+ * @struct EnemyDataComponent
+ * @brief Stores data specific to enemy behavior and state.
+ *
+ * This component holds various parameters related to enemy types, movement,
+ * jumping ability, attack cooldowns, and life status.
+ */
 struct EnemyDataComponent 
 {
-    // Tipo de enemigo (1, 2, 3, 4)
+    /// Enemy type identifier (valid values: 1 to 4).
     int enemy_type = 1;
     
-    // Variables de estado común
+    /// Flag indicating if the enemy is alive (true) or dead (false).  
     bool is_not_dead = true;
     
-    // Variables de movimiento (Enemy01, Enemy03, Enemy04)
+    /// Movement speed of the enemy (units per second).
     float player_speed = 1.0f * 64.0f;
+    /// Generic timer used for internal enemy logic.
     float timer = 0.0f;
-    int direction = 1; // 1 para derecha, -1 para izquierda
+    /// Direction of movement (1 = right, -1 = left).
+    int direction = 1; 
     
-    // Variables de salto (Enemy03)
+    /// Indicates whether the enemy can jump.
     bool can_jump = false;
+    /// Force applied when the enemy jumps.
     float jump_force = -700.0f * 64.0f;
+    /// Tracks the previous jump state.
     bool prev_jump = false;
     
-    // Variables de disparo (Enemy02)
+    /// Time elapsed since the last arrow was shot (for ranged enemies).
     float last_arrow_time = 0.0f;
+    /// Cooldown time between arrows in milliseconds.
     float arrow_cooldown = 10000.0f;
     
-    // Constructor por defecto
+
+    /**
+     * @brief Default constructor.
+     */
     EnemyDataComponent() = default;
     
-    // Constructor con tipo específico
+    /**
+     * @brief Constructs an EnemyDataComponent with a specified type and initializes its data.
+     * @param type The enemy type (1 to 4).
+     */   
     EnemyDataComponent(int type) : enemy_type(type)
     {
         InitializeByType();
     }
     
-    // Inicializar variables según el tipo
+
+    /**
+     * @brief Initializes enemy properties based on the enemy_type.
+     * 
+     * Enemy types:
+     * - 1: Basic enemy 
+     * - 2: Ranged enemy with arrow cooldown
+     * - 3: Jump enemy
+     * - 4: Flying enemy
+     * - Default: Same as type 1.
+     */
     void InitializeByType()
     {
         switch(enemy_type)
@@ -68,7 +96,6 @@ struct EnemyDataComponent
                 break;
                 
             default:
-                // Valores por defecto (Enemy01)
                 player_speed = 1.0f * 64.0f;
                 timer = 0.0f;
                 direction = 1;

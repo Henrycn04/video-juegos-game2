@@ -9,10 +9,28 @@
 #include "../EventManager/EventManager.hpp"
 #include <memory>
 
+/**
+ * @enum Direction
+ * @brief Directions used for collision checking.
+ */
 enum Direction { top, left, bottom, right };
-
+/**
+ * @class OverlapSystem
+ * @brief Manages collision overlap resolution between entities with box colliders and rigid bodies.
+ * 
+ * Handles positional adjustments and velocity resets to avoid overlapping after collisions.
+ * Supports special handling for moving platforms and passengers standing on them.
+ */
 class OverlapSystem : public System {
 private:
+    /**
+     * @brief Checks collision between two entities in a given direction based on previous positions.
+     * 
+     * @param a First entity.
+     * @param b Second entity.
+     * @param dir Direction of collision to check.
+     * @return true if collision occurs in the specified direction, false otherwise.
+     */
     bool CheckCollision(Entity a, Entity b, Direction dir) {
         auto& aTransform = a.GetComponent<TransformComponent>();
         auto& bTransform = b.GetComponent<TransformComponent>();
@@ -47,7 +65,12 @@ private:
 
         return false;
     }
-
+    /**
+     * @brief Adjusts positions and velocities to avoid overlapping between two entities.
+     * 
+     * @param a Entity considered as reference.
+     * @param b Entity to be adjusted.
+     */
     void AvoidOverlap(Entity a, Entity b) {
         auto& aTransform = a.GetComponent<TransformComponent>();
         auto& bTransform = b.GetComponent<TransformComponent>();
@@ -86,6 +109,14 @@ private:
             }
         }
     }
+    /**
+     * @brief Special handling to avoid overlap between a moving platform and a passenger entity standing on it.
+     * 
+     * Adjusts passenger position and transfers vertical movement from platform to passenger.
+     * 
+     * @param platform Moving platform entity.
+     * @param passenger Entity standing on the platform.
+     */
 void AvoidOverlapPlatform(Entity platform, Entity passenger) {
     auto& platformTransform = platform.GetComponent<TransformComponent>();
     auto& passengerTransform = passenger.GetComponent<TransformComponent>();
@@ -126,16 +157,28 @@ void AvoidOverlapPlatform(Entity platform, Entity passenger) {
     }
 }
 public:
+    /**
+     * @brief Constructs OverlapSystem and sets required components.
+     */
     OverlapSystem() {
         RequireComponent<TransformComponent>();
         RequireComponent<BoxColliderComponent>();
         RequireComponent<RigidBodyComponent>();
     }
 
+    /**
+     * @brief Subscribes the system to collision events from the EventManager.
+     * 
+     * @param eventManager Pointer to the EventManager instance.
+     */
     void SubscribeToCollisionEvents(const std::unique_ptr<EventManager>& eventManager) {
         eventManager->SubscribeToEvent<CollisionEvent, OverlapSystem>(this, &OverlapSystem::OnCollisionEvent);
     }
-
+    /**
+     * @brief Collision event handler that resolves overlap based on entity properties.
+     * 
+     * @param e Reference to the collision event data.
+     */
     void OnCollisionEvent(CollisionEvent& e) {
         auto& aRigidBody = e.a.GetComponent<RigidBodyComponent>();
         auto& bRigidBody = e.b.GetComponent<RigidBodyComponent>();
